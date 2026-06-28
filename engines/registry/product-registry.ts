@@ -7,6 +7,7 @@ export interface ProductRegistryEntry {
   name: string;
   slug: string;
   icon: any;
+  iconName: string;
   defaultPrice: number;
   useAI: boolean;
   routes: {
@@ -24,6 +25,7 @@ export class ProductRegistry {
       name: "AI Skill Certificates",
       slug: "certificates",
       icon: BookOpen,
+      iconName: "BookOpen",
       defaultPrice: 49.99,
       useAI: true,
       routes: {
@@ -38,6 +40,7 @@ export class ProductRegistry {
       name: "Virtual Internships",
       slug: "internships",
       icon: Briefcase,
+      iconName: "Briefcase",
       defaultPrice: 99.99,
       useAI: true,
       routes: {
@@ -52,6 +55,7 @@ export class ProductRegistry {
       name: "ATS Resume Builder",
       slug: "resume-builder",
       icon: FileText,
+      iconName: "FileText",
       defaultPrice: 19.99,
       useAI: true,
       routes: {
@@ -66,6 +70,7 @@ export class ProductRegistry {
       name: "LinkedIn Optimizer",
       slug: "linkedin-optimizer",
       icon: UserCircle,
+      iconName: "UserCircle",
       defaultPrice: 29.99,
       useAI: true,
       routes: {
@@ -80,6 +85,7 @@ export class ProductRegistry {
       name: "HR Directory",
       slug: "hr-directory",
       icon: Users,
+      iconName: "Users",
       defaultPrice: 199.99,
       useAI: false, // Must NEVER use AI
       routes: {

@@ -3,20 +3,15 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 
-import { ProductRegistry } from "@/engines/registry/product-registry";
-
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) redirect("/login");
 
-  const products = ProductRegistry.getAllProducts();
-  const accessibleProducts = products;
+  if (!user) redirect("/login");
 
   return (
     <div className="flex h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30 overflow-hidden">
-      <DashboardSidebar accessibleProducts={accessibleProducts} />
+      <DashboardSidebar />
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         <header className="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center px-6 shrink-0 shadow-sm z-10 lg:hidden">
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">Dashboard</h1>

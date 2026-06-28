@@ -1,24 +1,34 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, BookOpen, Award, Briefcase, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, BookOpen, Briefcase, FileText, UserCircle, Users, Settings, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { ProductRegistry } from "@/engines/registry/product-registry";
+
+const ICON_MAP: Record<string, React.ElementType> = {
+  BookOpen,
+  Briefcase,
+  FileText,
+  UserCircle,
+  Users,
+};
 
 const bottomItems = [
   { title: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
-export function DashboardSidebar({ accessibleProducts = [] }: { accessibleProducts?: any[] }) {
+export function DashboardSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
+  const products = ProductRegistry.getAllProducts();
   const dynamicMenuItems = [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    ...accessibleProducts.map(p => ({
+    ...products.map(p => ({
       title: `My ${p.name}`,
       href: p.routes.dashboard,
-      icon: p.icon
+      icon: ICON_MAP[p.iconName] ?? BookOpen,
     }))
   ];
 
