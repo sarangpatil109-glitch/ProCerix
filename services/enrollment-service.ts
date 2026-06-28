@@ -10,12 +10,23 @@ export class EnrollmentService {
     return new EnrollmentRepository(supabase);
   }
 
-  static async enrollUser(input: CreateEnrollmentInput, paymentStatus: string = "success") {
+  /**
+   * Creates an enrollment record after a verified payment.
+   * Pass adminClient to bypass RLS when called from webhook/payment context.
+   */
+  static async enrollUser(
+    input: CreateEnrollmentInput,
+    paymentStatus: string = "success",
+    adminClient?: any,
+  ) {
     if (!validatePurchaseForEnrollment(paymentStatus)) {
       throw new AppError("Payment validation failed. Cannot enroll.", 403);
     }
-    
-    const repo = await this.getRepository();
+
+    const repo = adminClient
+      ? new EnrollmentRepository(adminClient)
+      : await this.getRepository();
+
     return repo.createEnrollment({ ...input, status: "active" });
   }
 
@@ -26,8 +37,7 @@ export class EnrollmentService {
 
   static async checkAccess(userId: string, courseId: string) {
     const repo = await this.getRepository();
-    const enrollment = await repo.getEnrollment(userId, courseId);
-    return enrollment; 
+    return repo.getEnrollment(userId, courseId);
   }
 
   static async updateStatus(input: UpdateEnrollmentStatusInput) {

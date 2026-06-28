@@ -89,7 +89,7 @@ export default async function ProductLandingPage(props: { params: Promise<{ prod
           {/* Sticky Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-24">
-              <CourseStickyCard course={mockCourse as any} userId={user?.id} email={user?.email} />
+              <CourseStickyCard course={mockCourse as any} userId={user?.id} />
             </div>
           </div>
           

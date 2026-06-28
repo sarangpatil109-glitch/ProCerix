@@ -89,7 +89,7 @@ export default async function CourseDetailsPage(props: { params: Promise<{ slug:
           {/* Sticky Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-24">
-              <CourseStickyCard course={course} userId={user?.id} email={user?.email} />
+              <CourseStickyCard course={course} userId={user?.id} />
             </div>
           </div>
           

@@ -76,7 +76,7 @@ export type Database = {
       payments: {
         Row: { 
           id: string; amount: number | string; status: string; created_at: string; user_id: string;
-          cashfree_order_id?: string; skill_name?: string; 
+          cashfree_order_id?: string; skill_name?: string; course_slug?: string; paid_at?: string;
         };
         Insert: any; Update: any; 
         Relationships: [

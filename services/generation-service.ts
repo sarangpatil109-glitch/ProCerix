@@ -1,6 +1,5 @@
 import { GenerationRepository } from "@/engines/generation/repository";
 import { createClient } from "@/lib/supabase/server";
-import { CourseService } from "@/services/course-service";
 import { EnrollmentService } from "@/services/enrollment-service";
 
 export class GenerationService {
@@ -10,64 +9,78 @@ export class GenerationService {
   }
 
   /**
-   * Called during payment success webhook/callback
-   * Independent of payment provider (Stripe, Cashfree, etc.)
+   * Called during payment success — creates enrollment or queues AI generation.
+   * Pass adminClient from PaymentService so RLS is bypassed in webhook context.
    */
-  static async handleCoursePurchase(userId: string, slug: string, skillName: string, paymentStatus: string = "success") {
+  static async handleCoursePurchase(
+    userId: string,
+    slug: string,
+    skillName: string,
+    paymentStatus: string = "success",
+    adminClient?: any,
+  ) {
     if (paymentStatus !== "success") return null;
 
-    // 1. Check if course already exists in the main database
-    const courseRepo = await CourseService.getRepository();
-    const existingCourse = await courseRepo.getCourseBySlug(slug).catch(() => null);
+    const supabase = adminClient || await createClient();
 
-    if (existingCourse) {
-      // Enroll user normally
-      return await EnrollmentService.enrollUser({
-        user_id: userId,
-        course_id: existingCourse.id
-      });
+    // Check if a real course already exists for this slug
+    const { data: existingCourse, error: courseErr } = await supabase
+      .from("courses")
+      .select("id, slug")
+      .eq("slug", slug)
+      .is("deleted_at", null)
+      .limit(1)
+      .single();
+
+    if (!courseErr && existingCourse) {
+      return await EnrollmentService.enrollUser(
+        { user_id: userId, course_id: existingCourse.id },
+        "success",
+        adminClient,
+      );
     }
 
+    // Check product registry for non-AI products (HR Directory, etc.)
     const { ProductRegistry } = await import("@/engines/registry/product-registry");
     const product = ProductRegistry.getProductBySlug(slug);
 
     if (product && !product.useAI) {
-      // For products that don't use AI (e.g., HR Directory), instantiate them immediately in DB
-      const supabase = await createClient();
-      const { data: newCourse, error } = await (supabase as any)
+      const { data: upsertedCourse } = await supabase
         .from("courses")
-        .insert({
-          title: product.name,
-          slug: product.slug,
-          course_type: product.id,
-          price: product.defaultPrice,
-          is_published: true,
-          description: product.features.join(", ")
-        })
+        .upsert(
+          {
+            title: product.name,
+            slug: product.slug,
+            course_type: product.id,
+            price: product.defaultPrice,
+            is_published: true,
+            description: product.features.join(", "),
+          } as any,
+          { onConflict: "slug" },
+        )
         .select()
         .single();
-        
-      if (!error && newCourse) {
-        return await EnrollmentService.enrollUser({
-          user_id: userId,
-          course_id: newCourse.id
-        });
+
+      if (upsertedCourse) {
+        return await EnrollmentService.enrollUser(
+          { user_id: userId, course_id: upsertedCourse.id },
+          "success",
+          adminClient,
+        );
       }
     }
 
-    // 2. Course does not exist, queue generation
-    const genRepo = await this.getRepository();
+    // Course doesn't exist yet — queue AI generation
+    const genRepo = adminClient
+      ? new GenerationRepository(adminClient)
+      : await this.getRepository();
+
     const request = await genRepo.createOrJoinRequest({
       skill_name: skillName,
       slug,
-      requested_by: userId
+      requested_by: userId,
     });
 
-    // Return success instantly. Generation runs asynchronously.
-    return {
-      generation_queued: true,
-      request_id: request.id,
-      status: request.status
-    };
+    return { generation_queued: true, request_id: request.id, status: request.status };
   }
 }
