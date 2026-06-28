@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 
-import { EnrollmentService } from "@/services/enrollment-service";
 import { ProductRegistry } from "@/engines/registry/product-registry";
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
@@ -12,12 +11,8 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   
   if (!user) redirect("/login");
 
-  const enrollments = await EnrollmentService.getUserEnrollments(user.id);
-  const purchasedTypes = new Set(enrollments.map((e: any) => e.courses?.course_type));
-
-  // Determine accessible products
   const products = ProductRegistry.getAllProducts();
-  const accessibleProducts = products.filter(p => purchasedTypes.has(p.id));
+  const accessibleProducts = products;
 
   return (
     <div className="flex h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30 overflow-hidden">

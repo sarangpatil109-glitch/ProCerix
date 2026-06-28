@@ -19,6 +19,8 @@ export function MarketingFooter() {
             <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
               <li><Link href="/certificates" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Skill Certificates</Link></li>
               <li><Link href="/internships" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Virtual Internships</Link></li>
+              <li><Link href="/resume-builder" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">ATS Resume Builder</Link></li>
+              <li><Link href="/linkedin-optimizer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">LinkedIn Optimizer</Link></li>
               <li><Link href="/pricing" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Pricing</Link></li>
             </ul>
           </div>

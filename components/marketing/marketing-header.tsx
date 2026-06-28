@@ -16,6 +16,8 @@ export async function MarketingHeader() {
         <nav className="hidden md:flex items-center gap-8 font-semibold text-sm">
           <Link href="/certificates" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Certificates</Link>
           <Link href="/internships" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Virtual Internships</Link>
+          <Link href="/resume-builder" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Resume Builder</Link>
+          <Link href="/linkedin-optimizer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">LinkedIn Optimizer</Link>
           <Link href="/pricing" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Pricing</Link>
           <Link href="/search" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors flex items-center gap-1">
             <Search className="w-4 h-4" /> Search
