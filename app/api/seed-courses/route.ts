@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { StorageAdapter } from "@/engines/ai-generation/pipeline/storage-adapter";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { generateCourseSlug } from "@/engines/course/utils";
 import fs from "fs";
 import path from "path";
@@ -19,7 +19,7 @@ export async function GET() {
     let skipped = 0;
     const errors: any[] = [];
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     for (const file of files) {
       const filePath = path.join(dataDir, file);

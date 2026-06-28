@@ -1,10 +1,10 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { GeneratedCoursePayload } from "../interfaces/generation-payloads";
 import { generateCourseSlug } from "@/engines/course/utils";
 
 export class StorageAdapter {
   static async persistGeneratedCourse(skillName: string, payload: GeneratedCoursePayload) {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     // 1. Double check idempotency to avoid duplicates
     const { data: existing } = await supabase.from("courses").select("id").eq("title", payload.title).single();
