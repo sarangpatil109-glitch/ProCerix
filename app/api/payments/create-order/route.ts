@@ -74,7 +74,8 @@ export async function POST(req: NextRequest) {
 
   // Step 3: Create payment record + Cashfree order.
   try {
-    const order = await PaymentService.createCheckoutOrder({
+    const adminDb = createAdminClient();
+    const order = await PaymentService.createCheckoutOrder(adminDb, {
       userId: user.id,
       courseId: resolvedCourseId,
       courseSlug,

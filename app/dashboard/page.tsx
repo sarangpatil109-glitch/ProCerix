@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { EnrollmentService } from "@/services/enrollment-service";
 import { PaymentService } from "@/services/payment-service";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { ResumeService } from "@/services/resume-service";
 import { LinkedInService } from "@/services/linkedin-service";
 import { EnrollmentCard } from "@/components/dashboard/enrollment-card";
@@ -12,9 +13,10 @@ export default async function DashboardHome() {
   const { data: { user } } = await supabase.auth.getUser();
   const userId = user!.id;
 
+  const adminDb = createAdminClient();
   const [enrollments, payments, resumes, linkedInProfiles, { data: certificates }] = await Promise.all([
     EnrollmentService.getUserEnrollments(userId),
-    PaymentService.getUserPayments(userId),
+    PaymentService.getUserPayments(adminDb, userId),
     ResumeService.getUserResumes(userId).catch(() => []),
     LinkedInService.getUserProfiles(userId).catch(() => []),
     supabase.from("certificates").select("*, courses(title)").eq("user_id", userId).limit(3)

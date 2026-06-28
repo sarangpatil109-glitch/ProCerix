@@ -3,26 +3,26 @@ import { CashfreeService } from "./cashfree-service";
 import { GenerationService } from "./generation-service";
 
 export class PaymentService {
-  private static db() {
-    return createAdminClient();
-  }
-
-  static async createCheckoutOrder(data: {
-    userId: string;
-    courseId?: string;
-    courseSlug: string;
-    skillName: string;
-    amount: number;
-    email: string;
-    phone: string;
-    name?: string;
-  }) {
-    const supabase = this.db();
+  static async createCheckoutOrder(
+    supabase: any,
+    data: {
+      userId: string;
+      courseId?: string;
+      courseSlug: string;
+      skillName: string;
+      amount: number;
+      email: string;
+      phone: string;
+      name?: string;
+    }
+  ) {
+    // Supabase client is injected
 
     // Step 1: Ensure profile row exists.
     // payments.user_id has a FK to profiles.id (not auth.users directly).
     // OAuth logins create an auth.users row but NOT a profiles row automatically.
-    console.log(`[payment] Ensuring profile exists for user ${data.userId}`);
+    console.log("[create-order] authenticated user", { userId: data.userId, email: data.email });
+    console.log("[create-order] profile ensuring...", { userId: data.userId });
     const { error: profileError } = await supabase
       .from("profiles")
       .upsert(
@@ -38,10 +38,11 @@ export class PaymentService {
       console.error("[payment] Profile upsert failed:", profileError);
       throw new Error(`Profile sync failed: ${profileError.message}`);
     }
-    console.log(`[payment] Profile OK for user ${data.userId}`);
+    console.log("[create-order] profile", { id: data.userId, status: "OK" });
 
     // Step 2: Insert payment record.
     const orderId = `order_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+    console.log("[create-order] course", { courseId: data.courseId, courseSlug: data.courseSlug });
     console.log(`[payment] Inserting payment record orderId=${orderId} amount=${data.amount}`);
 
     const { data: payment, error: paymentError } = await supabase
@@ -63,7 +64,7 @@ export class PaymentService {
       console.error("[payment] Payment insert failed:", paymentError);
       throw new Error(`Payment record creation failed: ${paymentError.message}`);
     }
-    console.log(`[payment] Payment record created id=${payment.id}`);
+    console.log("[create-order] payment created", { paymentId: payment.id, orderId });
 
     // Step 3: Log payment_created event (best-effort).
     await (supabase as any)
@@ -96,29 +97,26 @@ export class PaymentService {
       },
     });
 
-    console.log(
-      `[payment] Cashfree order created cf_order_id=${cashfreeOrder.cf_order_id ?? cashfreeOrder.order_id}`,
-    );
+    console.log("[create-order] Cashfree response", { cf_order_id: cashfreeOrder.cf_order_id ?? cashfreeOrder.order_id });
     return cashfreeOrder;
   }
 
-  static async verifyPayment(orderId: string) {
+  static async verifyPayment(supabase: any, orderId: string) {
     const orderDetails = await CashfreeService.verifyOrder(orderId);
 
     if (orderDetails.order_status === "PAID") {
-      await this.handlePaymentSuccess(orderId);
+      await this.handlePaymentSuccess(supabase, orderId);
       return { success: true };
     }
 
     if (["EXPIRED", "CANCELLED"].includes(orderDetails.order_status)) {
-      await this.handlePaymentFailure(orderId, orderDetails.order_status.toLowerCase());
+      await this.handlePaymentFailure(supabase, orderId, orderDetails.order_status.toLowerCase());
     }
 
     return { success: false, status: orderDetails.order_status };
   }
 
-  static async handlePaymentSuccess(orderId: string) {
-    const supabase = this.db();
+  static async handlePaymentSuccess(supabase: any, orderId: string) {
 
     const { data: payment, error } = await supabase
       .from("payments")
@@ -164,8 +162,7 @@ export class PaymentService {
     return payment;
   }
 
-  static async handlePaymentFailure(orderId: string, reason?: string) {
-    const supabase = this.db();
+  static async handlePaymentFailure(supabase: any, orderId: string, reason?: string) {
 
     const { data: payment } = await supabase
       .from("payments")
@@ -191,8 +188,7 @@ export class PaymentService {
       .catch((e: any) => console.error("[payment] payment_events insert failed:", e));
   }
 
-  static async getUserPayments(userId: string) {
-    const supabase = this.db();
+  static async getUserPayments(supabase: any, userId: string) {
     const { data, error } = await supabase
       .from("payments")
       .select(`*, courses(title, course_type)`)

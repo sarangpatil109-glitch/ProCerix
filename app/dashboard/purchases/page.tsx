@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { PaymentService } from "@/services/payment-service";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import { CreditCard, CheckCircle2, Clock, XCircle, FileText } from "lucide-react";
 
@@ -7,8 +8,8 @@ export default async function PurchasesPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-
-  const payments = await PaymentService.getUserPayments(user.id);
+  const adminDb = createAdminClient();
+  const payments = await PaymentService.getUserPayments(adminDb, user.id);
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CashfreeService } from "@/services/cashfree-service";
 import { PaymentService } from "@/services/payment-service";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(req: NextRequest) {
   let payloadString = "";
@@ -33,17 +34,18 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const adminDb = createAdminClient();
     switch (event.type) {
       case "PAYMENT_SUCCESS_WEBHOOK":
-        await PaymentService.handlePaymentSuccess(orderId);
+        await PaymentService.handlePaymentSuccess(adminDb, orderId);
         break;
 
       case "PAYMENT_FAILED_WEBHOOK":
-        await PaymentService.handlePaymentFailure(orderId, "payment_failed");
+        await PaymentService.handlePaymentFailure(adminDb, orderId, "payment_failed");
         break;
 
       case "PAYMENT_USER_DROPPED_WEBHOOK":
-        await PaymentService.handlePaymentFailure(orderId, "user_dropped");
+        await PaymentService.handlePaymentFailure(adminDb, orderId, "user_dropped");
         break;
 
       default:

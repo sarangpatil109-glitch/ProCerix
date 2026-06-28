@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PaymentService } from "@/services/payment-service";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -10,7 +11,8 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const result = await PaymentService.verifyPayment(orderId);
+    const adminDb = createAdminClient();
+    const result = await PaymentService.verifyPayment(adminDb, orderId);
     if (result.success) {
       return NextResponse.redirect(new URL("/checkout/success", req.url));
     } else {
