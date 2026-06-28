@@ -8,7 +8,7 @@ export default async function DashboardCourses() {
   const userId = user!.id;
 
   const enrollments = await EnrollmentService.getUserEnrollments(userId);
-  const courses = enrollments?.filter(e => e.courses?.course_type === 'certificate') || [];
+  const courses = enrollments?.filter(e => !e.courses?.course_type || e.courses?.course_type === 'certificate') || [];
 
   return (
     <div className="space-y-8">

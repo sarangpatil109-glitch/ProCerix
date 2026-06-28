@@ -22,7 +22,7 @@ export default async function DashboardHome() {
     supabase.from("certificates").select("*, courses(title)").eq("user_id", userId).limit(3)
   ]);
 
-  const activeEnrollments = enrollments?.filter(e => e.status !== 'completed' && (e.courses?.course_type === 'certificate' || e.courses?.course_type === 'internship')) || [];
+  const activeEnrollments = enrollments?.filter(e => e.status !== 'completed' && (!e.courses?.course_type || e.courses?.course_type === 'certificate' || e.courses?.course_type === 'internship')) || [];
   
   return (
     <div className="space-y-12 pb-20">

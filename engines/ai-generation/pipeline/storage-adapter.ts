@@ -21,6 +21,7 @@ export class StorageAdapter {
         slug,
         description: payload.description,
         difficulty: payload.difficulty,
+        course_type: payload.course_type,
         price: ProductRegistry.getProduct("certificate")!.defaultPrice,
         is_published: false // ALWAYS draft for CMS review
       } as any)
