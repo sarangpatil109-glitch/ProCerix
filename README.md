@@ -1,5 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ProCerix Platform
 
+## Environment Setup
+
+To run ProCerix locally or in production, you need to configure your environment variables. 
+Copy the provided `.env.example` file to create your local environment configuration:
+
+```bash
+cp .env.example .env.local
+```
+
+### Environment Variables
+
+#### App
+- `NEXT_PUBLIC_APP_URL`: The base URL of the application (e.g., `http://localhost:3000` or `https://procerix.com`).
+
+#### Supabase
+Obtain these from your [Supabase Dashboard](https://supabase.com/dashboard) under Project Settings > API.
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL.
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase public anonymous key.
+- `SUPABASE_SERVICE_ROLE_KEY`: Your Supabase secret service role key (keep this secure, do not expose to the frontend).
+
+#### Cashfree (Payments)
+Obtain these from your [Cashfree Merchant Dashboard](https://merchant.cashfree.com).
+- `CASHFREE_APP_ID`: Your Cashfree API App ID.
+- `CASHFREE_SECRET_KEY`: Your Cashfree API Secret Key.
+- `CASHFREE_ENV`: Set to `SANDBOX` for testing or `PRODUCTION` for live payments.
+
+#### Gemini AI
+Obtain this from [Google AI Studio](https://aistudio.google.com).
+- `GEMINI_API_KEY`: API key for generating courses, resumes, and optimizing LinkedIn profiles.
+
+#### Cron / AI Worker
+- `CRON_SECRET`: A secure, randomly generated string used to authenticate automated cron job requests to the AI worker endpoints.
+
+---
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 ## Getting Started
 
 First, run the development server:

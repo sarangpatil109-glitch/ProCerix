@@ -1,7 +1,8 @@
+
 import { handleMiddleware } from "@/middleware/index";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   return handleMiddleware(request);
 }
 
