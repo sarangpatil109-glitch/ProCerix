@@ -30,8 +30,10 @@ export class EnrollmentService {
     return repo.createEnrollment({ ...input, status: "active" });
   }
 
-  static async getUserEnrollments(userId: string) {
-    const repo = await this.getRepository();
+  static async getUserEnrollments(userId: string, adminClient?: any) {
+    const repo = adminClient 
+      ? new EnrollmentRepository(adminClient) 
+      : await this.getRepository();
     return repo.getUserEnrollments(userId);
   }
 

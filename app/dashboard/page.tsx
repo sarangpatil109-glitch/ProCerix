@@ -15,7 +15,7 @@ export default async function DashboardHome() {
 
   const adminDb = createAdminClient();
   const [enrollments, payments, resumes, linkedInProfiles, { data: certificates }] = await Promise.all([
-    EnrollmentService.getUserEnrollments(userId),
+    EnrollmentService.getUserEnrollments(userId, adminDb),
     PaymentService.getUserPayments(adminDb, userId),
     ResumeService.getUserResumes(userId).catch(() => []),
     LinkedInService.getUserProfiles(userId).catch(() => []),

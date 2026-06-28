@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { EnrollmentService } from "@/services/enrollment-service";
 import { EnrollmentCard } from "@/components/dashboard/enrollment-card";
 
@@ -7,7 +8,8 @@ export default async function DashboardCourses() {
   const { data: { user } } = await supabase.auth.getUser();
   const userId = user!.id;
 
-  const enrollments = await EnrollmentService.getUserEnrollments(userId);
+  const adminDb = createAdminClient();
+  const enrollments = await EnrollmentService.getUserEnrollments(userId, adminDb);
   const courses = enrollments?.filter(e => !e.courses?.course_type || e.courses?.course_type === 'certificate') || [];
 
   return (

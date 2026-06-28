@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { EnrollmentService } from "@/services/enrollment-service";
 import { redirect } from "next/navigation";
 import { BookOpen, CheckCircle2, History } from "lucide-react";
@@ -9,7 +10,8 @@ export default async function LearningHistoryPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const enrollments = await EnrollmentService.getUserEnrollments(user.id);
+  const adminDb = createAdminClient();
+  const enrollments = await EnrollmentService.getUserEnrollments(user.id, adminDb);
   const completed = enrollments?.filter(e => e.status === "completed") || [];
   const inProgress = enrollments?.filter(e => e.status !== "completed") || [];
 
