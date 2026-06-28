@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { MarketingHeroSearch } from "@/components/marketing/marketing-search";
 import { CheckCircle, ShieldCheck, Zap, Bot, Star } from "lucide-react";
+import { ProductRegistry } from "@/engines/registry/product-registry";
 
 export default function Home() {
+  const certPrice = ProductRegistry.getProduct("certificate")!.defaultPrice;
+  const internPrice = ProductRegistry.getProduct("internship")!.defaultPrice;
   return (
     <div className="w-full">
       {/* 1. Premium Hero */}
@@ -53,7 +56,7 @@ export default function Home() {
                 <ShieldCheck className="w-7 h-7" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Skill Certificate</h3>
-              <div className="text-4xl font-black mb-6">₹99</div>
+              <div className="text-4xl font-black mb-6">₹{certPrice}</div>
               <ul className="space-y-4 mb-8 text-gray-600 dark:text-gray-400 font-medium">
                 <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-blue-500" /> 2-3 Comprehensive Modules</li>
                 <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-blue-500" /> 5-8 Deep-dive Lessons</li>
@@ -72,7 +75,7 @@ export default function Home() {
                 <Zap className="w-7 h-7" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Virtual Internship</h3>
-              <div className="text-4xl font-black mb-6">₹249</div>
+              <div className="text-4xl font-black mb-6">₹{internPrice}</div>
               <ul className="space-y-4 mb-8 text-gray-600 dark:text-gray-400 font-medium">
                 <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-cyan-500" /> 2-5 Comprehensive Modules</li>
                 <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-cyan-500" /> 10-15 Deep-dive Lessons</li>

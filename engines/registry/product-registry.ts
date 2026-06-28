@@ -26,7 +26,7 @@ export class ProductRegistry {
       slug: "certificates",
       icon: BookOpen,
       iconName: "BookOpen",
-      defaultPrice: 49.99,
+      defaultPrice: 99,
       useAI: true,
       routes: {
         dashboard: "/dashboard/certificates",
@@ -41,7 +41,7 @@ export class ProductRegistry {
       slug: "internships",
       icon: Briefcase,
       iconName: "Briefcase",
-      defaultPrice: 99.99,
+      defaultPrice: 249,
       useAI: true,
       routes: {
         dashboard: "/dashboard/internships",
@@ -56,7 +56,7 @@ export class ProductRegistry {
       slug: "resume-builder",
       icon: FileText,
       iconName: "FileText",
-      defaultPrice: 19.99,
+      defaultPrice: 49,
       useAI: true,
       routes: {
         dashboard: "/dashboard/product/resume",
@@ -71,7 +71,7 @@ export class ProductRegistry {
       slug: "linkedin-optimizer",
       icon: UserCircle,
       iconName: "UserCircle",
-      defaultPrice: 29.99,
+      defaultPrice: 49,
       useAI: true,
       routes: {
         dashboard: "/dashboard/product/linkedin",
@@ -86,7 +86,7 @@ export class ProductRegistry {
       slug: "hr-directory",
       icon: Users,
       iconName: "Users",
-      defaultPrice: 199.99,
+      defaultPrice: 999,
       useAI: false, // Must NEVER use AI
       routes: {
         dashboard: "/dashboard/product/hr",

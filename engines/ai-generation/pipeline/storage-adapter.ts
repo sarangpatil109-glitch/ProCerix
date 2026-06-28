@@ -1,6 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { GeneratedCoursePayload } from "../interfaces/generation-payloads";
 import { generateCourseSlug } from "@/engines/course/utils";
+import { ProductRegistry } from "@/engines/registry/product-registry";
 
 export class StorageAdapter {
   static async persistGeneratedCourse(skillName: string, payload: GeneratedCoursePayload) {
@@ -20,7 +21,7 @@ export class StorageAdapter {
         slug,
         description: payload.description,
         difficulty: payload.difficulty,
-        price: 49.99, // default base price
+        price: ProductRegistry.getProduct("certificate")!.defaultPrice,
         is_published: false // ALWAYS draft for CMS review
       } as any)
       .select().single();

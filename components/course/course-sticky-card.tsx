@@ -64,11 +64,11 @@ export function CourseStickyCard({ course, userId }: { course: any; userId?: str
         <div className="space-y-8">
           <div className="space-y-2">
             <div className="text-4xl font-extrabold text-gray-900 dark:text-white">
-              {course.price > 0 ? `$${course.price}` : "Free"}
+              {course.price > 0 ? `₹${course.price}` : "Free"}
             </div>
             {course.price > 0 && (
               <div className="text-gray-500 dark:text-gray-400 line-through">
-                ${(course.price * 1.5).toFixed(2)}
+                ₹{Math.round(course.price * 1.5)}
               </div>
             )}
           </div>

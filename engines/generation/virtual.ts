@@ -1,4 +1,5 @@
 import { generateCourseSlug } from "@/engines/course/utils";
+import { ProductRegistry } from "@/engines/registry/product-registry";
 
 export function generateVirtualCourse(query: string, existingSlug?: string) {
   // Deterministic formatting
@@ -10,7 +11,7 @@ export function generateVirtualCourse(query: string, existingSlug?: string) {
     slug: existingSlug || generateCourseSlug(normalizedQuery),
     description: `Master ${normalizedQuery} with our comprehensive, industry-aligned course. Learn the latest techniques, build real-world projects, and accelerate your career.`,
     difficulty: "beginner",
-    price: 49.99,
+    price: ProductRegistry.getProduct("certificate")!.defaultPrice,
     is_published: true,
     course_type: "certificate",
     category: normalizedQuery,

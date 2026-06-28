@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { CheckCircle, ShieldCheck, Zap } from "lucide-react";
+import { ProductRegistry } from "@/engines/registry/product-registry";
 
 export default function PricingPage() {
+  const certPrice = ProductRegistry.getProduct("certificate")!.defaultPrice;
+  const internPrice = ProductRegistry.getProduct("internship")!.defaultPrice;
   return (
     <div className="py-24 px-6 bg-[#FAFAFA] dark:bg-black">
       <div className="max-w-7xl mx-auto">
@@ -16,7 +19,7 @@ export default function PricingPage() {
               <ShieldCheck className="w-7 h-7" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Skill Certificate</h3>
-            <div className="text-5xl font-black mb-2 text-gray-900 dark:text-white">₹99</div>
+            <div className="text-5xl font-black mb-2 text-gray-900 dark:text-white">₹{certPrice}</div>
             <p className="text-sm text-gray-500 mb-8">One-time payment per skill.</p>
             <ul className="space-y-4 mb-10 text-gray-600 dark:text-gray-400 font-medium">
               <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-blue-500" /> Complete Curriculum</li>
@@ -35,7 +38,7 @@ export default function PricingPage() {
               <Zap className="w-7 h-7" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Virtual Internship</h3>
-            <div className="text-5xl font-black mb-2 text-gray-900 dark:text-white">₹249</div>
+            <div className="text-5xl font-black mb-2 text-gray-900 dark:text-white">₹{internPrice}</div>
             <p className="text-sm text-gray-500 mb-8">One-time payment per internship.</p>
             <ul className="space-y-4 mb-10 text-gray-600 dark:text-gray-400 font-medium">
               <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-cyan-500" /> Extended Curriculum</li>
