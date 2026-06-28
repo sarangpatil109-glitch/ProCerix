@@ -1,0 +1,174 @@
+{
+  "title": "Generative AI Fundamentals",
+  "description": "Understand the technology driving the AI revolution. Learn how Generative AI differs from traditional AI, explore the mechanics behind Large Language Models and Diffusion models, and examine the ethical implications of these technologies.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Artificial Intelligence",
+  "seo_metadata": {
+    "title": "Generative AI Fundamentals Certificate Course | ProCerix",
+    "description": "Learn the theory behind Generative AI. Understand LLMs, diffusion models, and the ethical impact of artificial intelligence.",
+    "keywords": ["Generative AI", "AI fundamentals", "LLMs", "Diffusion models", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Differentiate between Discriminative AI and Generative AI",
+    "Understand the basic architecture of Transformers and LLMs",
+    "Explain how Diffusion models generate images",
+    "Identify key ethical concerns, including bias and copyright issues",
+    "Evaluate the future impact of Generative AI on various industries"
+  ],
+  "modules": [
+    {
+      "title": "Introduction to Generative AI",
+      "description": "What it is and how it differs from past technologies.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Discriminative vs. Generative",
+          "content": "<h1>A Paradigm Shift</h1><p>Traditional (Discriminative) AI classifies data (e.g., 'Is this an image of a cat?'). Generative AI creates new data based on patterns it has learned (e.g., 'Draw a new image of a cat').</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "The Transformer Architecture",
+          "content": "<h1>The Breakthrough</h1><p>The 'T' in ChatGPT stands for Transformer. Introduced in 2017, this architecture allows models to process entire sentences at once and understand the context of words based on their position, revolutionizing natural language processing.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "How the Models Work",
+      "description": "A high-level look under the hood.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Large Language Models (LLMs)",
+          "content": "<h1>Predicting the Next Word</h1><p>At their core, LLMs are advanced statistical engines predicting the most probable next token (word piece) in a sequence, based on billions of parameters tuned during training.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Diffusion Models",
+          "content": "<h1>Creating Images from Noise</h1><p>Image generators like DALL-E and Midjourney use Diffusion models. They are trained by adding static (noise) to an image until it is unrecognizable, then learning to reverse the process to generate a clear image from pure noise.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Ethics, Risks, and the Future",
+      "description": "Navigating the complexities of AI adoption.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Bias and Hallucinations",
+          "content": "<h1>Flaws in the System</h1><p>AI models inherit the biases present in their training data. Furthermore, they can 'hallucinate' facts because they prioritize statistical probability over factual accuracy.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Copyright and Security",
+          "content": "<h1>Uncharted Territory</h1><p>Generative AI raises massive questions about copyright infringement (who owns AI art?) and data security (should you paste proprietary company code into ChatGPT?).</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What is the primary difference between Discriminative AI and Generative AI?",
+      "points": 1,
+      "options": [
+        { "content": "Discriminative AI is faster", "is_correct": false },
+        { "content": "Discriminative AI classifies existing data; Generative AI creates new data", "is_correct": true },
+        { "content": "Generative AI only works with images", "is_correct": false },
+        { "content": "There is no difference", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does the 'T' in ChatGPT stand for?",
+      "points": 1,
+      "options": [
+        { "content": "Text", "is_correct": false },
+        { "content": "Translation", "is_correct": false },
+        { "content": "Transformer", "is_correct": true },
+        { "content": "Technology", "is_correct": false }
+      ]
+    },
+    {
+      "question": "At a fundamental level, how does a Large Language Model (LLM) generate text?",
+      "points": 1,
+      "options": [
+        { "content": "By searching a database of pre-written answers", "is_correct": false },
+        { "content": "By predicting the most probable next token (word) in a sequence", "is_correct": true },
+        { "content": "By translating code into English", "is_correct": false },
+        { "content": "By asking a human supervisor", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which type of model is primarily used by modern AI image generators like Midjourney?",
+      "points": 1,
+      "options": [
+        { "content": "Large Language Models", "is_correct": false },
+        { "content": "Decision Trees", "is_correct": false },
+        { "content": "Diffusion Models", "is_correct": true },
+        { "content": "Linear Regression", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How do Diffusion models learn to generate images?",
+      "points": 1,
+      "options": [
+        { "content": "By learning to reverse the process of adding static (noise) to an image", "is_correct": true },
+        { "content": "By copying existing images from Google", "is_correct": false },
+        { "content": "By reading descriptions of colors", "is_correct": false },
+        { "content": "By predicting the next pixel in a line", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why do AI models sometimes exhibit bias?",
+      "points": 1,
+      "options": [
+        { "content": "Because they have personal opinions", "is_correct": false },
+        { "content": "Because the programmers intentionally code bias into them", "is_correct": false },
+        { "content": "Because they inherit the biases present in the massive datasets they are trained on", "is_correct": true },
+        { "content": "Because they are not trained enough", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is an AI 'hallucination'?",
+      "points": 1,
+      "options": [
+        { "content": "When the AI generates an image of a ghost", "is_correct": false },
+        { "content": "When the AI confidently presents incorrect or fabricated information as fact", "is_correct": true },
+        { "content": "When the AI shuts down due to overheating", "is_correct": false },
+        { "content": "When the AI refuses to answer a prompt", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why is pasting proprietary company data into public AI models like ChatGPT considered a security risk?",
+      "points": 1,
+      "options": [
+        { "content": "Because the AI might use that data for future training, exposing it to others", "is_correct": true },
+        { "content": "Because the AI will delete the data from your computer", "is_correct": false },
+        { "content": "Because the AI will email your boss", "is_correct": false },
+        { "content": "It is not a security risk", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What breakthrough did the Transformer architecture bring to natural language processing?",
+      "points": 1,
+      "options": [
+        { "content": "The ability to process audio files natively", "is_correct": false },
+        { "content": "The ability to process words sequentially, one by one", "is_correct": false },
+        { "content": "The ability to process entire sequences at once and understand context via 'attention'", "is_correct": true },
+        { "content": "The ability to generate video from text", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a major unresolved legal issue surrounding Generative AI?",
+      "points": 1,
+      "options": [
+        { "content": "Whether AI should have a passport", "is_correct": false },
+        { "content": "Copyright infringement regarding the data used to train the models and the ownership of the output", "is_correct": true },
+        { "content": "Whether AI can vote", "is_correct": false },
+        { "content": "Taxation of AI models", "is_correct": false }
+      ]
+    }
+  ]
+}

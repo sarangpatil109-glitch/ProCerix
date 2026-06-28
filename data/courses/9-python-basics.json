@@ -1,0 +1,174 @@
+{
+  "title": "Python Programming Basics",
+  "description": "Start coding with Python. Learn the syntax, variables, data types, and control flow structures needed to write basic programs. This course requires absolutely no prior programming experience.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Python Programming Basics Certificate Course | ProCerix",
+    "description": "Learn Python programming from scratch. Master syntax, variables, loops, and functions. Start your coding journey today.",
+    "keywords": ["Python for beginners", "Learn Python", "Python programming basics", "coding tutorial", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Install Python and write your first script",
+    "Understand variables and basic data types (strings, integers, floats, booleans)",
+    "Use control flow structures (if statements, loops)",
+    "Create and use basic functions",
+    "Work with fundamental data structures (lists and dictionaries)"
+  ],
+  "modules": [
+    {
+      "title": "Introduction to Python",
+      "description": "Getting set up and writing your first lines of code.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Hello World",
+          "content": "<h1>Your First Program</h1><p>Python is known for its readability. The first program anyone writes is printing text to the screen: <code>print(\"Hello, World!\")</code></p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Variables and Data Types",
+          "content": "<h1>Storing Information</h1><p>Variables are containers for storing data values. Python has no command for declaring a variable; it is created the moment you first assign a value to it. Main data types include strings (text), integers (whole numbers), floats (decimals), and booleans (True/False).</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Control Flow",
+      "description": "Making decisions and repeating actions in your code.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "If...Else Statements",
+          "content": "<h1>Logic and Decisions</h1><p>Python relies on indentation to define scope. An <code>if</code> statement evaluates a condition, and executes the indented code block only if the condition is True. <code>elif</code> (else if) and <code>else</code> handle alternative conditions.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "For and While Loops",
+          "content": "<h1>Iteration</h1><p>A <code>while</code> loop executes a set of statements as long as a condition is true. A <code>for</code> loop is used for iterating over a sequence (like a list, a tuple, a dictionary, a set, or a string).</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Functions and Data Structures",
+      "description": "Organizing your code and data.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Writing Functions",
+          "content": "<h1>Reusable Code</h1><p>A function is a block of code which only runs when it is called. You can pass data, known as parameters, into a function. Functions are defined using the <code>def</code> keyword.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Lists and Dictionaries",
+          "content": "<h1>Collections</h1><p>A List is a collection which is ordered and changeable, written with square brackets <code>[]</code>. A Dictionary is a collection which is ordered, changeable and do not allow duplicates, written with curly brackets <code>{}</code> and stores data in key:value pairs.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which of the following is the correct way to output \"Hello World\" in Python?",
+      "points": 1,
+      "options": [
+        { "content": "echo \"Hello World\"", "is_correct": false },
+        { "content": "print(\"Hello World\")", "is_correct": true },
+        { "content": "console.log(\"Hello World\")", "is_correct": false },
+        { "content": "printf(\"Hello World\")", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How do you create a variable with the numeric value 5 in Python?",
+      "points": 1,
+      "options": [
+        { "content": "x = 5", "is_correct": true },
+        { "content": "int x = 5", "is_correct": false },
+        { "content": "val x = 5", "is_correct": false },
+        { "content": "let x = 5", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is a Boolean value in Python?",
+      "points": 1,
+      "options": [
+        { "content": "\"True\"", "is_correct": false },
+        { "content": "1", "is_correct": false },
+        { "content": "True", "is_correct": true },
+        { "content": "yes", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How does Python define a block of code?",
+      "points": 1,
+      "options": [
+        { "content": "Using curly braces {}", "is_correct": false },
+        { "content": "Using parentheses ()", "is_correct": false },
+        { "content": "Using indentation (whitespace)", "is_correct": true },
+        { "content": "Using the 'end' keyword", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which keyword is used to define a function in Python?",
+      "points": 1,
+      "options": [
+        { "content": "function", "is_correct": false },
+        { "content": "def", "is_correct": true },
+        { "content": "define", "is_correct": false },
+        { "content": "fn", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the correct syntax for a 'for' loop in Python?",
+      "points": 1,
+      "options": [
+        { "content": "for x in y:", "is_correct": true },
+        { "content": "for (x=0; x<y; x++)", "is_correct": false },
+        { "content": "foreach x in y", "is_correct": false },
+        { "content": "loop x over y", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which data collection is ordered and changeable, and written with square brackets []?",
+      "points": 1,
+      "options": [
+        { "content": "Set", "is_correct": false },
+        { "content": "Dictionary", "is_correct": false },
+        { "content": "Tuple", "is_correct": false },
+        { "content": "List", "is_correct": true }
+      ]
+    },
+    {
+      "question": "How do you start an 'if' statement in Python?",
+      "points": 1,
+      "options": [
+        { "content": "if x > y:", "is_correct": true },
+        { "content": "if (x > y) then", "is_correct": false },
+        { "content": "if x > y then:", "is_correct": false },
+        { "content": "if x > y {}", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a dictionary in Python?",
+      "points": 1,
+      "options": [
+        { "content": "A list of words", "is_correct": false },
+        { "content": "A collection of key:value pairs", "is_correct": true },
+        { "content": "An immutable list", "is_correct": false },
+        { "content": "A built-in spell checker", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How do you insert a comment in Python code?",
+      "points": 1,
+      "options": [
+        { "content": "// This is a comment", "is_correct": false },
+        { "content": "/* This is a comment */", "is_correct": false },
+        { "content": "# This is a comment", "is_correct": true },
+        { "content": "<!-- This is a comment -->", "is_correct": false }
+      ]
+    }
+  ]
+}

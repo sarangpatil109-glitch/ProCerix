@@ -1,0 +1,179 @@
+{
+  "title": "Advanced Microsoft Excel",
+  "description": "Take your Excel skills to the next level. Learn advanced formatting, complex functions, data validation, and introductory macros. This course is designed for users who already know the basics and want to increase their productivity and data analysis capabilities.",
+  "difficulty": "advanced",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Advanced Microsoft Excel Certificate Course | ProCerix",
+    "description": "Enhance your career with advanced Excel skills. Master VLOOKUP, data validation, conditional formatting, and macros.",
+    "keywords": ["Advanced Excel", "Excel VLOOKUP", "Excel macros", "data validation", "ProCerix advanced certificate"]
+  },
+  "learning_outcomes": [
+    "Apply advanced conditional formatting rules",
+    "Master lookup functions including VLOOKUP and XLOOKUP",
+    "Use data validation to ensure data integrity",
+    "Create and manage complex logical functions (IF, AND, OR)",
+    "Record and run basic macros to automate repetitive tasks"
+  ],
+  "modules": [
+    {
+      "title": "Advanced Formatting and Data Management",
+      "description": "Techniques for managing large datasets and applying dynamic formatting.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Conditional Formatting Masterclass",
+          "content": "<h1>Conditional Formatting</h1><p>Conditional formatting allows you to automatically apply formatting to cells based on their values. Advanced techniques include using formulas to determine which cells to format.</p><h3>Data Bars and Color Scales</h3><p>Use Data Bars, Color Scales, and Icon Sets to visually represent data trends and highlight outliers instantly.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Data Validation",
+          "content": "<h1>Ensuring Data Integrity</h1><p>Data Validation restricts the type of data or the values that users can enter into a cell. This prevents errors in your spreadsheets.</p><h3>Creating Dropdown Lists</h3><p>You can create a dropdown list in a cell by selecting Data Validation -> List, and referring to a specific range of acceptable values.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Complex Functions and Lookups",
+      "description": "Mastering the most powerful functions in Excel for data analysis.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Logical Functions (IF, AND, OR)",
+          "content": "<h1>Advanced Logic</h1><p>The <code>IF</code> function performs a logical test and returns one value if TRUE and another if FALSE. You can nest IF statements or combine them with <code>AND</code> and <code>OR</code> for complex scenarios.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "VLOOKUP and HLOOKUP",
+          "content": "<h1>Finding Data</h1><p><code>VLOOKUP</code> (Vertical Lookup) is used to find a value in a table or range by row. It requires a lookup value, table array, column index number, and range lookup type (exact or approximate match).</p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Introduction to XLOOKUP",
+          "content": "<h1>The Modern Lookup</h1><p><code>XLOOKUP</code> is the successor to VLOOKUP. It is more flexible, defaults to exact matches, and can look to the left of the lookup column, overcoming a major limitation of VLOOKUP.</p>",
+          "sequence_order": 3
+        }
+      ]
+    },
+    {
+      "title": "Automation and Macros",
+      "description": "An introduction to automating tasks in Excel.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Recording Macros",
+          "content": "<h1>Automating Repetitive Tasks</h1><p>A macro is an action or a set of actions that you can run as many times as you want. By recording a macro, Excel writes the VBA code for you in the background.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "The Developer Tab",
+          "content": "<h1>Accessing Developer Tools</h1><p>To record macros, you must enable the Developer tab in the Ribbon. Here, you can manage your macros, view VBA code, and insert form controls like buttons.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which tool restricts the type of data that can be entered into a cell?",
+      "points": 1,
+      "options": [
+        { "content": "Conditional Formatting", "is_correct": false },
+        { "content": "Data Validation", "is_correct": true },
+        { "content": "Goal Seek", "is_correct": false },
+        { "content": "Format Painter", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does VLOOKUP stand for?",
+      "points": 1,
+      "options": [
+        { "content": "Value Lookup", "is_correct": false },
+        { "content": "Vertical Lookup", "is_correct": true },
+        { "content": "Variable Lookup", "is_correct": false },
+        { "content": "Visual Lookup", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which function is designed as a modern, flexible replacement for VLOOKUP?",
+      "points": 1,
+      "options": [
+        { "content": "HLOOKUP", "is_correct": false },
+        { "content": "INDEX", "is_correct": false },
+        { "content": "MATCH", "is_correct": false },
+        { "content": "XLOOKUP", "is_correct": true }
+      ]
+    },
+    {
+      "question": "If you want a cell to turn red automatically if its value is less than 0, what feature should you use?",
+      "points": 1,
+      "options": [
+        { "content": "Data Validation", "is_correct": false },
+        { "content": "Format Cells", "is_correct": false },
+        { "content": "Conditional Formatting", "is_correct": true },
+        { "content": "Cell Styles", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which function allows you to perform a logical test and return specific values for TRUE or FALSE?",
+      "points": 1,
+      "options": [
+        { "content": "AND", "is_correct": false },
+        { "content": "OR", "is_correct": false },
+        { "content": "IF", "is_correct": true },
+        { "content": "TEST", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a major limitation of the traditional VLOOKUP function?",
+      "points": 1,
+      "options": [
+        { "content": "It can only lookup text values", "is_correct": false },
+        { "content": "It can only look to the right of the lookup column", "is_correct": true },
+        { "content": "It cannot return numbers", "is_correct": false },
+        { "content": "It only works on a single worksheet", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary purpose of recording a macro in Excel?",
+      "points": 1,
+      "options": [
+        { "content": "To automate repetitive tasks", "is_correct": true },
+        { "content": "To calculate complex math", "is_correct": false },
+        { "content": "To design charts", "is_correct": false },
+        { "content": "To secure the workbook", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which Ribbon tab must be enabled to record and manage macros?",
+      "points": 1,
+      "options": [
+        { "content": "Data", "is_correct": false },
+        { "content": "View", "is_correct": false },
+        { "content": "Developer", "is_correct": true },
+        { "content": "Review", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which feature is best used to create a dropdown list in a cell?",
+      "points": 1,
+      "options": [
+        { "content": "Data Validation", "is_correct": true },
+        { "content": "Conditional Formatting", "is_correct": false },
+        { "content": "Group and Outline", "is_correct": false },
+        { "content": "Name Manager", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When combining IF and AND functions, what happens if only one of the AND conditions is true?",
+      "points": 1,
+      "options": [
+        { "content": "It returns TRUE", "is_correct": false },
+        { "content": "It returns FALSE", "is_correct": true },
+        { "content": "It results in an error", "is_correct": false },
+        { "content": "It asks for clarification", "is_correct": false }
+      ]
+    }
+  ]
+}

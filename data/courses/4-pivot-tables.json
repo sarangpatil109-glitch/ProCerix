@@ -1,0 +1,184 @@
+{
+  "title": "Pivot Tables & Dashboards",
+  "description": "Unlock the true analytical power of Excel. Learn how to summarize millions of rows of data using Pivot Tables, and build interactive, dynamic dashboards using Pivot Charts and Slicers. This course turns raw data into actionable business intelligence.",
+  "difficulty": "advanced",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Excel Pivot Tables & Dashboards Certificate | ProCerix",
+    "description": "Learn to build interactive Excel dashboards. Master Pivot Tables, Pivot Charts, Slicers, and data visualization.",
+    "keywords": ["Excel Pivot Tables", "Excel dashboards", "Pivot Charts", "data visualization", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Create and format basic to advanced Pivot Tables",
+    "Group data and create calculated fields within Pivot Tables",
+    "Design and customize Pivot Charts for data visualization",
+    "Build interactive dashboards using Slicers and Timelines",
+    "Connect multiple Pivot Tables to a single Slicer for dynamic filtering"
+  ],
+  "modules": [
+    {
+      "title": "Mastering Pivot Tables",
+      "description": "The fundamentals of summarizing large datasets.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Creating Your First Pivot Table",
+          "content": "<h1>Introduction to Pivot Tables</h1><p>A Pivot Table allows you to extract significance from a large, detailed data set. To create one, your data must be organized in a tabular format with clear headers.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Grouping and Sorting Data",
+          "content": "<h1>Organizing Information</h1><p>You can group dates into months or quarters, or group numbers into ranges. Sorting helps highlight top or bottom performers instantly.</p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Calculated Fields",
+          "content": "<h1>Custom Calculations</h1><p>Instead of adding formulas to your raw data, you can create a Calculated Field directly within the Pivot Table to perform mathematical operations on existing fields.</p>",
+          "sequence_order": 3
+        }
+      ]
+    },
+    {
+      "title": "Data Visualization with Pivot Charts",
+      "description": "Turning summarized data into visual insights.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Creating Pivot Charts",
+          "content": "<h1>Visualizing Data</h1><p>A Pivot Chart is connected to a Pivot Table. When the table updates, the chart updates automatically. Learn to choose the right chart type (bar, line, pie) for your data.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Formatting for Impact",
+          "content": "<h1>Design Best Practices</h1><p>Remove clutter, use consistent colors, and ensure your charts tell a clear story without overwhelming the viewer.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Building Interactive Dashboards",
+      "description": "Combining elements to create a dynamic reporting tool.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Using Slicers",
+          "content": "<h1>Interactive Filtering</h1><p>Slicers are visual filters. They are much easier to use than standard drop-down filters and can be connected to multiple Pivot Tables simultaneously.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Using Timelines",
+          "content": "<h1>Filtering by Date</h1><p>A Timeline is a special type of Slicer designed specifically for date fields, allowing users to easily filter data by days, months, quarters, or years.</p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Dashboard Assembly",
+          "content": "<h1>Putting It All Together</h1><p>Learn how to arrange your charts and slicers on a single worksheet, hide gridlines, and create a seamless, app-like experience for your users.</p>",
+          "sequence_order": 3
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What is the primary requirement for raw data before creating a Pivot Table?",
+      "points": 1,
+      "options": [
+        { "content": "It must be sorted alphabetically", "is_correct": false },
+        { "content": "It must have column headers", "is_correct": true },
+        { "content": "It must contain only numbers", "is_correct": false },
+        { "content": "It must be formatted as currency", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which feature allows you to perform mathematical operations within a Pivot Table without altering the source data?",
+      "points": 1,
+      "options": [
+        { "content": "VLOOKUP", "is_correct": false },
+        { "content": "Calculated Field", "is_correct": true },
+        { "content": "Goal Seek", "is_correct": false },
+        { "content": "Data Validation", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When a Pivot Table updates, what happens to its associated Pivot Chart?",
+      "points": 1,
+      "options": [
+        { "content": "It is deleted", "is_correct": false },
+        { "content": "It updates automatically", "is_correct": true },
+        { "content": "It asks for confirmation", "is_correct": false },
+        { "content": "It disconnects from the table", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a Slicer used for in an Excel Dashboard?",
+      "points": 1,
+      "options": [
+        { "content": "To cut data from one sheet to another", "is_correct": false },
+        { "content": "To visually filter data", "is_correct": true },
+        { "content": "To divide charts in half", "is_correct": false },
+        { "content": "To automatically sum columns", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What type of Slicer is designed specifically for filtering date fields?",
+      "points": 1,
+      "options": [
+        { "content": "Date Filter", "is_correct": false },
+        { "content": "Chronology", "is_correct": false },
+        { "content": "Timeline", "is_correct": true },
+        { "content": "Calendar", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Can a single Slicer control multiple Pivot Tables?",
+      "points": 1,
+      "options": [
+        { "content": "Yes, using Report Connections", "is_correct": true },
+        { "content": "No, it is strictly 1-to-1", "is_correct": false },
+        { "content": "Only if they are on different worksheets", "is_correct": false },
+        { "content": "Only if they are Pivot Charts", "is_correct": false }
+      ]
+    },
+    {
+      "question": "To improve the visual appeal of a dashboard, you should typically:",
+      "points": 1,
+      "options": [
+        { "content": "Add as many colors as possible", "is_correct": false },
+        { "content": "Turn on all gridlines", "is_correct": false },
+        { "content": "Remove gridlines and unnecessary clutter", "is_correct": true },
+        { "content": "Make all charts 3D", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If you want to view your sales data grouped by Quarters in a Pivot Table, what must the original data contain?",
+      "points": 1,
+      "options": [
+        { "content": "A column with valid Dates", "is_correct": true },
+        { "content": "A column named 'Quarter'", "is_correct": false },
+        { "content": "Only four rows of data", "is_correct": false },
+        { "content": "Currency formatting", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What happens if you add new rows to your raw data range after creating a Pivot Table?",
+      "points": 1,
+      "options": [
+        { "content": "The Pivot Table updates instantly", "is_correct": false },
+        { "content": "You must refresh the Pivot Table (if the source is dynamic/table)", "is_correct": true },
+        { "content": "The Pivot Table will crash", "is_correct": false },
+        { "content": "You cannot add new data", "is_correct": false }
+      ]
+    },
+    {
+      "question": "A Calculated Field operates on which of the following?",
+      "points": 1,
+      "options": [
+        { "content": "Individual cells", "is_correct": false },
+        { "content": "Sum of other fields", "is_correct": true },
+        { "content": "External workbooks", "is_correct": false },
+        { "content": "Web data", "is_correct": false }
+      ]
+    }
+  ]
+}

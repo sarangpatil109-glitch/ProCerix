@@ -1,0 +1,174 @@
+{
+  "title": "Digital Marketing Fundamentals",
+  "description": "Understand the core concepts of modern digital marketing. Learn how to reach customers online through search engines, social media, email, and paid advertising to build a comprehensive digital strategy.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Marketing",
+  "seo_metadata": {
+    "title": "Digital Marketing Fundamentals Certificate | ProCerix",
+    "description": "Start your marketing career here. Learn SEO, social media, email marketing, and paid advertising fundamentals.",
+    "keywords": ["Digital Marketing", "SEO basics", "Social Media Marketing", "Marketing strategy", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Define the core components of a digital marketing strategy",
+    "Understand the customer journey and marketing funnel",
+    "Differentiate between inbound and outbound marketing techniques",
+    "Identify key channels: SEO, SEM, Social Media, and Email",
+    "Measure marketing success using basic KPIs (ROI, CPA, CTR)"
+  ],
+  "modules": [
+    {
+      "title": "The Marketing Foundation",
+      "description": "Core concepts and the customer journey.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Traditional vs. Digital Marketing",
+          "content": "<h1>The Paradigm Shift</h1><p>Digital marketing allows for precise targeting, immediate measurable feedback, and two-way communication with consumers, unlike traditional broadcast marketing.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "The Marketing Funnel",
+          "content": "<h1>Awareness to Advocacy</h1><p>The funnel represents the customer journey: Awareness (top), Consideration (middle), Conversion (bottom), and finally, Loyalty and Advocacy. Different tactics apply to each stage.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Key Digital Channels",
+      "description": "Where to reach your audience.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Owned, Earned, and Paid Media",
+          "content": "<h1>The Media Mix</h1><p>Owned media includes your website and email list. Earned media is PR and organic social shares. Paid media includes Google Ads and sponsored posts. A good strategy uses all three.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Inbound vs. Outbound",
+          "content": "<h1>Push vs. Pull</h1><p>Outbound (Push) interrupts the user (e.g., display ads, cold emails). Inbound (Pull) attracts users who are already looking for solutions (e.g., SEO, content marketing).</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Measurement and Strategy",
+      "description": "Ensuring your efforts are working.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Defining Marketing KPIs",
+          "content": "<h1>Metrics that Matter</h1><p>Learn to track Customer Acquisition Cost (CAC), Return on Investment (ROI), Click-Through Rate (CTR), and Conversion Rate to evaluate campaign success.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Building a Strategy",
+          "content": "<h1>Putting It Together</h1><p>A strategy requires defining a target audience (buyer personas), setting SMART goals, selecting the right channels, and allocating budget appropriately.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What is a primary advantage of digital marketing over traditional marketing?",
+      "points": 1,
+      "options": [
+        { "content": "It is always free", "is_correct": false },
+        { "content": "It allows for precise targeting and measurable results", "is_correct": true },
+        { "content": "It reaches people who don't use the internet", "is_correct": false },
+        { "content": "It requires no planning", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In the marketing funnel, what is the stage where a user first hears about your brand?",
+      "points": 1,
+      "options": [
+        { "content": "Consideration", "is_correct": false },
+        { "content": "Conversion", "is_correct": false },
+        { "content": "Awareness", "is_correct": true },
+        { "content": "Advocacy", "is_correct": false }
+      ]
+    },
+    {
+      "question": "A company's own website and email subscriber list are examples of:",
+      "points": 1,
+      "options": [
+        { "content": "Paid Media", "is_correct": false },
+        { "content": "Earned Media", "is_correct": false },
+        { "content": "Owned Media", "is_correct": true },
+        { "content": "Stolen Media", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is an example of Inbound Marketing?",
+      "points": 1,
+      "options": [
+        { "content": "Buying an email list and sending a blast", "is_correct": false },
+        { "content": "A TV commercial", "is_correct": false },
+        { "content": "Creating a helpful blog post that ranks on Google (SEO)", "is_correct": true },
+        { "content": "A pop-up banner ad", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does ROI stand for in marketing?",
+      "points": 1,
+      "options": [
+        { "content": "Return on Investment", "is_correct": true },
+        { "content": "Rate of Interaction", "is_correct": false },
+        { "content": "Reach of Internet", "is_correct": false },
+        { "content": "Revenue over Income", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which metric tells you the percentage of people who clicked your ad after seeing it?",
+      "points": 1,
+      "options": [
+        { "content": "Conversion Rate", "is_correct": false },
+        { "content": "Customer Acquisition Cost (CAC)", "is_correct": false },
+        { "content": "Click-Through Rate (CTR)", "is_correct": true },
+        { "content": "Bounce Rate", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When a customer recommends your product to their friends, they are at which stage of the funnel?",
+      "points": 1,
+      "options": [
+        { "content": "Awareness", "is_correct": false },
+        { "content": "Consideration", "is_correct": false },
+        { "content": "Advocacy", "is_correct": true },
+        { "content": "Initial Search", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a 'Buyer Persona'?",
+      "points": 1,
+      "options": [
+        { "content": "The person who pays for the advertising budget", "is_correct": false },
+        { "content": "A semi-fictional representation of your ideal customer based on data and research", "is_correct": true },
+        { "content": "A robot used to buy ads automatically", "is_correct": false },
+        { "content": "The CEO of the company", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Search Engine Optimization (SEO) is primarily focused on:",
+      "points": 1,
+      "options": [
+        { "content": "Paying Google to appear at the top of results", "is_correct": false },
+        { "content": "Improving your website to rank higher in organic (unpaid) search results", "is_correct": true },
+        { "content": "Sending emails to potential customers", "is_correct": false },
+        { "content": "Designing logos", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is considered 'Paid Media'?",
+      "points": 1,
+      "options": [
+        { "content": "A viral tweet from a satisfied customer", "is_correct": false },
+        { "content": "Your company's 'About Us' page", "is_correct": false },
+        { "content": "A sponsored post on Instagram", "is_correct": true },
+        { "content": "A press release picked up by a news outlet", "is_correct": false }
+      ]
+    }
+  ]
+}

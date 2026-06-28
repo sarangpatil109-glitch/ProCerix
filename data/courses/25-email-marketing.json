@@ -1,0 +1,174 @@
+{
+  "title": "Email Marketing Fundamentals",
+  "description": "Master one of the highest ROI channels in digital marketing. Learn how to build an engaged subscriber list, segment your audience, design high-converting campaigns, and automate your email flows.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Marketing",
+  "seo_metadata": {
+    "title": "Email Marketing Fundamentals Certificate Course | ProCerix",
+    "description": "Learn Email Marketing basics. Master list building, segmentation, campaign design, and automated workflows.",
+    "keywords": ["Email Marketing", "List building", "Email automation", "Mailchimp basics", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Build a high-quality, permission-based email subscriber list",
+    "Understand the importance of list segmentation and personalization",
+    "Design effective email campaigns with strong subject lines and CTAs",
+    "Set up automated email flows (Welcome Series, Abandoned Cart)",
+    "Analyze key email metrics (Open Rate, Click Rate, Unsubscribe Rate)"
+  ],
+  "modules": [
+    {
+      "title": "List Building and Management",
+      "description": "Growing your most valuable asset.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "The Value of Owned Media",
+          "content": "<h1>Why Email?</h1><p>Unlike social media followers, you own your email list. It is not subject to algorithmic changes. Learn how to use Lead Magnets (e.g., free ebooks, discount codes) to incentivize sign-ups legally and ethically.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Segmentation",
+          "content": "<h1>Don't Blast Everyone</h1><p>Segmentation is dividing your list into smaller groups based on criteria (e.g., past purchases, geographic location, engagement level). Sending targeted emails to specific segments drastically improves conversion rates.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Campaign Design and Copy",
+      "description": "Getting opened and getting clicked.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "The Subject Line",
+          "content": "<h1>The Gatekeeper</h1><p>If the subject line fails, the email is never read. Best practices include keeping it short, creating a sense of urgency or curiosity, and avoiding spam-trigger words (like 'FREE!!!').</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Body Copy and Design",
+          "content": "<h1>Design for the Click</h1><p>Keep the design clean and mobile-friendly. The copy should be concise, focused on the customer's needs (not just company news), and lead clearly to a single Call to Action (CTA) button.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Automation and Analytics",
+      "description": "Making money while you sleep.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Automated Workflows",
+          "content": "<h1>Triggered Emails</h1><p>Automations run in the background. A 'Welcome Series' triggers when someone joins the list. An 'Abandoned Cart' flow triggers when someone leaves items in their online cart without purchasing. These are highly profitable.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Analyzing Performance",
+          "content": "<h1>The Big Three Metrics</h1><p>Track your Open Rate (are your subject lines working?), Click-Through Rate (is your content engaging?), and Unsubscribe Rate (are you sending too often or irrelevant content?).</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Why is an email list considered 'Owned Media'?",
+      "points": 1,
+      "options": [
+        { "content": "Because you have to buy it from a vendor", "is_correct": false },
+        { "content": "Because you control the list and have direct access to your audience, unlike social media algorithms", "is_correct": true },
+        { "content": "Because it is physically printed and stored in an office", "is_correct": false },
+        { "content": "Because the government regulates it", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a 'Lead Magnet'?",
+      "points": 1,
+      "options": [
+        { "content": "A tool used to clean an email list", "is_correct": false },
+        { "content": "A free item or service given away for the purpose of gathering contact details", "is_correct": true },
+        { "content": "A software bug that attracts spam", "is_correct": false },
+        { "content": "A type of subject line", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary benefit of list segmentation?",
+      "points": 1,
+      "options": [
+        { "content": "It allows you to send highly relevant, targeted messages to specific groups, improving conversion rates", "is_correct": true },
+        { "content": "It allows you to send emails faster", "is_correct": false },
+        { "content": "It hides the emails from spam filters automatically", "is_correct": false },
+        { "content": "It makes the email design look better", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary function of a Subject Line?",
+      "points": 1,
+      "options": [
+        { "content": "To explain the entire offer in detail", "is_correct": false },
+        { "content": "To get the recipient to open the email", "is_correct": true },
+        { "content": "To serve as the Call to Action", "is_correct": false },
+        { "content": "To bypass the promotions tab in Gmail", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is a best practice for email body design?",
+      "points": 1,
+      "options": [
+        { "content": "Using massive image files", "is_correct": false },
+        { "content": "Including at least 5 different Call to Action buttons", "is_correct": false },
+        { "content": "Keeping it clean, mobile-responsive, and focused on a single Call to Action", "is_correct": true },
+        { "content": "Writing extremely long paragraphs", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is an 'Automated Workflow' in email marketing?",
+      "points": 1,
+      "options": [
+        { "content": "An email written by AI", "is_correct": false },
+        { "content": "A series of emails sent automatically based on a specific user action or timeline (e.g., signing up)", "is_correct": true },
+        { "content": "A script that automatically deletes spam", "is_correct": false },
+        { "content": "A process of buying email addresses automatically", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is an example of a triggered email automation?",
+      "points": 1,
+      "options": [
+        { "content": "A monthly newsletter sent manually by the marketing team", "is_correct": false },
+        { "content": "An 'Abandoned Cart' email sent 2 hours after a user leaves a website without checking out", "is_correct": true },
+        { "content": "A press release", "is_correct": false },
+        { "content": "A direct mail postcard", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If your Open Rate is very low, what is the most likely culprit?",
+      "points": 1,
+      "options": [
+        { "content": "Poorly designed email body", "is_correct": false },
+        { "content": "Weak or uninteresting Subject Lines", "is_correct": true },
+        { "content": "Broken links in the email", "is_correct": false },
+        { "content": "The website is down", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does the Click-Through Rate (CTR) measure in an email campaign?",
+      "points": 1,
+      "options": [
+        { "content": "The percentage of people who opened the email", "is_correct": false },
+        { "content": "The percentage of recipients who clicked on one or more links contained in a given email", "is_correct": true },
+        { "content": "The percentage of emails that bounced", "is_correct": false },
+        { "content": "The number of sales generated", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why is it important to monitor the Unsubscribe Rate?",
+      "points": 1,
+      "options": [
+        { "content": "Because a high rate indicates you might be sending irrelevant content or emailing too frequently", "is_correct": true },
+        { "content": "Because you are charged money for every unsubscribe", "is_correct": false },
+        { "content": "Because unsubscribing is illegal", "is_correct": false },
+        { "content": "Because it tells you how many people forwarded the email", "is_correct": false }
+      ]
+    }
+  ]
+}

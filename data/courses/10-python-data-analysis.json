@@ -1,0 +1,179 @@
+{
+  "title": "Python for Data Analysis",
+  "description": "Transition from basic programming to data science. Learn how to use Python's powerful libraries—Pandas, NumPy, and Matplotlib—to manipulate, analyze, and visualize large datasets effectively.",
+  "difficulty": "intermediate",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Python for Data Analysis Certificate Course | ProCerix",
+    "description": "Learn to analyze data using Python. Master Pandas DataFrames, NumPy arrays, and Matplotlib data visualization.",
+    "keywords": ["Python for Data Analysis", "Pandas tutorial", "NumPy arrays", "Python data visualization", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Install and import essential Python data libraries",
+    "Perform numerical operations using NumPy arrays",
+    "Load, clean, and manipulate data using Pandas DataFrames",
+    "Handle missing data and perform group-by operations",
+    "Create basic data visualizations using Matplotlib"
+  ],
+  "modules": [
+    {
+      "title": "Introduction to NumPy",
+      "description": "Working with numerical data efficiently.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "What is NumPy?",
+          "content": "<h1>Numerical Python</h1><p>NumPy is the foundational library for scientific computing in Python. It provides support for large, multi-dimensional arrays and matrices, along with mathematical functions to operate on them.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Working with Arrays",
+          "content": "<h1>NumPy Arrays vs Python Lists</h1><p>NumPy arrays are faster and more compact than standard Python lists. You can perform vectorized operations, meaning you can apply an operation to an entire array without writing a loop.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Data Manipulation with Pandas",
+      "description": "The Swiss Army knife of data analysis.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Introduction to Pandas DataFrames",
+          "content": "<h1>Tabular Data</h1><p>A DataFrame is a 2-dimensional labeled data structure with columns of potentially different types. Think of it like a spreadsheet or SQL table.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Loading and Inspecting Data",
+          "content": "<h1>Reading CSVs</h1><p>Use <code>pd.read_csv()</code> to load data into a DataFrame. Use methods like <code>.head()</code>, <code>.info()</code>, and <code>.describe()</code> to quickly inspect your dataset.</p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Data Cleaning",
+          "content": "<h1>Handling Missing Data</h1><p>Real-world data is messy. Learn how to drop rows with missing values using <code>.dropna()</code> or fill them using <code>.fillna()</code>.</p>",
+          "sequence_order": 3
+        }
+      ]
+    },
+    {
+      "title": "Data Visualization",
+      "description": "Plotting your findings.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Introduction to Matplotlib",
+          "content": "<h1>Basic Plotting</h1><p>Matplotlib is the core plotting library in Python. You can create line charts, bar charts, scatter plots, and histograms using <code>plt.plot()</code> and related functions.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Customizing Plots",
+          "content": "<h1>Adding Context</h1><p>A chart is useless without context. Learn how to add titles, X and Y axis labels, and legends to make your visualizations clear and informative.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which Python library is specifically designed for numerical computing and working with arrays?",
+      "points": 1,
+      "options": [
+        { "content": "Pandas", "is_correct": false },
+        { "content": "NumPy", "is_correct": true },
+        { "content": "Matplotlib", "is_correct": false },
+        { "content": "Requests", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary data structure used in Pandas to represent tabular data?",
+      "points": 1,
+      "options": [
+        { "content": "Array", "is_correct": false },
+        { "content": "Dictionary", "is_correct": false },
+        { "content": "DataFrame", "is_correct": true },
+        { "content": "List", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which Pandas function is commonly used to load data from a comma-separated values file?",
+      "points": 1,
+      "options": [
+        { "content": "load_csv()", "is_correct": false },
+        { "content": "read_csv()", "is_correct": true },
+        { "content": "open_csv()", "is_correct": false },
+        { "content": "get_csv()", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which method is used to view the first 5 rows of a Pandas DataFrame?",
+      "points": 1,
+      "options": [
+        { "content": ".first()", "is_correct": false },
+        { "content": ".top()", "is_correct": false },
+        { "content": ".head()", "is_correct": true },
+        { "content": ".show()", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why are NumPy arrays generally preferred over standard Python lists for numerical data?",
+      "points": 1,
+      "options": [
+        { "content": "They are easier to read", "is_correct": false },
+        { "content": "They are faster and consume less memory", "is_correct": true },
+        { "content": "They can store strings automatically", "is_correct": false },
+        { "content": "They are built into core Python without importing", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which Pandas method is used to drop rows that contain missing (NaN) values?",
+      "points": 1,
+      "options": [
+        { "content": ".dropna()", "is_correct": true },
+        { "content": ".remove_nulls()", "is_correct": false },
+        { "content": ".delete_na()", "is_correct": false },
+        { "content": ".clean()", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which library is considered the foundational plotting library in Python?",
+      "points": 1,
+      "options": [
+        { "content": "Seaborn", "is_correct": false },
+        { "content": "Plotly", "is_correct": false },
+        { "content": "Bokeh", "is_correct": false },
+        { "content": "Matplotlib", "is_correct": true }
+      ]
+    },
+    {
+      "question": "In Pandas, what does the .describe() method do?",
+      "points": 1,
+      "options": [
+        { "content": "It translates column names to English", "is_correct": false },
+        { "content": "It generates descriptive statistics of numerical columns", "is_correct": true },
+        { "content": "It describes the file path of the dataset", "is_correct": false },
+        { "content": "It provides a visual histogram of the data", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How do you add a title to a plot in Matplotlib?",
+      "points": 1,
+      "options": [
+        { "content": "plt.name()", "is_correct": false },
+        { "content": "plt.header()", "is_correct": false },
+        { "content": "plt.title()", "is_correct": true },
+        { "content": "plt.heading()", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is 'vectorization' in the context of NumPy?",
+      "points": 1,
+      "options": [
+        { "content": "Converting images to vector graphics", "is_correct": false },
+        { "content": "Applying operations to an entire array at once, avoiding explicit Python loops", "is_correct": true },
+        { "content": "Drawing lines on a scatter plot", "is_correct": false },
+        { "content": "Sorting an array alphabetically", "is_correct": false }
+      ]
+    }
+  ]
+}

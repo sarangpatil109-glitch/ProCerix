@@ -1,0 +1,174 @@
+{
+  "title": "ChatGPT for Beginners",
+  "description": "Unlock the power of conversational AI. Learn what ChatGPT is, how it works, and how to write basic prompts to assist you with writing, brainstorming, and daily tasks.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Artificial Intelligence",
+  "seo_metadata": {
+    "title": "ChatGPT for Beginners Certificate Course | ProCerix",
+    "description": "Learn the basics of ChatGPT. Understand Generative AI and write effective prompts for daily productivity.",
+    "keywords": ["ChatGPT for beginners", "Learn ChatGPT", "AI prompting", "Generative AI basics", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Understand what Large Language Models (LLMs) are and how they generate text",
+    "Navigate the ChatGPT interface and manage conversations",
+    "Write clear and effective basic prompts for various tasks",
+    "Identify the limitations and ethical considerations of using AI",
+    "Use ChatGPT for drafting emails, brainstorming, and summarizing text"
+  ],
+  "modules": [
+    {
+      "title": "Understanding ChatGPT",
+      "description": "The fundamentals of Generative AI.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "What is ChatGPT?",
+          "content": "<h1>Large Language Models</h1><p>ChatGPT is an AI language model developed by OpenAI. It is trained on vast amounts of text data to predict the next word in a sequence, allowing it to generate human-like text based on the input (prompt) it receives.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Limitations and Hallucinations",
+          "content": "<h1>AI is Not Perfect</h1><p>ChatGPT does not 'know' facts; it predicts text. Sometimes it confidently outputs incorrect information, a phenomenon known as an AI hallucination. Always verify important facts.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "The Art of Prompting",
+      "description": "How to talk to the AI to get what you want.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Basic Prompt Structure",
+          "content": "<h1>Clarity is Key</h1><p>A good prompt is specific. Instead of saying 'Write an email', say 'Write a polite email to my boss asking for next Friday off due to a family event.'</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Assigning Roles",
+          "content": "<h1>Act As...</h1><p>You can tell ChatGPT to act as a specific persona (e.g., 'Act as a senior marketing expert'). This helps the AI adopt the correct tone and vocabulary for your task.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Practical Applications",
+      "description": "Using AI for daily productivity.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Drafting and Editing",
+          "content": "<h1>Your AI Assistant</h1><p>Paste your rough drafts into ChatGPT and ask it to check for grammar, change the tone to be more professional, or summarize a long article into key bullet points.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Brainstorming and Ideation",
+          "content": "<h1>Overcoming Blank Page Syndrome</h1><p>Use ChatGPT to generate ideas for blog posts, gift ideas, or project names. You can ask for '10 creative titles for a presentation on AI.'</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What does LLM stand for in the context of ChatGPT?",
+      "points": 1,
+      "options": [
+        { "content": "Logic Learning Machine", "is_correct": false },
+        { "content": "Large Language Model", "is_correct": true },
+        { "content": "Local Language Matrix", "is_correct": false },
+        { "content": "Linguistic Logic Module", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How does ChatGPT primarily generate its responses?",
+      "points": 1,
+      "options": [
+        { "content": "By searching Google in real-time", "is_correct": false },
+        { "content": "By querying a database of pre-written answers", "is_correct": false },
+        { "content": "By predicting the next most likely word in a sequence", "is_correct": true },
+        { "content": "By asking human moderators", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When an AI confidently presents incorrect information as a fact, what is this called?",
+      "points": 1,
+      "options": [
+        { "content": "A Glitch", "is_correct": false },
+        { "content": "A Hallucination", "is_correct": true },
+        { "content": "A Logic Loop", "is_correct": false },
+        { "content": "A Syntax Error", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is an example of a well-structured, specific prompt?",
+      "points": 1,
+      "options": [
+        { "content": "Write an email about the meeting.", "is_correct": false },
+        { "content": "Summarize this.", "is_correct": false },
+        { "content": "Write a professional email to my team summarizing the attached meeting notes and assigning next steps.", "is_correct": true },
+        { "content": "Give me ideas.", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a highly effective technique to get ChatGPT to adopt a specific tone or expertise?",
+      "points": 1,
+      "options": [
+        { "content": "Use all capital letters", "is_correct": false },
+        { "content": "Tell it to 'Act as [a specific persona]'", "is_correct": true },
+        { "content": "Repeat the question three times", "is_correct": false },
+        { "content": "Threaten to turn it off", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why is it important to verify important facts generated by ChatGPT?",
+      "points": 1,
+      "options": [
+        { "content": "Because the AI can hallucinate and generate plausible-sounding falsehoods", "is_correct": true },
+        { "content": "Because the AI always lies", "is_correct": false },
+        { "content": "Because it is illegal not to", "is_correct": false },
+        { "content": "Because the AI doesn't know English well", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If you are experiencing 'Blank Page Syndrome', how can ChatGPT best assist you?",
+      "points": 1,
+      "options": [
+        { "content": "By diagnosing your medical condition", "is_correct": false },
+        { "content": "By generating a list of ideas or an outline to get you started", "is_correct": true },
+        { "content": "By formatting your hard drive", "is_correct": false },
+        { "content": "By creating a final, perfect draft immediately", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which organization developed ChatGPT?",
+      "points": 1,
+      "options": [
+        { "content": "Google", "is_correct": false },
+        { "content": "Microsoft", "is_correct": false },
+        { "content": "OpenAI", "is_correct": true },
+        { "content": "Meta", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Can ChatGPT remember context from earlier in the SAME conversation?",
+      "points": 1,
+      "options": [
+        { "content": "Yes, it has a 'context window' that allows it to remember recent inputs within the same chat thread", "is_correct": true },
+        { "content": "No, every single prompt is treated completely independently", "is_correct": false },
+        { "content": "Only if you pay for the premium version", "is_correct": false },
+        { "content": "Only if you use specific code words", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When asking ChatGPT to summarize a long text, what is a best practice?",
+      "points": 1,
+      "options": [
+        { "content": "Provide constraints, such as 'Summarize this in 3 bullet points'", "is_correct": true },
+        { "content": "Paste the text a word at a time", "is_correct": false },
+        { "content": "Ask it to translate the text first", "is_correct": false },
+        { "content": "Never paste text into ChatGPT", "is_correct": false }
+      ]
+    }
+  ]
+}

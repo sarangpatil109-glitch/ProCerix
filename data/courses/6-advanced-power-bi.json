@@ -1,0 +1,174 @@
+{
+  "title": "Advanced Power BI",
+  "description": "Elevate your Power BI skills. Master advanced DAX calculations, complex data modeling, dynamic row-level security, and performance optimization techniques for enterprise reporting.",
+  "difficulty": "advanced",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Advanced Power BI Certificate Course | ProCerix",
+    "description": "Master advanced Power BI and DAX. Learn complex data modeling, Time Intelligence, Row-Level Security, and optimization.",
+    "keywords": ["Advanced Power BI", "Advanced DAX", "Power BI RLS", "Time Intelligence DAX", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Write complex DAX functions, including CALCULATE and Time Intelligence",
+    "Design optimized Star Schema data models",
+    "Implement dynamic Row-Level Security (RLS)",
+    "Use parameters and variables in DAX",
+    "Optimize Power BI reports for faster load times"
+  ],
+  "modules": [
+    {
+      "title": "Advanced Data Modeling",
+      "description": "Techniques for structuring data for optimal performance.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Star Schema Design",
+          "content": "<h1>Optimizing for Power BI</h1><p>The Star Schema (Fact tables surrounded by Dimension tables) is the optimal design for Power BI. Learn how to denormalize data appropriately to achieve this structure.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Handling Many-to-Many Relationships",
+          "content": "<h1>Bridge Tables</h1><p>Direct Many-to-Many relationships can cause ambiguous filter contexts. Learn to resolve this using a bridge table to ensure accurate DAX results.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Mastering DAX",
+      "description": "Deep dive into the formula language.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "The CALCULATE Function",
+          "content": "<h1>The Most Powerful Function</h1><p><code>CALCULATE</code> evaluates an expression in a modified filter context. It is essential for overriding default chart filters to calculate percentages or running totals.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Time Intelligence",
+          "content": "<h1>Date-Based Calculations</h1><p>Functions like <code>SAMEPERIODLASTYEAR</code>, <code>YTD</code>, and <code>DATEADD</code> allow you to easily compare current performance against historical data. A dedicated Date table is required.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Security and Deployment",
+      "description": "Managing access and optimizing performance.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Row-Level Security (RLS)",
+          "content": "<h1>Restricting Data Access</h1><p>RLS allows you to publish a single report but restrict the data users see based on their role (e.g., a regional manager only sees their region). This is configured in Desktop and managed in the Service.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Performance Analyzer",
+          "content": "<h1>Optimizing Reports</h1><p>Use the built-in Performance Analyzer to identify slow-loading visuals or inefficient DAX queries, ensuring your enterprise dashboards load instantly.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which data model design is highly recommended for Power BI?",
+      "points": 1,
+      "options": [
+        { "content": "Snowflake Schema", "is_correct": false },
+        { "content": "Star Schema", "is_correct": true },
+        { "content": "Flat Table", "is_correct": false },
+        { "content": "Network Model", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which DAX function is used to evaluate an expression in a modified filter context?",
+      "points": 1,
+      "options": [
+        { "content": "FILTER", "is_correct": false },
+        { "content": "EVALUATE", "is_correct": false },
+        { "content": "CALCULATE", "is_correct": true },
+        { "content": "MODIFY", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is required in your data model to use DAX Time Intelligence functions properly?",
+      "points": 1,
+      "options": [
+        { "content": "A dedicated Date table", "is_correct": true },
+        { "content": "A timestamp on every row", "is_correct": false },
+        { "content": "A direct connection to SQL Server", "is_correct": false },
+        { "content": "At least 5 years of data", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary purpose of Row-Level Security (RLS)?",
+      "points": 1,
+      "options": [
+        { "content": "To encrypt the .pbix file", "is_correct": false },
+        { "content": "To prevent users from editing DAX", "is_correct": false },
+        { "content": "To restrict data access for given users based on filters", "is_correct": true },
+        { "content": "To hide specific columns from everyone", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How should you resolve a Many-to-Many relationship in a robust data model?",
+      "points": 1,
+      "options": [
+        { "content": "Ignore it", "is_correct": false },
+        { "content": "Use a Bridge (Junction) Table", "is_correct": true },
+        { "content": "Delete one of the tables", "is_correct": false },
+        { "content": "Enable bi-directional filtering on all tables", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which tool inside Power BI Desktop helps identify slow-loading visuals?",
+      "points": 1,
+      "options": [
+        { "content": "Task Manager", "is_correct": false },
+        { "content": "DAX Formatter", "is_correct": false },
+        { "content": "Performance Analyzer", "is_correct": true },
+        { "content": "Query Diagnostics", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In a Star Schema, what type of table contains the quantitative data (numbers to aggregate)?",
+      "points": 1,
+      "options": [
+        { "content": "Dimension Table", "is_correct": false },
+        { "content": "Fact Table", "is_correct": true },
+        { "content": "Lookup Table", "is_correct": false },
+        { "content": "Bridge Table", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which DAX function returns a table that contains a column of dates shifted either forward or backward in time?",
+      "points": 1,
+      "options": [
+        { "content": "DATEADD", "is_correct": true },
+        { "content": "SHIFTDATE", "is_correct": false },
+        { "content": "MOVEDATE", "is_correct": false },
+        { "content": "TIMESHIFT", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When defining RLS roles in Power BI Desktop, you apply the DAX filter expression to:",
+      "points": 1,
+      "options": [
+        { "content": "A specific visualization", "is_correct": false },
+        { "content": "A table in the data model", "is_correct": true },
+        { "content": "A Power Query step", "is_correct": false },
+        { "content": "The user's email address", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why is it recommended to use variables (VAR) in complex DAX measures?",
+      "points": 1,
+      "options": [
+        { "content": "They improve readability and can boost performance by caching intermediate results", "is_correct": true },
+        { "content": "They allow you to change the underlying SQL database", "is_correct": false },
+        { "content": "They are required by the CALCULATE function", "is_correct": false },
+        { "content": "They automatically format the output as currency", "is_correct": false }
+      ]
+    }
+  ]
+}

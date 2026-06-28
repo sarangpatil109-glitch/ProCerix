@@ -1,0 +1,179 @@
+{
+  "title": "SQL Basics",
+  "description": "Learn the foundational language of data. This course covers everything you need to start querying relational databases, filtering records, sorting results, and understanding database structures. Essential for any aspiring data professional.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "SQL Basics Certificate Course | ProCerix",
+    "description": "Start your journey in data analytics by learning SQL basics. Master SELECT statements, filtering with WHERE, and sorting with ORDER BY.",
+    "keywords": ["SQL basics", "Learn SQL", "SQL for beginners", "database queries", "ProCerix SQL certificate"]
+  },
+  "learning_outcomes": [
+    "Understand the structure of relational databases",
+    "Write basic SELECT statements to retrieve data",
+    "Filter query results using the WHERE clause",
+    "Sort data using ORDER BY",
+    "Use aliases to improve query readability"
+  ],
+  "modules": [
+    {
+      "title": "Introduction to Databases and SQL",
+      "description": "Understanding where data lives and how to ask for it.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "What is a Relational Database?",
+          "content": "<h1>Database Concepts</h1><p>A relational database organizes data into tables with columns and rows. Tables are linked together by relationships. SQL (Structured Query Language) is the standard language used to interact with them.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "The SELECT Statement",
+          "content": "<h1>Retrieving Data</h1><p>The <code>SELECT</code> statement is the foundation of SQL. You use it to specify which columns you want to view. Example: <code>SELECT first_name, last_name FROM employees;</code></p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Filtering Data",
+      "description": "How to retrieve only the specific records you need.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "The WHERE Clause",
+          "content": "<h1>Conditional Retrieval</h1><p>The <code>WHERE</code> clause filters rows based on a specified condition. Example: <code>SELECT * FROM customers WHERE country = 'USA';</code></p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Logical Operators",
+          "content": "<h1>AND, OR, and NOT</h1><p>Combine multiple conditions using logical operators. Example: <code>WHERE country = 'USA' AND age > 25;</code></p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "IN and BETWEEN",
+          "content": "<h1>Shorthand Filters</h1><p>Use <code>IN</code> to check against a list of values, and <code>BETWEEN</code> to check within a range. Example: <code>WHERE price BETWEEN 10 AND 50;</code></p>",
+          "sequence_order": 3
+        }
+      ]
+    },
+    {
+      "title": "Sorting and Formatting",
+      "description": "Organizing your output for easier reading.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "The ORDER BY Clause",
+          "content": "<h1>Sorting Results</h1><p>Use <code>ORDER BY</code> to sort your output. You can sort in ascending (ASC) or descending (DESC) order. Example: <code>ORDER BY last_name ASC;</code></p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Column Aliases",
+          "content": "<h1>Renaming Columns</h1><p>Use the <code>AS</code> keyword to give a column a temporary name in your output for better readability. Example: <code>SELECT first_name AS \"First Name\" FROM employees;</code></p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What does SQL stand for?",
+      "points": 1,
+      "options": [
+        { "content": "Simple Query Language", "is_correct": false },
+        { "content": "Structured Query Language", "is_correct": true },
+        { "content": "Sequential Query Logic", "is_correct": false },
+        { "content": "Standard Query List", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which SQL statement is used to extract data from a database?",
+      "points": 1,
+      "options": [
+        { "content": "EXTRACT", "is_correct": false },
+        { "content": "OPEN", "is_correct": false },
+        { "content": "SELECT", "is_correct": true },
+        { "content": "GET", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which clause is used to filter records in SQL?",
+      "points": 1,
+      "options": [
+        { "content": "FILTER", "is_correct": false },
+        { "content": "WHERE", "is_correct": true },
+        { "content": "SORT", "is_correct": false },
+        { "content": "HAVING", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How do you select all columns from a table named 'Persons'?",
+      "points": 1,
+      "options": [
+        { "content": "SELECT Persons", "is_correct": false },
+        { "content": "SELECT [all] FROM Persons", "is_correct": false },
+        { "content": "SELECT * FROM Persons", "is_correct": true },
+        { "content": "SELECT *.Persons", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which operator is used to search for a specified pattern in a column?",
+      "points": 1,
+      "options": [
+        { "content": "GET", "is_correct": false },
+        { "content": "LIKE", "is_correct": true },
+        { "content": "SEARCH", "is_correct": false },
+        { "content": "PATTERN", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which keyword is used to sort the result-set?",
+      "points": 1,
+      "options": [
+        { "content": "ORDER BY", "is_correct": true },
+        { "content": "SORT BY", "is_correct": false },
+        { "content": "ALIGN", "is_correct": false },
+        { "content": "GROUP BY", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How can you return all records from a table where the value of the column 'FirstName' is 'Peter'?",
+      "points": 1,
+      "options": [
+        { "content": "SELECT * FROM Persons WHERE FirstName <> 'Peter'", "is_correct": false },
+        { "content": "SELECT * FROM Persons WHERE FirstName = 'Peter'", "is_correct": true },
+        { "content": "SELECT [all] FROM Persons WHERE FirstName LIKE 'Peter'", "is_correct": false },
+        { "content": "SELECT FirstName='Peter' FROM Persons", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which operator selects values within a given range?",
+      "points": 1,
+      "options": [
+        { "content": "RANGE", "is_correct": false },
+        { "content": "WITHIN", "is_correct": false },
+        { "content": "BETWEEN", "is_correct": true },
+        { "content": "IN", "is_correct": false }
+      ]
+    },
+    {
+      "question": "To sort results in descending order, you should use which keyword?",
+      "points": 1,
+      "options": [
+        { "content": "DOWN", "is_correct": false },
+        { "content": "ASC", "is_correct": false },
+        { "content": "DESC", "is_correct": true },
+        { "content": "REVERSE", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the purpose of the AS keyword in SQL?",
+      "points": 1,
+      "options": [
+        { "content": "To define data types", "is_correct": false },
+        { "content": "To assign a temporary name (alias) to a column or table", "is_correct": true },
+        { "content": "To join two tables together", "is_correct": false },
+        { "content": "To sort data alphabetically", "is_correct": false }
+      ]
+    }
+  ]
+}

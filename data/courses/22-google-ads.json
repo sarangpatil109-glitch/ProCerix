@@ -1,0 +1,174 @@
+{
+  "title": "Google Ads Fundamentals",
+  "description": "Learn how to capture high-intent traffic using the world's largest search engine. This course covers Search, Display, and Video campaigns, keyword bidding strategies, and Quality Score optimization.",
+  "difficulty": "intermediate",
+  "course_type": "certificate",
+  "category": "Marketing",
+  "seo_metadata": {
+    "title": "Google Ads Fundamentals Certificate Course | ProCerix",
+    "description": "Master Google Ads. Learn search campaigns, keyword match types, bidding strategies, and Quality Score optimization.",
+    "keywords": ["Google Ads", "PPC", "Search Engine Marketing", "SEM", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Set up a Google Ads account and navigate the dashboard",
+    "Create effective Search campaigns targeting high-intent keywords",
+    "Understand the Google Ads auction and how Quality Score affects Cost Per Click",
+    "Utilize keyword match types (Broad, Phrase, Exact) effectively",
+    "Write compelling ad copy that drives high Click-Through Rates"
+  ],
+  "modules": [
+    {
+      "title": "Introduction to Search Engine Marketing (SEM)",
+      "description": "How the Google auction works.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "The Google Ads Ecosystem",
+          "content": "<h1>Search, Display, and Video</h1><p>Google Ads allows you to place text ads on search results, banner ads on millions of websites (Display Network), and video ads on YouTube. We focus primarily on Search, which captures users actively looking for solutions.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "The Ad Auction",
+          "content": "<h1>Ad Rank and Quality Score</h1><p>Your position on the page is determined by Ad Rank (Bid x Quality Score). Quality Score is based on expected CTR, ad relevance, and landing page experience. A high Quality Score lowers your cost per click.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Keywords and Match Types",
+      "description": "Targeting the right searches.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Keyword Match Types",
+          "content": "<h1>Controlling the Net</h1><p>Broad Match casts a wide net. Phrase Match restricts ads to searches including the meaning of your keyword. Exact Match restricts it to the exact intent. Negative Keywords prevent your ad from showing for irrelevant searches.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Bidding Strategies",
+          "content": "<h1>Manual vs. Automated</h1><p>You can set manual CPC (Cost Per Click) bids to control costs strictly, or use automated bidding (like Maximize Conversions or Target CPA) to let Google's machine learning optimize bids in real-time.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Ad Copy and Extensions",
+      "description": "Winning the click.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Writing Compelling Ads",
+          "content": "<h1>Responsive Search Ads (RSAs)</h1><p>Google mixes and matches the headlines and descriptions you provide to find the best performing combination. Ensure your keywords are in the headlines and you have a strong Call to Action.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Ad Extensions (Assets)",
+          "content": "<h1>Taking Up Real Estate</h1><p>Extensions add extra information to your ad (sitelinks, callouts, location). They make your ad physically larger on the search results page, which generally increases Click-Through Rate.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which type of Google Ads campaign places text ads on the search engine results page?",
+      "points": 1,
+      "options": [
+        { "content": "Display Network Campaign", "is_correct": false },
+        { "content": "Search Network Campaign", "is_correct": true },
+        { "content": "Video Campaign", "is_correct": false },
+        { "content": "Shopping Campaign", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In the Google Ads auction, what two factors primarily determine your Ad Rank?",
+      "points": 1,
+      "options": [
+        { "content": "Your Max Bid and your Quality Score", "is_correct": true },
+        { "content": "Your total budget and the time of day", "is_correct": false },
+        { "content": "The color of your ad and the font size", "is_correct": false },
+        { "content": "How long your company has been in business", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a benefit of having a high Quality Score?",
+      "points": 1,
+      "options": [
+        { "content": "It guarantees the top position forever", "is_correct": false },
+        { "content": "It can lower your Cost Per Click (CPC) and improve your ad position", "is_correct": true },
+        { "content": "It allows you to bypass Google's advertising policies", "is_correct": false },
+        { "content": "It gives you free clicks", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which keyword match type offers the tightest control over which searches trigger your ad?",
+      "points": 1,
+      "options": [
+        { "content": "Broad Match", "is_correct": false },
+        { "content": "Phrase Match", "is_correct": false },
+        { "content": "Exact Match", "is_correct": true },
+        { "content": "Negative Match", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the purpose of adding Negative Keywords to a campaign?",
+      "points": 1,
+      "options": [
+        { "content": "To prevent your ad from showing for irrelevant search queries, saving money", "is_correct": true },
+        { "content": "To insult your competitors", "is_correct": false },
+        { "content": "To increase the cost of clicks for other advertisers", "is_correct": false },
+        { "content": "To delete keywords you no longer want to use", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a Responsive Search Ad (RSA)?",
+      "points": 1,
+      "options": [
+        { "content": "An ad that automatically answers customer questions in real time", "is_correct": false },
+        { "content": "An ad format where you provide multiple headlines and descriptions, and Google tests combinations to find the best performer", "is_correct": true },
+        { "content": "An ad that only shows on mobile phones", "is_correct": false },
+        { "content": "An ad that is triggered by voice search only", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is 'Target CPA' (Cost Per Acquisition) bidding?",
+      "points": 1,
+      "options": [
+        { "content": "An automated strategy where Google sets bids to get as many conversions as possible at or below the target cost you set", "is_correct": true },
+        { "content": "A manual strategy where you pick the exact price of every click", "is_correct": false },
+        { "content": "A strategy to maximize video views", "is_correct": false },
+        { "content": "A strategy that guarantees you will never pay more than $1 per click", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why should you use Ad Extensions (like sitelinks or callouts)?",
+      "points": 1,
+      "options": [
+        { "content": "Because they make the ad smaller and less annoying", "is_correct": false },
+        { "content": "Because they provide more information and take up more space on the results page, often increasing CTR", "is_correct": true },
+        { "content": "Because they are required to run a campaign", "is_correct": false },
+        { "content": "Because they hide your website URL", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If your ad has a high Click-Through Rate (CTR) but a very low Conversion Rate, what is the most likely problem?",
+      "points": 1,
+      "options": [
+        { "content": "Your bid is too low", "is_correct": false },
+        { "content": "Your ad copy is compelling, but your landing page experience is poor or doesn't match the ad's promise", "is_correct": true },
+        { "content": "Google's algorithm is broken", "is_correct": false },
+        { "content": "You are using too many negative keywords", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is NOT a factor in determining Quality Score?",
+      "points": 1,
+      "options": [
+        { "content": "Expected Click-Through Rate", "is_correct": false },
+        { "content": "Ad Relevance", "is_correct": false },
+        { "content": "Landing Page Experience", "is_correct": false },
+        { "content": "The Maximum CPC Bid", "is_correct": true }
+      ]
+    }
+  ]
+}

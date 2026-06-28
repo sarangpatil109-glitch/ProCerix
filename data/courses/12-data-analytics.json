@@ -1,0 +1,174 @@
+{
+  "title": "Data Analytics Fundamentals",
+  "description": "A comprehensive introduction to the field of data analytics. Learn the technical lifecycle of data, from extraction and cleaning to analysis and visualization, using modern methodologies.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Data Analytics Fundamentals Certificate | ProCerix",
+    "description": "Start your career in Data Analytics. Learn data extraction, cleaning methodologies, exploratory data analysis, and visualization principles.",
+    "keywords": ["Data Analytics", "Data cleaning", "EDA", "Data visualization", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Understand the end-to-end data analytics lifecycle",
+    "Identify common data quality issues and cleaning methodologies",
+    "Perform Exploratory Data Analysis (EDA) to uncover trends",
+    "Apply basic statistical measures to summarize datasets",
+    "Choose appropriate visualization types for different data sets"
+  ],
+  "modules": [
+    {
+      "title": "The Data Landscape",
+      "description": "Understanding data types and the analytics workflow.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "The Data Lifecycle",
+          "content": "<h1>From Collection to Insight</h1><p>The analytics process involves Collection, Preparation, Exploration, Modeling, and Communication. Each step is critical; skipping preparation usually leads to flawed models.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Data Types and Structures",
+          "content": "<h1>Structured vs. Unstructured Data</h1><p>Structured data (like SQL databases) is highly organized. Unstructured data (like text or video) requires different tools. We primarily focus on structured, tabular data in basic analytics.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Data Preparation and EDA",
+      "description": "Cleaning and exploring your dataset.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Data Cleaning Principles",
+          "content": "<h1>Garbage In, Garbage Out</h1><p>Data cleaning involves handling missing values (imputation or deletion), removing duplicates, and standardizing formats (e.g., ensuring all dates follow YYYY-MM-DD).</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Exploratory Data Analysis (EDA)",
+          "content": "<h1>Getting to Know Your Data</h1><p>EDA is an approach to analyzing data sets to summarize their main characteristics, often using visual methods and basic statistics (mean, median, mode, standard deviation).</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Visualization and Reporting",
+      "description": "Presenting data effectively.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Choosing the Right Chart",
+          "content": "<h1>Visual Best Practices</h1><p>Use Line charts for trends over time, Bar charts for comparisons across categories, and Scatter plots to show relationships between two variables. Avoid 3D pie charts.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Building Dashboards",
+          "content": "<h1>Effective Reporting</h1><p>A good dashboard provides an at-a-glance view of KPIs. It should be uncluttered, updated regularly, and tailored to the specific audience (e.g., executives vs. operations teams).</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What does the phrase 'Garbage In, Garbage Out' refer to in data analytics?",
+      "points": 1,
+      "options": [
+        { "content": "You must delete old data regularly", "is_correct": false },
+        { "content": "Flawed or dirty input data will produce flawed analysis results", "is_correct": true },
+        { "content": "Data storage is expensive", "is_correct": false },
+        { "content": "Algorithms naturally create errors", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is an example of Unstructured Data?",
+      "points": 1,
+      "options": [
+        { "content": "A relational database table", "is_correct": false },
+        { "content": "An Excel spreadsheet of sales figures", "is_correct": false },
+        { "content": "A collection of customer review text emails", "is_correct": true },
+        { "content": "A CSV file", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is Exploratory Data Analysis (EDA) primarily used for?",
+      "points": 1,
+      "options": [
+        { "content": "To build machine learning models", "is_correct": false },
+        { "content": "To present final reports to the CEO", "is_correct": false },
+        { "content": "To summarize the main characteristics of a dataset and find initial patterns", "is_correct": true },
+        { "content": "To securely encrypt data", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which statistical measure represents the middle value of a sorted dataset?",
+      "points": 1,
+      "options": [
+        { "content": "Mean", "is_correct": false },
+        { "content": "Mode", "is_correct": false },
+        { "content": "Median", "is_correct": true },
+        { "content": "Standard Deviation", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which chart type is best for displaying trends over a continuous period of time?",
+      "points": 1,
+      "options": [
+        { "content": "Pie Chart", "is_correct": false },
+        { "content": "Line Chart", "is_correct": true },
+        { "content": "Scatter Plot", "is_correct": false },
+        { "content": "Box Plot", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When cleaning data, what is 'imputation'?",
+      "points": 1,
+      "options": [
+        { "content": "Deleting rows with missing data", "is_correct": false },
+        { "content": "Replacing missing data with substituted values (like the mean)", "is_correct": true },
+        { "content": "Encrypting sensitive columns", "is_correct": false },
+        { "content": "Merging two tables together", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why are 3D Pie Charts generally discouraged in data visualization?",
+      "points": 1,
+      "options": [
+        { "content": "They are too hard to program", "is_correct": false },
+        { "content": "They distort the data and make it difficult to compare slice sizes accurately", "is_correct": true },
+        { "content": "They use too much ink when printed", "is_correct": false },
+        { "content": "They can only show two variables", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which visualization is best for showing the relationship or correlation between two numerical variables?",
+      "points": 1,
+      "options": [
+        { "content": "Bar Chart", "is_correct": false },
+        { "content": "Scatter Plot", "is_correct": true },
+        { "content": "Histogram", "is_correct": false },
+        { "content": "Gantt Chart", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In the data lifecycle, what step must occur before Exploratory Data Analysis (EDA)?",
+      "points": 1,
+      "options": [
+        { "content": "Data Modeling", "is_correct": false },
+        { "content": "Data Preparation / Cleaning", "is_correct": true },
+        { "content": "Dashboard Creation", "is_correct": false },
+        { "content": "Predictive Forecasting", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary purpose of a Data Dashboard?",
+      "points": 1,
+      "options": [
+        { "content": "To store backup copies of raw data", "is_correct": false },
+        { "content": "To provide an at-a-glance visual overview of Key Performance Indicators (KPIs)", "is_correct": true },
+        { "content": "To write SQL queries", "is_correct": false },
+        { "content": "To perform complex statistical hypothesis testing", "is_correct": false }
+      ]
+    }
+  ]
+}

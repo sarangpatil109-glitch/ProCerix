@@ -1,0 +1,189 @@
+{
+  "title": "Power BI Fundamentals",
+  "description": "Step into the world of Business Intelligence. Learn how to connect to data sources, transform data using Power Query, build data models, and create interactive visualizations. This course is the perfect starting point for aspiring data analysts.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Power BI Fundamentals Certificate Course | ProCerix",
+    "description": "Learn Microsoft Power BI from scratch. Master data connectivity, Power Query, DAX basics, and interactive reporting.",
+    "keywords": ["Power BI tutorial", "Power BI basics", "Business Intelligence", "Power Query", "DAX for beginners", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Connect Power BI Desktop to various data sources (Excel, CSV, Web)",
+    "Clean and transform data using the Power Query Editor",
+    "Build basic relational data models",
+    "Create introductory DAX calculations (Calculated Columns and Measures)",
+    "Design and publish interactive reports and dashboards"
+  ],
+  "modules": [
+    {
+      "title": "Data Connectivity and Power Query",
+      "description": "How to get your data into Power BI and clean it.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Introduction to Power BI Desktop",
+          "content": "<h1>The Power BI Ecosystem</h1><p>Power BI consists of Power BI Desktop (for authoring), Power BI Service (for sharing), and Power BI Mobile. We will focus on Desktop.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Connecting to Data",
+          "content": "<h1>Getting Data</h1><p>You can connect to hundreds of data sources. We will start by connecting to a standard Excel workbook and a CSV file using the 'Get Data' button.</p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Power Query Editor",
+          "content": "<h1>Cleaning Data</h1><p>Data is rarely perfect. Use Power Query to remove blanks, change data types, split columns, and merge queries before loading the data into your model.</p>",
+          "sequence_order": 3
+        }
+      ]
+    },
+    {
+      "title": "Data Modeling and DAX Basics",
+      "description": "Structuring your data and creating calculations.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Building a Data Model",
+          "content": "<h1>Relationships</h1><p>A data model connects multiple tables using relationships (1-to-Many). This allows you to slice sales data by dates, products, or regions without merging everything into one giant table.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Introduction to DAX",
+          "content": "<h1>Data Analysis Expressions</h1><p>DAX is the formula language of Power BI. It is similar to Excel formulas but works on entire columns or tables instead of individual cells.</p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Calculated Columns vs. Measures",
+          "content": "<h1>Understanding the Difference</h1><p>A Calculated Column evaluates row by row. A Measure evaluates based on the current filter context (e.g., total sales for a specific year). Measures are preferred for aggregations.</p>",
+          "sequence_order": 3
+        }
+      ]
+    },
+    {
+      "title": "Visualizations and Publishing",
+      "description": "Bringing your data to life.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Creating Visuals",
+          "content": "<h1>Charts and Graphs</h1><p>Drag and drop fields onto the canvas to create Bar Charts, Line Charts, and Matrices. Customize colors, labels, and titles in the Format pane.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Interactive Filtering",
+          "content": "<h1>Cross-Filtering</h1><p>By default, selecting a bar in one chart will filter or highlight the data in all other charts on the page. Learn how to edit these interactions.</p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Publishing to Power BI Service",
+          "content": "<h1>Sharing Your Work</h1><p>Once your report is complete, publish it to the cloud-based Power BI Service so your team can view and interact with the dashboard via a web browser.</p>",
+          "sequence_order": 3
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which tool in Power BI is primarily used for cleaning and transforming data?",
+      "points": 1,
+      "options": [
+        { "content": "Power Pivot", "is_correct": false },
+        { "content": "Power Query Editor", "is_correct": true },
+        { "content": "DAX Studio", "is_correct": false },
+        { "content": "Report View", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does DAX stand for?",
+      "points": 1,
+      "options": [
+        { "content": "Data Analysis Expressions", "is_correct": true },
+        { "content": "Data Analytics Extension", "is_correct": false },
+        { "content": "Dynamic Array XML", "is_correct": false },
+        { "content": "Dashboard And XML", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which component of Power BI is the primary authoring tool for creating reports?",
+      "points": 1,
+      "options": [
+        { "content": "Power BI Service", "is_correct": false },
+        { "content": "Power BI Mobile", "is_correct": false },
+        { "content": "Power BI Desktop", "is_correct": true },
+        { "content": "Power BI Server", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary difference between a Calculated Column and a Measure?",
+      "points": 1,
+      "options": [
+        { "content": "Columns use DAX, Measures use SQL", "is_correct": false },
+        { "content": "Columns calculate row-by-row; Measures calculate based on filter context", "is_correct": true },
+        { "content": "Measures take up more file space", "is_correct": false },
+        { "content": "There is no difference", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In data modeling, what is the most common relationship type between a Fact table and a Dimension table?",
+      "points": 1,
+      "options": [
+        { "content": "1-to-1", "is_correct": false },
+        { "content": "Many-to-Many", "is_correct": false },
+        { "content": "1-to-Many", "is_correct": true },
+        { "content": "None", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What happens by default when you click a data point (like a bar) in a Power BI visual?",
+      "points": 1,
+      "options": [
+        { "content": "It deletes the data point", "is_correct": false },
+        { "content": "It opens the source data file", "is_correct": false },
+        { "content": "It cross-filters or cross-highlights other visuals on the page", "is_correct": true },
+        { "content": "It exports the chart to PDF", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which view in Power BI Desktop is used to manage relationships between tables?",
+      "points": 1,
+      "options": [
+        { "content": "Report View", "is_correct": false },
+        { "content": "Data View", "is_correct": false },
+        { "content": "Model View", "is_correct": true },
+        { "content": "Query View", "is_correct": false }
+      ]
+    },
+    {
+      "question": "To share a Power BI report with colleagues so they can view it in a web browser, you must:",
+      "points": 1,
+      "options": [
+        { "content": "Email the .pbix file", "is_correct": false },
+        { "content": "Publish it to the Power BI Service", "is_correct": true },
+        { "content": "Export it to Excel", "is_correct": false },
+        { "content": "Save it as an HTML file", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is NOT a valid data source for Power BI?",
+      "points": 1,
+      "options": [
+        { "content": "Excel Workbook", "is_correct": false },
+        { "content": "SQL Server Database", "is_correct": false },
+        { "content": "A printed physical book", "is_correct": true },
+        { "content": "A website URL", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In Power Query, what happens if you make a mistake in data transformation?",
+      "points": 1,
+      "options": [
+        { "content": "The original data file is permanently corrupted", "is_correct": false },
+        { "content": "You must start over from scratch", "is_correct": false },
+        { "content": "You can delete or modify the step in the 'Applied Steps' pane", "is_correct": true },
+        { "content": "You cannot fix it", "is_correct": false }
+      ]
+    }
+  ]
+}

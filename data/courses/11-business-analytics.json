@@ -1,0 +1,174 @@
+{
+  "title": "Business Analytics Fundamentals",
+  "description": "Learn how to translate data into actionable business strategies. This course covers the core concepts of descriptive, predictive, and prescriptive analytics, helping you bridge the gap between technical data and business decision-making.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Business",
+  "seo_metadata": {
+    "title": "Business Analytics Fundamentals Certificate | ProCerix",
+    "description": "Learn the core concepts of business analytics. Master descriptive and predictive analysis to drive strategic decision-making.",
+    "keywords": ["Business Analytics", "data strategy", "predictive analytics", "decision making", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Differentiate between descriptive, predictive, and prescriptive analytics",
+    "Identify key performance indicators (KPIs) for various business models",
+    "Translate raw data findings into actionable business strategies",
+    "Understand the data lifecycle from collection to visualization",
+    "Apply basic statistical concepts to business problems"
+  ],
+  "modules": [
+    {
+      "title": "Introduction to Business Analytics",
+      "description": "Understanding the role of data in business.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "The Analytics Lifecycle",
+          "content": "<h1>What is Business Analytics?</h1><p>Business Analytics is the practice of iterative, methodical exploration of an organization's data. It involves defining a business problem, collecting data, analyzing it, and presenting solutions.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Types of Analytics",
+          "content": "<h1>The Three Pillars</h1><p>1. <strong>Descriptive:</strong> What happened? (Reporting/Dashboards) <br>2. <strong>Predictive:</strong> What will happen? (Forecasting) <br>3. <strong>Prescriptive:</strong> What should we do? (Optimization)</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Metrics and KPIs",
+      "description": "Measuring what matters.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Defining KPIs",
+          "content": "<h1>Key Performance Indicators</h1><p>A KPI is a measurable value that demonstrates how effectively a company is achieving key business objectives. Not all metrics are KPIs. Learn how to choose metrics that align with strategic goals.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Vanity vs. Actionable Metrics",
+          "content": "<h1>Avoiding Traps</h1><p>Vanity metrics (like total page views) look good on paper but don't inform future decisions. Actionable metrics (like conversion rate) tie directly to business outcomes and guide strategy.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Data-Driven Decision Making",
+      "description": "Turning insights into action.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Hypothesis Testing in Business",
+          "content": "<h1>A/B Testing</h1><p>A/B testing is a method of comparing two versions of a webpage or product against each other to determine which one performs better. It is a practical application of statistical hypothesis testing.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Data Storytelling",
+          "content": "<h1>Communicating Insights</h1><p>Data alone doesn't change minds; stories do. Learn how to structure a narrative around your data findings to persuade stakeholders and drive organizational change.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which type of analytics focuses on answering the question 'What happened?'",
+      "points": 1,
+      "options": [
+        { "content": "Predictive Analytics", "is_correct": false },
+        { "content": "Prescriptive Analytics", "is_correct": false },
+        { "content": "Descriptive Analytics", "is_correct": true },
+        { "content": "Diagnostic Analytics", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does KPI stand for?",
+      "points": 1,
+      "options": [
+        { "content": "Key Performance Indicator", "is_correct": true },
+        { "content": "Known Product Index", "is_correct": false },
+        { "content": "Key Predictive Insight", "is_correct": false },
+        { "content": "Knowledge Process Integration", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is an example of a Vanity Metric?",
+      "points": 1,
+      "options": [
+        { "content": "Customer Acquisition Cost", "is_correct": false },
+        { "content": "Total registered users over 10 years", "is_correct": true },
+        { "content": "Monthly Active Users", "is_correct": false },
+        { "content": "Conversion Rate", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What type of analytics suggests actions you can take to affect desired outcomes?",
+      "points": 1,
+      "options": [
+        { "content": "Descriptive", "is_correct": false },
+        { "content": "Predictive", "is_correct": false },
+        { "content": "Prescriptive", "is_correct": true },
+        { "content": "Retrospective", "is_correct": false }
+      ]
+    },
+    {
+      "question": "A/B testing is primarily a business application of which statistical concept?",
+      "points": 1,
+      "options": [
+        { "content": "Linear Regression", "is_correct": false },
+        { "content": "Hypothesis Testing", "is_correct": true },
+        { "content": "Standard Deviation", "is_correct": false },
+        { "content": "Time Series Analysis", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In the analytics lifecycle, what generally comes after data collection and cleaning?",
+      "points": 1,
+      "options": [
+        { "content": "Data Analysis", "is_correct": true },
+        { "content": "Defining the Business Problem", "is_correct": false },
+        { "content": "Data Storytelling", "is_correct": false },
+        { "content": "Archiving Data", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary goal of Data Storytelling?",
+      "points": 1,
+      "options": [
+        { "content": "To write complex SQL queries", "is_correct": false },
+        { "content": "To hide negative data from stakeholders", "is_correct": false },
+        { "content": "To communicate insights clearly to persuade decision-makers", "is_correct": true },
+        { "content": "To create the most colorful charts possible", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following best defines an 'Actionable Metric'?",
+      "points": 1,
+      "options": [
+        { "content": "A metric that always goes up", "is_correct": false },
+        { "content": "A metric that ties to business goals and informs decisions", "is_correct": true },
+        { "content": "A metric that is easy to calculate", "is_correct": false },
+        { "content": "A metric that tracks social media likes", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Forecasting next quarter's sales based on historical data is an example of:",
+      "points": 1,
+      "options": [
+        { "content": "Descriptive Analytics", "is_correct": false },
+        { "content": "Predictive Analytics", "is_correct": true },
+        { "content": "Prescriptive Analytics", "is_correct": false },
+        { "content": "Financial Accounting", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why is it important to clearly define the business problem before starting data analysis?",
+      "points": 1,
+      "options": [
+        { "content": "To ensure you collect and analyze the relevant data to answer the right questions", "is_correct": true },
+        { "content": "Because the software requires a problem statement", "is_correct": false },
+        { "content": "To increase the budget of the project", "is_correct": false },
+        { "content": "To make the data clean itself automatically", "is_correct": false }
+      ]
+    }
+  ]
+}

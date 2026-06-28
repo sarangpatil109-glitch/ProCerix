@@ -1,0 +1,174 @@
+{
+  "title": "Google Analytics Fundamentals",
+  "description": "Learn how to track, analyze, and report on website traffic using Google Analytics 4 (GA4). Understand user behavior, track conversions, and build custom reports to drive data-informed marketing decisions.",
+  "difficulty": "intermediate",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Google Analytics Fundamentals Certificate Course | ProCerix",
+    "description": "Master Google Analytics 4 (GA4). Learn to track website traffic, user behavior, conversions, and build custom reports.",
+    "keywords": ["Google Analytics", "GA4", "Web analytics", "Conversion tracking", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Navigate the Google Analytics 4 interface and understand the event-based data model",
+    "Install GA4 on a website using Google Tag Manager",
+    "Analyze user acquisition and engagement reports",
+    "Set up custom events and mark them as conversions",
+    "Create Explorations to perform advanced data analysis"
+  ],
+  "modules": [
+    {
+      "title": "Introduction to GA4",
+      "description": "Understanding the new era of analytics.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "The Event-Based Model",
+          "content": "<h1>Everything is an Event</h1><p>Unlike Universal Analytics which relied on pageviews and sessions, GA4 tracks everything as an Event (a pageview, a scroll, a click, a video view). This provides a more flexible way to measure user interactions.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Installation Basics",
+          "content": "<h1>Google Tag Manager</h1><p>The best way to install GA4 is via Google Tag Manager (GTM). GTM acts as a container on your website, allowing you to deploy the GA4 configuration tag without needing a developer to alter the site's code.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Standard Reports",
+      "description": "Answering common business questions.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Acquisition Reports",
+          "content": "<h1>Where Are They Coming From?</h1><p>The Acquisition reports (User and Traffic) show you how people find your website—whether via organic search, paid ads, social media, or direct traffic.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Engagement Reports",
+          "content": "<h1>What Are They Doing?</h1><p>Engagement reports show you which pages are most popular, how long users stay, and what events they trigger. The 'Engagement Rate' replaces the old 'Bounce Rate' metric.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Conversions and Explorations",
+      "description": "Advanced tracking and custom analysis.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Tracking Conversions",
+          "content": "<h1>Measuring Success</h1><p>To track success, you define specific events (like 'purchase' or 'generate_lead') and mark them as Conversions in the admin panel. This allows you to see which traffic sources drive the most value.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Explorations",
+          "content": "<h1>Custom Reporting</h1><p>The 'Explore' tab in GA4 allows you to build custom funnels, path explorations, and free-form data tables to answer complex questions that the standard reports cannot.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What is the primary data model used in Google Analytics 4 (GA4)?",
+      "points": 1,
+      "options": [
+        { "content": "Session-based model", "is_correct": false },
+        { "content": "Pageview-based model", "is_correct": false },
+        { "content": "Event-based model", "is_correct": true },
+        { "content": "User-based model", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the recommended tool for installing GA4 on a website?",
+      "points": 1,
+      "options": [
+        { "content": "Hardcoding it into the HTML", "is_correct": false },
+        { "content": "Google Tag Manager", "is_correct": true },
+        { "content": "Google Search Console", "is_correct": false },
+        { "content": "A WordPress Plugin only", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which GA4 report tells you how users initially found your website (e.g., Organic Search, Paid Video)?",
+      "points": 1,
+      "options": [
+        { "content": "Engagement Report", "is_correct": false },
+        { "content": "Monetization Report", "is_correct": false },
+        { "content": "Acquisition Report", "is_correct": true },
+        { "content": "Tech Report", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In GA4, what metric has largely replaced the traditional 'Bounce Rate' to provide a more positive view of user interaction?",
+      "points": 1,
+      "options": [
+        { "content": "Exit Rate", "is_correct": false },
+        { "content": "Engagement Rate", "is_correct": true },
+        { "content": "Dwell Time", "is_correct": false },
+        { "content": "Session Duration", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How do you track a Conversion in GA4?",
+      "points": 1,
+      "options": [
+        { "content": "By creating a specific Destination URL goal", "is_correct": false },
+        { "content": "By identifying an important Event (like 'purchase') and toggling it 'Mark as conversion'", "is_correct": true },
+        { "content": "It happens automatically for every click", "is_correct": false },
+        { "content": "By paying Google for Conversion Tracking", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the purpose of the 'Explore' section in GA4?",
+      "points": 1,
+      "options": [
+        { "content": "To browse the internet", "is_correct": false },
+        { "content": "To learn how to use Google Ads", "is_correct": false },
+        { "content": "To create advanced, custom reports like funnel analysis and path explorations", "is_correct": true },
+        { "content": "To contact customer support", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In GA4, a pageview is considered:",
+      "points": 1,
+      "options": [
+        { "content": "An Event", "is_correct": true },
+        { "content": "A Session", "is_correct": false },
+        { "content": "A Hit", "is_correct": false },
+        { "content": "A Conversion by default", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If you want to see which specific pages on your website are viewed the most, which report should you look at?",
+      "points": 1,
+      "options": [
+        { "content": "User Acquisition", "is_correct": false },
+        { "content": "Pages and screens (under Engagement)", "is_correct": true },
+        { "content": "Demographics", "is_correct": false },
+        { "content": "E-commerce purchases", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a 'parameter' in the context of a GA4 Event?",
+      "points": 1,
+      "options": [
+        { "content": "The boundary of the website", "is_correct": false },
+        { "content": "Additional data sent along with an event to provide context (e.g., sending 'link_url' with a 'click' event)", "is_correct": true },
+        { "content": "A rule that blocks traffic", "is_correct": false },
+        { "content": "The total budget of the account", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why is it important to link GA4 with Google Ads?",
+      "points": 1,
+      "options": [
+        { "content": "To get a discount on ads", "is_correct": false },
+        { "content": "To import GA4 conversions into Google Ads for bidding optimization and to see ad cost data in GA4", "is_correct": true },
+        { "content": "Because Google forces you to", "is_correct": false },
+        { "content": "To increase your website's organic SEO ranking", "is_correct": false }
+      ]
+    }
+  ]
+}

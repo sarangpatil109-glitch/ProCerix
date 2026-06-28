@@ -1,0 +1,174 @@
+{
+  "title": "Social Media Marketing",
+  "description": "Learn how to build a brand and engage with customers on the world's largest social platforms. This course covers organic strategy, community management, and the fundamentals of paid social advertising.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Marketing",
+  "seo_metadata": {
+    "title": "Social Media Marketing Certificate Course | ProCerix",
+    "description": "Master Social Media Marketing. Learn organic strategy, community management, content creation, and influencer marketing.",
+    "keywords": ["Social Media Marketing", "SMM basics", "organic social strategy", "community management", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Develop a cohesive brand voice for social platforms",
+    "Create an engaging organic content calendar",
+    "Understand the algorithmic differences between major platforms (Meta, TikTok, LinkedIn)",
+    "Implement effective community management and crisis response strategies",
+    "Measure social media ROI through engagement and conversion metrics"
+  ],
+  "modules": [
+    {
+      "title": "Strategy and Content Creation",
+      "description": "Building the foundation of your social presence.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Choosing the Right Platforms",
+          "content": "<h1>Where is Your Audience?</h1><p>Not every business needs to be on every platform. B2B companies thrive on LinkedIn, while visually driven B2C brands excel on Instagram and TikTok. Align your platform choice with your buyer personas.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "The Content Calendar",
+          "content": "<h1>Consistency is Key</h1><p>A content calendar plans what, when, and where you will post. It ensures a mix of content types (educational, entertaining, promotional) and prevents last-minute scrambling.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Community and Influencers",
+      "description": "Engaging with your audience and leveraging creators.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Community Management",
+          "content": "<h1>Two-Way Communication</h1><p>Social media is not a broadcast channel. Community management involves responding to comments, handling customer service inquiries, and fostering a sense of belonging among your followers.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Influencer Marketing Basics",
+          "content": "<h1>Borrowing Trust</h1><p>Partnering with influencers allows you to reach their highly engaged audiences. Micro-influencers (10k-50k followers) often have higher engagement rates and are more cost-effective than macro-influencers.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Analytics and Paid Social Intro",
+      "description": "Measuring success and scaling up.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Measuring Social Success",
+          "content": "<h1>Beyond Vanity Metrics</h1><p>While Likes and Follows are nice, you must track metrics that impact the business: Engagement Rate, Click-Through Rate to your website, and Conversions.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Organic vs. Paid Social",
+          "content": "<h1>Pay to Play</h1><p>Organic reach on platforms like Facebook is famously low (often under 5%). To guarantee your content is seen by your target audience, you must supplement organic efforts with Paid Social advertising.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "When developing a social media strategy, what is the first step?",
+      "points": 1,
+      "options": [
+        { "content": "Creating a TikTok account immediately", "is_correct": false },
+        { "content": "Identifying where your target audience (buyer personas) actually spends their time", "is_correct": true },
+        { "content": "Buying fake followers to look established", "is_correct": false },
+        { "content": "Running a massive paid ad campaign", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which platform is generally considered the most effective for B2B (Business-to-Business) marketing?",
+      "points": 1,
+      "options": [
+        { "content": "Snapchat", "is_correct": false },
+        { "content": "TikTok", "is_correct": false },
+        { "content": "LinkedIn", "is_correct": true },
+        { "content": "Pinterest", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the purpose of a Content Calendar?",
+      "points": 1,
+      "options": [
+        { "content": "To track employees' vacation days", "is_correct": false },
+        { "content": "To plan and organize what, when, and where content will be published", "is_correct": true },
+        { "content": "To automatically delete old posts", "is_correct": false },
+        { "content": "To track the company's financial budget", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is 'Community Management' in the context of social media?",
+      "points": 1,
+      "options": [
+        { "content": "Only posting promotional sales flyers", "is_correct": false },
+        { "content": "Actively engaging with followers, responding to comments, and handling customer service", "is_correct": true },
+        { "content": "Managing the physical office space", "is_correct": false },
+        { "content": "Blocking anyone who asks a question", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why do many brands prefer working with 'micro-influencers' over celebrities?",
+      "points": 1,
+      "options": [
+        { "content": "Micro-influencers have billions of followers", "is_correct": false },
+        { "content": "Micro-influencers often have higher engagement rates and are more cost-effective", "is_correct": true },
+        { "content": "Micro-influencers do not use the internet", "is_correct": false },
+        { "content": "Micro-influencers own the social platforms", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is considered a 'vanity metric'?",
+      "points": 1,
+      "options": [
+        { "content": "Click-Through Rate (CTR)", "is_correct": false },
+        { "content": "Total Follower Count", "is_correct": true },
+        { "content": "Conversion Rate", "is_correct": false },
+        { "content": "Cost Per Acquisition (CPA)", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is 'Organic Reach'?",
+      "points": 1,
+      "options": [
+        { "content": "The number of people who see your content without you paying for distribution", "is_correct": true },
+        { "content": "The number of people who clicked a sponsored ad", "is_correct": false },
+        { "content": "Marketing campaigns focused solely on organic food", "is_correct": false },
+        { "content": "The total number of employees in a marketing department", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why has Paid Social become necessary for many brands on platforms like Facebook?",
+      "points": 1,
+      "options": [
+        { "content": "Because Facebook charges a fee just to create a business page", "is_correct": false },
+        { "content": "Because organic reach for business pages has declined significantly over the years", "is_correct": true },
+        { "content": "Because it is illegal not to pay", "is_correct": false },
+        { "content": "Because nobody uses Facebook anymore", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Engagement Rate is typically calculated by:",
+      "points": 1,
+      "options": [
+        { "content": "Dividing total sales by follower count", "is_correct": false },
+        { "content": "Dividing total interactions (likes, comments, shares) by total reach or followers", "is_correct": true },
+        { "content": "Subtracting unfollows from new followers", "is_correct": false },
+        { "content": "Counting the number of posts per week", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a 'Call to Action' (CTA) on a social media post?",
+      "points": 1,
+      "options": [
+        { "content": "The legal disclaimer at the bottom", "is_correct": false },
+        { "content": "A direct instruction to the audience, such as 'Click the link in bio' or 'Sign up today'", "is_correct": true },
+        { "content": "The copyright symbol", "is_correct": false },
+        { "content": "A complaint made by a customer", "is_correct": false }
+      ]
+    }
+  ]
+}

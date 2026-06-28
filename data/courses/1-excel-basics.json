@@ -1,0 +1,167 @@
+{
+  "title": "Microsoft Excel Basics",
+  "description": "Master the fundamentals of Microsoft Excel. Learn how to navigate the interface, manage workbooks, format data, and perform basic calculations. This certificate course is designed for absolute beginners to build a strong foundation in spreadsheet management.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Microsoft Excel Basics Certificate Course | ProCerix",
+    "description": "Learn Microsoft Excel basics from scratch. Earn your certification in spreadsheet management, formatting, and basic formulas.",
+    "keywords": ["Excel basics", "Microsoft Excel tutorial", "Excel for beginners", "spreadsheet management", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Navigate the Microsoft Excel interface with confidence",
+    "Create, save, and manage workbooks and worksheets",
+    "Enter and format data effectively",
+    "Use basic formulas and functions (SUM, AVERAGE, MIN, MAX)",
+    "Prepare spreadsheets for professional printing and sharing"
+  ],
+  "modules": [
+    {
+      "title": "Getting Started with Excel",
+      "description": "An introduction to the Excel interface, workbooks, and basic data entry.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Navigating the Excel Interface",
+          "content": "<h1>Understanding the Excel Interface</h1><p>Microsoft Excel is a powerful spreadsheet application used for data management and analysis. In this lesson, we will explore the Ribbon, Quick Access Toolbar, Name Box, and Formula Bar.</p><h3>The Ribbon</h3><p>The Ribbon is the primary interface element in Excel, organized into tabs like Home, Insert, Page Layout, and Data. Each tab contains groups of related commands.</p><h3>Workbooks vs. Worksheets</h3><p>An Excel file is called a workbook. Each workbook contains one or more worksheets (tabs at the bottom). You can add, rename, and organize these sheets as needed.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Data Entry and Basic Formatting",
+          "content": "<h1>Entering and Formatting Data</h1><p>To enter data, select a cell and start typing. Press Enter to move down, or Tab to move right.</p><h3>Data Types</h3><p>Excel recognizes text, numbers, dates, and times. You can format numbers as currency, percentages, or fractions using the Number format dropdown on the Home tab.</p><h3>Cell Formatting</h3><p>Use the Font and Alignment groups to change font styles, sizes, colors, and borders to make your data presentable.</p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Managing Rows and Columns",
+          "content": "<h1>Rows, Columns, and Cells</h1><p>Excel grids are made of columns (letters) and rows (numbers). The intersection is a cell, identified by a reference like A1.</p><h3>Inserting and Deleting</h3><p>You can insert or delete rows and columns by right-clicking the column letter or row number and selecting Insert or Delete. This helps in adjusting your spreadsheet structure without losing data.</p>",
+          "sequence_order": 3
+        }
+      ]
+    },
+    {
+      "title": "Formulas and Functions",
+      "description": "Learn how to perform calculations using Excel's built-in tools.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Introduction to Formulas",
+          "content": "<h1>Writing Basic Formulas</h1><p>All formulas in Excel start with an equals sign (=). You can perform standard arithmetic operations: addition (+), subtraction (-), multiplication (*), and division (/).</p><p>For example, <code>=A1+B1</code> adds the values in cells A1 and B1.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Using Basic Functions",
+          "content": "<h1>Essential Functions</h1><p>Functions are predefined formulas. The most common functions include:</p><ul><li><strong>SUM:</strong> Adds a range of cells (e.g., <code>=SUM(A1:A10)</code>)</li><li><strong>AVERAGE:</strong> Calculates the average of a range</li><li><strong>MIN / MAX:</strong> Finds the lowest or highest value in a range</li><li><strong>COUNT:</strong> Counts the number of cells containing numbers</li></ul>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Printing and Saving",
+          "content": "<h1>Preparing to Print</h1><p>Before printing, always use Print Preview. You can adjust margins, orientation (Portrait vs. Landscape), and scaling in the Page Layout tab.</p><h3>Saving Your Work</h3><p>Save your workbook in the standard .xlsx format. You can also save as a PDF or CSV file depending on your sharing requirements.</p>",
+          "sequence_order": 3
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What must all formulas in Excel begin with?",
+      "points": 1,
+      "options": [
+        { "content": "A plus sign (+)", "is_correct": false },
+        { "content": "An equals sign (=)", "is_correct": true },
+        { "content": "A hashtag (#)", "is_correct": false },
+        { "content": "An asterisk (*)", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which function is used to add a range of cells together?",
+      "points": 1,
+      "options": [
+        { "content": "ADD", "is_correct": false },
+        { "content": "TOTAL", "is_correct": false },
+        { "content": "SUM", "is_correct": true },
+        { "content": "PLUS", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In Excel, columns are identified by:",
+      "points": 1,
+      "options": [
+        { "content": "Numbers", "is_correct": false },
+        { "content": "Letters", "is_correct": true },
+        { "content": "Roman Numerals", "is_correct": false },
+        { "content": "Symbols", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the intersection of a row and a column called?",
+      "points": 1,
+      "options": [
+        { "content": "A block", "is_correct": false },
+        { "content": "A box", "is_correct": false },
+        { "content": "A cell", "is_correct": true },
+        { "content": "A grid", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which function finds the highest value in a selected range?",
+      "points": 1,
+      "options": [
+        { "content": "HIGH", "is_correct": false },
+        { "content": "TOP", "is_correct": false },
+        { "content": "MAX", "is_correct": true },
+        { "content": "LARGEST", "is_correct": false }
+      ]
+    },
+    {
+      "question": "An Excel file is generally referred to as a:",
+      "points": 1,
+      "options": [
+        { "content": "Document", "is_correct": false },
+        { "content": "Workbook", "is_correct": true },
+        { "content": "Database", "is_correct": false },
+        { "content": "Presentation", "is_correct": false }
+      ]
+    },
+    {
+      "question": "To format a number as currency, which tab on the Ribbon would you use?",
+      "points": 1,
+      "options": [
+        { "content": "Insert", "is_correct": false },
+        { "content": "Data", "is_correct": false },
+        { "content": "Home", "is_correct": true },
+        { "content": "View", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which mathematical operator is used for multiplication in Excel?",
+      "points": 1,
+      "options": [
+        { "content": "x", "is_correct": false },
+        { "content": "*", "is_correct": true },
+        { "content": "/", "is_correct": false },
+        { "content": "^", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What feature allows you to see how your worksheet will look before printing?",
+      "points": 1,
+      "options": [
+        { "content": "Page Break Preview", "is_correct": false },
+        { "content": "Print Preview", "is_correct": true },
+        { "content": "Normal View", "is_correct": false },
+        { "content": "Web Layout", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the default file extension for a modern Excel workbook?",
+      "points": 1,
+      "options": [
+        { "content": ".xls", "is_correct": false },
+        { "content": ".xlsx", "is_correct": true },
+        { "content": ".csv", "is_correct": false },
+        { "content": ".xlsm", "is_correct": false }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "title": "Advanced SQL",
+  "description": "Go beyond basic queries. Learn how to combine data from multiple tables using JOINs, aggregate data for reporting, write complex subqueries, and use window functions for advanced analytical operations.",
+  "difficulty": "advanced",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Advanced SQL Certificate Course | ProCerix",
+    "description": "Master advanced SQL techniques. Learn JOINs, GROUP BY, subqueries, and window functions to solve complex data problems.",
+    "keywords": ["Advanced SQL", "SQL JOINs", "SQL window functions", "SQL GROUP BY", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Combine data from multiple tables using INNER, LEFT, RIGHT, and FULL JOINs",
+    "Summarize data using aggregate functions (SUM, AVG, COUNT)",
+    "Group and filter aggregated data using GROUP BY and HAVING",
+    "Write complex subqueries and Common Table Expressions (CTEs)",
+    "Perform advanced analytics using Window Functions (ROW_NUMBER, RANK)"
+  ],
+  "modules": [
+    {
+      "title": "Combining Tables",
+      "description": "Bringing data together from across the database.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Understanding JOINs",
+          "content": "<h1>Relational Data</h1><p>A <code>JOIN</code> clause is used to combine rows from two or more tables, based on a related column between them. The most common is the <code>INNER JOIN</code>, which returns records that have matching values in both tables.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Outer JOINs",
+          "content": "<h1>LEFT, RIGHT, and FULL</h1><p>A <code>LEFT JOIN</code> returns all records from the left table, and the matched records from the right. If there is no match, the result is NULL on the right side. <code>RIGHT JOIN</code> does the opposite.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Data Aggregation",
+      "description": "Summarizing large datasets for reporting.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Aggregate Functions",
+          "content": "<h1>Math in SQL</h1><p>Functions like <code>COUNT()</code>, <code>SUM()</code>, <code>AVG()</code>, <code>MAX()</code>, and <code>MIN()</code> perform a calculation on a set of values and return a single value.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "GROUP BY and HAVING",
+          "content": "<h1>Grouping Results</h1><p>The <code>GROUP BY</code> statement groups rows that have the same values into summary rows. The <code>HAVING</code> clause was added to SQL because the <code>WHERE</code> keyword cannot be used with aggregate functions.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Advanced Query Techniques",
+      "description": "Complex logic and modern analytical functions.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Subqueries and CTEs",
+          "content": "<h1>Queries within Queries</h1><p>A subquery is a query nested inside another statement. A Common Table Expression (CTE) using the <code>WITH</code> clause provides a more readable alternative to complex subqueries.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Window Functions",
+          "content": "<h1>Analytical Power</h1><p>Window functions like <code>ROW_NUMBER()</code>, <code>RANK()</code>, and <code>LEAD()</code> perform a calculation across a set of table rows that are somehow related to the current row, without collapsing the rows like GROUP BY does.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which JOIN returns all rows from the left table, even if there are no matches in the right table?",
+      "points": 1,
+      "options": [
+        { "content": "INNER JOIN", "is_correct": false },
+        { "content": "LEFT JOIN", "is_correct": true },
+        { "content": "RIGHT JOIN", "is_correct": false },
+        { "content": "FULL JOIN", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which SQL function is used to calculate the average value of a numeric column?",
+      "points": 1,
+      "options": [
+        { "content": "MEAN()", "is_correct": false },
+        { "content": "AVERAGE()", "is_correct": false },
+        { "content": "AVG()", "is_correct": true },
+        { "content": "MEDIAN()", "is_correct": false }
+      ]
+    },
+    {
+      "question": "You cannot use a WHERE clause to filter based on an aggregate function. Which clause must you use instead?",
+      "points": 1,
+      "options": [
+        { "content": "GROUP BY", "is_correct": false },
+        { "content": "ORDER BY", "is_correct": false },
+        { "content": "HAVING", "is_correct": true },
+        { "content": "FILTER", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does a FULL OUTER JOIN do?",
+      "points": 1,
+      "options": [
+        { "content": "Returns only rows with matches in both tables", "is_correct": false },
+        { "content": "Returns all rows from both tables, with NULLs where there is no match", "is_correct": true },
+        { "content": "Deletes rows that do not match", "is_correct": false },
+        { "content": "Throws an error if tables are different sizes", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which clause is used to define a Common Table Expression (CTE)?",
+      "points": 1,
+      "options": [
+        { "content": "CREATE CTE", "is_correct": false },
+        { "content": "WITH", "is_correct": true },
+        { "content": "DEFINE", "is_correct": false },
+        { "content": "AS TABLE", "is_correct": false }
+      ]
+    },
+    {
+      "question": "A query nested inside a SELECT, INSERT, UPDATE, or DELETE statement is called a:",
+      "points": 1,
+      "options": [
+        { "content": "Superquery", "is_correct": false },
+        { "content": "Subquery", "is_correct": true },
+        { "content": "Inner statement", "is_correct": false },
+        { "content": "Joined query", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is a Window Function?",
+      "points": 1,
+      "options": [
+        { "content": "SUM()", "is_correct": false },
+        { "content": "GROUP BY", "is_correct": false },
+        { "content": "ROW_NUMBER()", "is_correct": true },
+        { "content": "HAVING", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How does a Window Function differ from GROUP BY?",
+      "points": 1,
+      "options": [
+        { "content": "It only works on text data", "is_correct": false },
+        { "content": "It groups rows into a single output row", "is_correct": false },
+        { "content": "It performs a calculation across related rows but keeps the original rows intact", "is_correct": true },
+        { "content": "There is no difference", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If you want to count the number of rows in a table, which function do you use?",
+      "points": 1,
+      "options": [
+        { "content": "SUM()", "is_correct": false },
+        { "content": "TALLY()", "is_correct": false },
+        { "content": "COUNT()", "is_correct": true },
+        { "content": "NUMBER()", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the typical order of clauses in a SQL statement?",
+      "points": 1,
+      "options": [
+        { "content": "SELECT, WHERE, FROM, GROUP BY, HAVING, ORDER BY", "is_correct": false },
+        { "content": "SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY", "is_correct": true },
+        { "content": "SELECT, FROM, GROUP BY, WHERE, ORDER BY, HAVING", "is_correct": false },
+        { "content": "FROM, SELECT, HAVING, WHERE, GROUP BY, ORDER BY", "is_correct": false }
+      ]
+    }
+  ]
+}

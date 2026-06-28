@@ -1,0 +1,174 @@
+{
+  "title": "Performance Marketing",
+  "description": "Learn the data-driven approach to digital marketing where you only pay for measurable results. Understand acquisition strategies, conversion rate optimization, and advanced tracking methodologies.",
+  "difficulty": "advanced",
+  "course_type": "certificate",
+  "category": "Marketing",
+  "seo_metadata": {
+    "title": "Performance Marketing Certificate Course | ProCerix",
+    "description": "Master Performance Marketing. Learn data-driven acquisition, conversion rate optimization, and affiliate marketing.",
+    "keywords": ["Performance Marketing", "Conversion Rate Optimization", "Affiliate Marketing", "CPA marketing", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Define performance marketing and how it differs from brand marketing",
+    "Calculate and optimize Cost Per Acquisition (CPA) and Return on Ad Spend (ROAS)",
+    "Implement basic Conversion Rate Optimization (CRO) strategies",
+    "Understand the affiliate marketing ecosystem",
+    "Set up end-to-end tracking for marketing campaigns"
+  ],
+  "modules": [
+    {
+      "title": "The Performance Mindset",
+      "description": "Focusing purely on measurable outcomes.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Brand vs. Performance",
+          "content": "<h1>Two Sides of the Coin</h1><p>Brand marketing builds long-term awareness and equity. Performance marketing is highly targeted, data-driven, and focused on immediate, measurable actions (clicks, leads, sales).</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "The Core Metrics",
+          "content": "<h1>Math is Marketing</h1><p>Master the math: CPA (Cost Per Acquisition), LTV (Lifetime Value), ROAS (Return on Ad Spend), and ROI. If LTV > CPA, the business can scale.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Conversion Rate Optimization (CRO)",
+      "description": "Making your traffic work harder.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "The CRO Process",
+          "content": "<h1>Iterative Improvement</h1><p>CRO involves understanding user behavior, formulating hypotheses on why they aren't converting, testing variations (A/B testing), and implementing the winner.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Landing Page Optimization",
+          "content": "<h1>First Impressions</h1><p>A high-converting landing page has a clear value proposition, minimal distractions (no navigation bar), strong social proof, and a single, obvious Call to Action (CTA).</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Affiliates and Tracking",
+      "description": "Expanding your reach and proving value.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Affiliate Marketing",
+          "content": "<h1>Paying for Sales</h1><p>In affiliate marketing, third-party publishers promote your product and receive a commission only when a sale is made. It is a pure form of performance marketing.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Attribution and Tracking",
+          "content": "<h1>Who Gets the Credit?</h1><p>Tracking relies on cookies, pixels, and UTM parameters. Attribution models (First-Click, Last-Click, Multi-Touch) determine which marketing channel gets credit for the final sale.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What is the primary characteristic of Performance Marketing?",
+      "points": 1,
+      "options": [
+        { "content": "It relies entirely on television commercials", "is_correct": false },
+        { "content": "Advertisers only pay when a specific, measurable action occurs (like a click or sale)", "is_correct": true },
+        { "content": "It focuses solely on making the logo look nice", "is_correct": false },
+        { "content": "It cannot be tracked using data", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does ROAS stand for?",
+      "points": 1,
+      "options": [
+        { "content": "Return on Ad Spend", "is_correct": true },
+        { "content": "Revenue Over Average Sales", "is_correct": false },
+        { "content": "Rate of Advertising Success", "is_correct": false },
+        { "content": "Return on Affiliate System", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If your Customer Acquisition Cost (CPA) is consistently higher than a customer's Lifetime Value (LTV), what is happening?",
+      "points": 1,
+      "options": [
+        { "content": "The marketing is highly successful", "is_correct": false },
+        { "content": "The business is losing money on every customer acquired", "is_correct": true },
+        { "content": "The business is breaking even", "is_correct": false },
+        { "content": "The business needs to run more brand awareness ads", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary goal of Conversion Rate Optimization (CRO)?",
+      "points": 1,
+      "options": [
+        { "content": "To get more traffic to the website", "is_correct": false },
+        { "content": "To increase the percentage of website visitors who take a desired action", "is_correct": true },
+        { "content": "To improve the website's SEO ranking", "is_correct": false },
+        { "content": "To lower the cost of web hosting", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is a best practice for a dedicated Landing Page?",
+      "points": 1,
+      "options": [
+        { "content": "Including 10 different links to other parts of the website", "is_correct": false },
+        { "content": "Having a single, clear Call to Action (CTA) and minimal distractions", "is_correct": true },
+        { "content": "Using extremely long blocks of unbroken text", "is_correct": false },
+        { "content": "Hiding the price until the user enters their credit card", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In Affiliate Marketing, when does the advertiser usually pay the publisher?",
+      "points": 1,
+      "options": [
+        { "content": "When the ad is viewed", "is_correct": false },
+        { "content": "When a specific action, such as a sale or lead, is completed", "is_correct": true },
+        { "content": "At the beginning of every month as a retainer fee", "is_correct": false },
+        { "content": "Whenever the publisher requests payment", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What are UTM parameters used for?",
+      "points": 1,
+      "options": [
+        { "content": "To securely encrypt passwords", "is_correct": false },
+        { "content": "Tags added to a URL to track the source, medium, and campaign of the traffic", "is_correct": true },
+        { "content": "To improve page loading speed", "is_correct": false },
+        { "content": "To block spam bots", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does a 'Last-Click' attribution model do?",
+      "points": 1,
+      "options": [
+        { "content": "It gives 100% of the credit for a sale to the very first ad the customer clicked", "is_correct": false },
+        { "content": "It gives 100% of the credit for a sale to the final ad or channel the customer clicked before converting", "is_correct": true },
+        { "content": "It divides the credit evenly across all ads the customer saw", "is_correct": false },
+        { "content": "It gives credit to the organic search result only", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is an A/B Test?",
+      "points": 1,
+      "options": [
+        { "content": "A test to see if a website is online or offline", "is_correct": false },
+        { "content": "Showing two variants of a page to different segments of visitors to see which performs better", "is_correct": true },
+        { "content": "A typing test for copywriters", "is_correct": false },
+        { "content": "A test to check spelling errors", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why is Performance Marketing considered highly accountable?",
+      "points": 1,
+      "options": [
+        { "content": "Because everything is tracked and ROI can be calculated down to the penny", "is_correct": true },
+        { "content": "Because the CEO personally reviews every ad", "is_correct": false },
+        { "content": "Because it relies on emotional appeal rather than data", "is_correct": false },
+        { "content": "Because it is regulated by the government", "is_correct": false }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "title": "Advanced ChatGPT",
+  "description": "Master advanced conversational AI workflows. Learn how to use custom instructions, manage complex context windows, leverage data analysis tools, and integrate AI into your professional workflows.",
+  "difficulty": "advanced",
+  "course_type": "certificate",
+  "category": "Artificial Intelligence",
+  "seo_metadata": {
+    "title": "Advanced ChatGPT Certificate Course | ProCerix",
+    "description": "Take your AI skills to the next level. Master advanced ChatGPT workflows, custom instructions, and data analysis.",
+    "keywords": ["Advanced ChatGPT", "ChatGPT data analysis", "Custom Instructions", "AI workflows", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Utilize Custom Instructions and System Prompts effectively",
+    "Manage long conversations without losing context",
+    "Use Advanced Data Analysis (formerly Code Interpreter) for data tasks",
+    "Chain multiple prompts to solve complex, multi-step problems",
+    "Format output into tables, code blocks, and specific document types"
+  ],
+  "modules": [
+    {
+      "title": "Context and System Control",
+      "description": "Taking control of how the AI behaves.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Custom Instructions",
+          "content": "<h1>Setting the Baseline</h1><p>Custom Instructions allow you to set persistent preferences. You can tell the AI who you are, what your goals are, and how you want it to respond across all conversations, saving you from repeating yourself.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Managing Context Windows",
+          "content": "<h1>Avoiding Amnesia</h1><p>LLMs have a finite 'context window' (the amount of text they can remember in one go). Learn techniques for summarizing past conversations and injecting them back into the prompt to maintain continuity in long projects.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Advanced Data Analysis",
+      "description": "Using ChatGPT as a data scientist.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Uploading and Analyzing Data",
+          "content": "<h1>Beyond Text</h1><p>With Advanced Data Analysis, you can upload CSV or Excel files. ChatGPT writes and executes Python code in the background to analyze the data, clean it, and generate insights.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Visualizing Data",
+          "content": "<h1>Creating Charts</h1><p>You can ask the AI to generate charts (bar, line, scatter) based on the uploaded data. It uses libraries like Matplotlib to render these images directly in the chat.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Complex Prompt Chaining",
+      "description": "Breaking down massive tasks.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Multi-Step Workflows",
+          "content": "<h1>Prompt Chaining</h1><p>Instead of asking for a final product in one prompt, break the task down. Ask for an outline, approve it, ask for section one, approve it, etc. This drastically improves output quality.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Few-Shot Prompting",
+          "content": "<h1>Leading by Example</h1><p>Provide the AI with a few examples of the desired input and output before asking it to perform the task. This 'few-shot' technique significantly increases accuracy for formatting tasks.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What is the primary purpose of 'Custom Instructions' in ChatGPT?",
+      "points": 1,
+      "options": [
+        { "content": "To change the visual theme of the website", "is_correct": false },
+        { "content": "To set persistent preferences and context across all new conversations", "is_correct": true },
+        { "content": "To upload files", "is_correct": false },
+        { "content": "To pay for a subscription", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What happens when a conversation exceeds the LLM's 'context window'?",
+      "points": 1,
+      "options": [
+        { "content": "The AI deletes the account", "is_correct": false },
+        { "content": "The AI begins to forget the earliest parts of the conversation", "is_correct": true },
+        { "content": "The AI charges an overage fee", "is_correct": false },
+        { "content": "The AI automatically summarizes everything", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How does ChatGPT's 'Advanced Data Analysis' feature process uploaded CSV files?",
+      "points": 1,
+      "options": [
+        { "content": "It opens them in Microsoft Excel", "is_correct": false },
+        { "content": "It writes and executes Python code in a secure environment to analyze the data", "is_correct": true },
+        { "content": "It just reads the text like a normal prompt", "is_correct": false },
+        { "content": "It cannot process CSV files", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is 'Prompt Chaining'?",
+      "points": 1,
+      "options": [
+        { "content": "Linking two accounts together", "is_correct": false },
+        { "content": "Breaking a complex task into multiple sequential prompts rather than one massive request", "is_correct": true },
+        { "content": "Repeating the same prompt until you get the right answer", "is_correct": false },
+        { "content": "Using a physical chain to secure the server", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is 'Few-Shot Prompting'?",
+      "points": 1,
+      "options": [
+        { "content": "Providing the AI with several examples of inputs and desired outputs before the actual request", "is_correct": true },
+        { "content": "Only giving the AI one chance to answer", "is_correct": false },
+        { "content": "Using very short prompts", "is_correct": false },
+        { "content": "Prompting while drinking espresso", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If you want ChatGPT to output a table, what is the best approach?",
+      "points": 1,
+      "options": [
+        { "content": "Hope it guesses what you want", "is_correct": false },
+        { "content": "Explicitly state 'Format the output as a Markdown table with columns X, Y, and Z'", "is_correct": true },
+        { "content": "It is impossible for ChatGPT to output tables", "is_correct": false },
+        { "content": "Upload a picture of a table", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Advanced Data Analysis can generate visual charts. What language does it primarily use under the hood to do this?",
+      "points": 1,
+      "options": [
+        { "content": "Java", "is_correct": false },
+        { "content": "Python (specifically Matplotlib/Seaborn)", "is_correct": true },
+        { "content": "C++", "is_correct": false },
+        { "content": "HTML/CSS", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When working on a very long writing project with ChatGPT, what is a best practice?",
+      "points": 1,
+      "options": [
+        { "content": "Paste the entire book into one prompt", "is_correct": false },
+        { "content": "Ask for an outline first, then generate it section by section in a chain", "is_correct": true },
+        { "content": "Only use one-word prompts", "is_correct": false },
+        { "content": "Never use the same chat window twice", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following tasks is Advanced Data Analysis NOT suited for?",
+      "points": 1,
+      "options": [
+        { "content": "Cleaning a messy CSV file", "is_correct": false },
+        { "content": "Generating a scatter plot from financial data", "is_correct": false },
+        { "content": "Physically fixing a broken hard drive", "is_correct": true },
+        { "content": "Converting an image to grayscale", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the benefit of providing 'Constraints' (e.g., 'Do not use adjectives', 'Keep it under 100 words') in advanced prompts?",
+      "points": 1,
+      "options": [
+        { "content": "It limits the AI's search space, resulting in more precise and predictable outputs", "is_correct": true },
+        { "content": "It makes the AI run slower", "is_correct": false },
+        { "content": "It guarantees the information is factually true", "is_correct": false },
+        { "content": "It breaks the context window", "is_correct": false }
+      ]
+    }
+  ]
+}

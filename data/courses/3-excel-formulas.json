@@ -1,0 +1,179 @@
+{
+  "title": "Microsoft Excel Formulas & Functions",
+  "description": "A deep dive into Excel's powerful formula library. Learn text, date, logical, and financial functions to manipulate and analyze data effectively. This course bridges the gap between basic spreadsheet usage and advanced data modeling.",
+  "difficulty": "intermediate",
+  "course_type": "certificate",
+  "category": "Data Analytics",
+  "seo_metadata": {
+    "title": "Excel Formulas & Functions Certificate | ProCerix",
+    "description": "Master Excel formulas and functions. Learn text manipulation, date functions, financial calculations, and logical testing.",
+    "keywords": ["Excel formulas", "Excel functions", "TEXT functions", "DATE functions", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Manipulate and clean text data using text functions",
+    "Perform complex date and time calculations",
+    "Combine multiple functions to solve business problems",
+    "Troubleshoot and fix common formula errors (#VALUE, #N/A)",
+    "Apply financial functions for investment analysis"
+  ],
+  "modules": [
+    {
+      "title": "Text and Data Cleaning",
+      "description": "Functions to clean, split, and join text data.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Text Manipulation Functions",
+          "content": "<h1>Cleaning Text Data</h1><p>Use <code>TRIM</code> to remove extra spaces, and <code>UPPER</code>, <code>LOWER</code>, or <code>PROPER</code> to standardize text casing.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Extracting Text",
+          "content": "<h1>LEFT, RIGHT, and MID</h1><p>These functions allow you to extract specific characters from a text string. For example, <code>LEFT(A1, 3)</code> extracts the first three characters.</p>",
+          "sequence_order": 2
+        },
+        {
+          "title": "Joining Text",
+          "content": "<h1>CONCATENATE and TEXTJOIN</h1><p>Combine text from multiple cells. <code>TEXTJOIN</code> is the modern approach as it allows you to specify a delimiter and ignore empty cells.</p>",
+          "sequence_order": 3
+        }
+      ]
+    },
+    {
+      "title": "Date, Time, and Financials",
+      "description": "Working with dates and financial modeling.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Date and Time Functions",
+          "content": "<h1>Working with Dates</h1><p>Excel stores dates as serial numbers. Use <code>TODAY()</code> and <code>NOW()</code> for current dates, and <code>DATEDIF</code> to calculate the difference between two dates.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Financial Functions",
+          "content": "<h1>PMT and FV</h1><p>The <code>PMT</code> function calculates payments for a loan based on constant payments and a constant interest rate. <code>FV</code> calculates the future value of an investment.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Auditing and Error Handling",
+      "description": "Techniques for finding and fixing errors in your formulas.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Understanding Error Codes",
+          "content": "<h1>Common Errors</h1><p>Learn to identify errors like <code>#N/A</code> (value not available), <code>#VALUE!</code> (wrong data type), and <code>#DIV/0!</code> (division by zero).</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Using IFERROR",
+          "content": "<h1>Handling Errors Gracefully</h1><p>The <code>IFERROR</code> function allows you to specify a custom result if a formula evaluates to an error, keeping your spreadsheet clean.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which function removes extra spaces from text?",
+      "points": 1,
+      "options": [
+        { "content": "CLEAN", "is_correct": false },
+        { "content": "TRIM", "is_correct": true },
+        { "content": "REMOVE", "is_correct": false },
+        { "content": "STRIP", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which function extracts a specific number of characters starting from the left of a string?",
+      "points": 1,
+      "options": [
+        { "content": "LEFT", "is_correct": true },
+        { "content": "START", "is_correct": false },
+        { "content": "MID", "is_correct": false },
+        { "content": "BEGIN", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What function is an improvement over CONCATENATE because it handles delimiters?",
+      "points": 1,
+      "options": [
+        { "content": "JOIN", "is_correct": false },
+        { "content": "COMBINE", "is_correct": false },
+        { "content": "TEXTJOIN", "is_correct": true },
+        { "content": "MERGE", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How does Excel store dates internally?",
+      "points": 1,
+      "options": [
+        { "content": "As text strings", "is_correct": false },
+        { "content": "As serial numbers", "is_correct": true },
+        { "content": "As hexadecimal codes", "is_correct": false },
+        { "content": "As binary files", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which function returns the current date and time?",
+      "points": 1,
+      "options": [
+        { "content": "TODAY()", "is_correct": false },
+        { "content": "CURRENT()", "is_correct": false },
+        { "content": "NOW()", "is_correct": true },
+        { "content": "DATETIME()", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which financial function calculates the payment for a loan?",
+      "points": 1,
+      "options": [
+        { "content": "LOAN", "is_correct": false },
+        { "content": "PMT", "is_correct": true },
+        { "content": "PAY", "is_correct": false },
+        { "content": "NPER", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What error appears when you try to divide a number by zero?",
+      "points": 1,
+      "options": [
+        { "content": "#VALUE!", "is_correct": false },
+        { "content": "#N/A", "is_correct": false },
+        { "content": "#DIV/0!", "is_correct": true },
+        { "content": "#NUM!", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which function can trap and handle formula errors?",
+      "points": 1,
+      "options": [
+        { "content": "ISERROR", "is_correct": false },
+        { "content": "IFERROR", "is_correct": true },
+        { "content": "CATCH", "is_correct": false },
+        { "content": "ERROR.TYPE", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If you want to capitalize only the first letter of each word, which function should you use?",
+      "points": 1,
+      "options": [
+        { "content": "UPPER", "is_correct": false },
+        { "content": "LOWER", "is_correct": false },
+        { "content": "PROPER", "is_correct": true },
+        { "content": "TITLE", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does the FV function calculate?",
+      "points": 1,
+      "options": [
+        { "content": "Financial Value", "is_correct": false },
+        { "content": "Future Value", "is_correct": true },
+        { "content": "Fixed Volume", "is_correct": false },
+        { "content": "Final Verification", "is_correct": false }
+      ]
+    }
+  ]
+}

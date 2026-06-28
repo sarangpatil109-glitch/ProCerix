@@ -1,0 +1,174 @@
+{
+  "title": "SEO Fundamentals",
+  "description": "Master the art of ranking on Google. Learn how search engines work, how to perform keyword research, and how to optimize your website both on-page and off-page to drive massive organic traffic.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Marketing",
+  "seo_metadata": {
+    "title": "SEO Fundamentals Certificate Course | ProCerix",
+    "description": "Learn Search Engine Optimization. Master keyword research, on-page SEO, technical SEO, and link building.",
+    "keywords": ["SEO basics", "Search Engine Optimization", "Keyword research", "On-page SEO", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Understand how search engine crawlers index and rank web pages",
+    "Conduct effective keyword research using modern SEO tools",
+    "Optimize on-page elements (Title tags, Meta descriptions, Headers)",
+    "Understand the basics of Technical SEO (site speed, mobile-friendliness)",
+    "Develop a sustainable off-page SEO and link-building strategy"
+  ],
+  "modules": [
+    {
+      "title": "How Search Engines Work",
+      "description": "The foundation of all SEO.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Crawling, Indexing, and Ranking",
+          "content": "<h1>The Three Steps</h1><p>Google uses 'spiders' to Crawl the web, stores what it finds in an Index, and uses complex algorithms to Rank those pages when a user searches for a query.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Search Intent",
+          "content": "<h1>What Does the User Want?</h1><p>Search intent is the 'why' behind a search query. Is the user looking for information (Informational), trying to find a specific website (Navigational), or looking to buy something (Transactional)?</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Keyword Research and On-Page SEO",
+      "description": "Targeting the right terms and optimizing your content.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Keyword Research",
+          "content": "<h1>Finding the Gold</h1><p>Use tools to find keywords with high search volume and low competition. Focus on 'long-tail keywords' (phrases with 3+ words) which are highly specific and easier to rank for.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "On-Page Optimization",
+          "content": "<h1>Telling Google What You Do</h1><p>Place your target keyword in the Title tag, Meta description, H1 header, and naturally throughout the content. Ensure your URL structure is clean and descriptive.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Technical and Off-Page SEO",
+      "description": "Building a healthy site and gaining authority.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Technical SEO Basics",
+          "content": "<h1>Site Health</h1><p>Your site must load quickly, be mobile-friendly (responsive), and use an SSL certificate (HTTPS) to be favored by Google. Submit an XML sitemap to help crawlers find your pages.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Off-Page SEO (Link Building)",
+          "content": "<h1>Gaining Authority</h1><p>Off-page SEO is primarily about backlinks (other websites linking to yours). Google views backlinks as 'votes of confidence'. The higher the quality of the linking site, the more authority passes to you.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What are the three primary functions of a search engine?",
+      "points": 1,
+      "options": [
+        { "content": "Selling, Advertising, Displaying", "is_correct": false },
+        { "content": "Crawling, Indexing, Ranking", "is_correct": true },
+        { "content": "Reading, Writing, Deleting", "is_correct": false },
+        { "content": "Hosting, Domain mapping, Security", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If a user searches for 'buy Nike running shoes size 10', what type of search intent is this?",
+      "points": 1,
+      "options": [
+        { "content": "Informational", "is_correct": false },
+        { "content": "Navigational", "is_correct": false },
+        { "content": "Transactional", "is_correct": true },
+        { "content": "Accidental", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a 'long-tail keyword'?",
+      "points": 1,
+      "options": [
+        { "content": "A keyword that is very old", "is_correct": false },
+        { "content": "A single word with massive search volume", "is_correct": false },
+        { "content": "A highly specific phrase consisting of 3 or more words, usually with lower competition", "is_correct": true },
+        { "content": "A keyword that appears at the bottom of a webpage", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following is a crucial On-Page SEO factor?",
+      "points": 1,
+      "options": [
+        { "content": "How many followers you have on Twitter", "is_correct": false },
+        { "content": "Including the target keyword in the Title Tag", "is_correct": true },
+        { "content": "Buying a billboard advertisement", "is_correct": false },
+        { "content": "The color of your website's background", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the purpose of a Meta Description?",
+      "points": 1,
+      "options": [
+        { "content": "It is a direct ranking factor for Google's algorithm", "is_correct": false },
+        { "content": "It provides a brief summary of the page in search results to entice users to click", "is_correct": true },
+        { "content": "It hides the text from search engines", "is_correct": false },
+        { "content": "It determines the font size of the webpage", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which of the following falls under 'Technical SEO'?",
+      "points": 1,
+      "options": [
+        { "content": "Writing a blog post about industry trends", "is_correct": false },
+        { "content": "Asking another website for a backlink", "is_correct": false },
+        { "content": "Ensuring the website loads quickly and is mobile-friendly", "is_correct": true },
+        { "content": "Setting up a Facebook page", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In Off-Page SEO, what is considered a 'vote of confidence' from another website?",
+      "points": 1,
+      "options": [
+        { "content": "A backlink", "is_correct": true },
+        { "content": "A 'Like' on social media", "is_correct": false },
+        { "content": "A positive customer review on Yelp", "is_correct": false },
+        { "content": "An email sent to your support team", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Are all backlinks valued equally by Google?",
+      "points": 1,
+      "options": [
+        { "content": "Yes, 100 links from spam sites are better than 1 link from a university", "is_correct": false },
+        { "content": "No, links from high-authority, relevant websites pass much more value", "is_correct": true },
+        { "content": "Google ignores all backlinks", "is_correct": false },
+        { "content": "Only links from within your own country count", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is an XML Sitemap?",
+      "points": 1,
+      "options": [
+        { "content": "A map showing the physical address of your business", "is_correct": false },
+        { "content": "A file that lists all important pages on your site to help search engines crawl it", "is_correct": true },
+        { "content": "A visual design wireframe of your website", "is_correct": false },
+        { "content": "A list of your competitors' keywords", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does HTTPS indicate to a search engine?",
+      "points": 1,
+      "options": [
+        { "content": "That the site is very fast", "is_correct": false },
+        { "content": "That the site has an SSL certificate and encrypts data securely", "is_correct": true },
+        { "content": "That the site is an e-commerce store", "is_correct": false },
+        { "content": "That the site is built with HTML5", "is_correct": false }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "title": "Meta Ads Fundamentals",
+  "description": "Master advertising on Facebook and Instagram. Learn how to target specific demographics, create visually engaging ad creatives, set up the Meta Pixel, and launch campaigns that drive real business results.",
+  "difficulty": "intermediate",
+  "course_type": "certificate",
+  "category": "Marketing",
+  "seo_metadata": {
+    "title": "Meta Ads Fundamentals Certificate Course | ProCerix",
+    "description": "Learn Facebook and Instagram advertising. Master audience targeting, ad creatives, and the Meta Pixel for conversion tracking.",
+    "keywords": ["Meta Ads", "Facebook Ads", "Instagram Ads", "Social Media Advertising", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Navigate the Meta Business Manager and Ads Manager interfaces",
+    "Define campaign objectives (Awareness, Traffic, Conversions) based on business goals",
+    "Build highly targeted audiences (Core, Custom, and Lookalike)",
+    "Install and configure the Meta Pixel for conversion tracking",
+    "Design effective ad creatives tailored for the Facebook and Instagram feeds"
+  ],
+  "modules": [
+    {
+      "title": "Setting Up for Success",
+      "description": "The infrastructure of Meta advertising.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Campaign Structure",
+          "content": "<h1>Campaign, Ad Set, Ad</h1><p>Meta Ads are structured in three levels. The Campaign dictates the objective (e.g., Sales). The Ad Set dictates the audience, budget, and schedule. The Ad dictates the creative (image/video and text).</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "The Meta Pixel and CAPI",
+          "content": "<h1>Tracking the Journey</h1><p>The Pixel is a piece of code on your website that tracks user actions (like 'Add to Cart'). The Conversions API (CAPI) sends data directly from your server to Meta, bypassing ad blockers.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Audience Targeting",
+      "description": "Finding your ideal customers.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Core and Custom Audiences",
+          "content": "<h1>Who Are You Reaching?</h1><p>Core audiences are built using demographics and interests. Custom audiences are built using your own data, such as your email list or people who have visited your website (retargeting).</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Lookalike Audiences",
+          "content": "<h1>Scaling Winners</h1><p>A Lookalike Audience uses Meta's algorithm to find new people who have similar characteristics to your best existing customers (e.g., a 1% Lookalike of past purchasers).</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Creative and Optimization",
+      "description": "Designing ads that convert.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Ad Creative Best Practices",
+          "content": "<h1>Stopping the Scroll</h1><p>Your creative is the most important factor in a campaign's success. Use vertical video, capture attention in the first 3 seconds, and ensure your message is clear even without sound.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Testing and Scaling",
+          "content": "<h1>Finding What Works</h1><p>Never rely on a single ad. Test multiple creatives against each other using Dynamic Creative Optimization (DCO). Once you find a winning ad, scale the budget slowly to maintain ROI.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What are the three levels of the Meta Ads campaign structure?",
+      "points": 1,
+      "options": [
+        { "content": "Account, Billing, Ads", "is_correct": false },
+        { "content": "Campaign, Ad Set, Ad", "is_correct": true },
+        { "content": "Objective, Audience, Creative", "is_correct": false },
+        { "content": "Facebook, Instagram, Messenger", "is_correct": false }
+      ]
+    },
+    {
+      "question": "At which level of the Meta Ads structure do you define your target audience and budget?",
+      "points": 1,
+      "options": [
+        { "content": "Campaign Level", "is_correct": false },
+        { "content": "Ad Set Level", "is_correct": true },
+        { "content": "Ad Level", "is_correct": false },
+        { "content": "Account Level", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary purpose of the Meta Pixel?",
+      "points": 1,
+      "options": [
+        { "content": "To make images load faster on Facebook", "is_correct": false },
+        { "content": "To track website visitor actions and attribute conversions to your ads", "is_correct": true },
+        { "content": "To block competitors from seeing your website", "is_correct": false },
+        { "content": "To automatically generate ad copy", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which type of audience would you use if you want to show ads to people who visited your website but didn't purchase?",
+      "points": 1,
+      "options": [
+        { "content": "Lookalike Audience", "is_correct": false },
+        { "content": "Core Audience (Interests)", "is_correct": false },
+        { "content": "Custom Audience (Website Retargeting)", "is_correct": true },
+        { "content": "Broad Audience", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is a Lookalike Audience?",
+      "points": 1,
+      "options": [
+        { "content": "An audience of people who look physically similar to your CEO", "is_correct": false },
+        { "content": "An audience created by Meta's algorithm to find new people who share characteristics with a 'seed' audience (like your best customers)", "is_correct": true },
+        { "content": "An audience that only sees image ads", "is_correct": false },
+        { "content": "An audience made entirely of fake bot accounts", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When designing video ads for Instagram Stories or Reels, what aspect ratio is best practice?",
+      "points": 1,
+      "options": [
+        { "content": "16:9 (Horizontal)", "is_correct": false },
+        { "content": "1:1 (Square)", "is_correct": false },
+        { "content": "9:16 (Vertical)", "is_correct": true },
+        { "content": "4:3 (Standard TV)", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In modern Meta advertising, which element has the biggest impact on campaign performance?",
+      "points": 1,
+      "options": [
+        { "content": "The Ad Creative (Image/Video and Copy)", "is_correct": true },
+        { "content": "Micro-managing bids every hour", "is_correct": false },
+        { "content": "Targeting exactly 5 specific interests", "is_correct": false },
+        { "content": "The time of day the ad launches", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does CAPI stand for in the context of Meta tracking?",
+      "points": 1,
+      "options": [
+        { "content": "Campaign Advertising Protocol Interface", "is_correct": false },
+        { "content": "Conversions Application Programming Interface", "is_correct": true },
+        { "content": "Cost per Acquisition Pixel Integration", "is_correct": false },
+        { "content": "Creative Ad Placement Identifier", "is_correct": false }
+      ]
+    },
+    {
+      "question": "If your primary goal is to generate sales on your e-commerce store, which Campaign Objective should you choose?",
+      "points": 1,
+      "options": [
+        { "content": "Brand Awareness", "is_correct": false },
+        { "content": "Traffic", "is_correct": false },
+        { "content": "Sales (Conversions)", "is_correct": true },
+        { "content": "Post Engagement", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is Dynamic Creative Optimization (DCO)?",
+      "points": 1,
+      "options": [
+        { "content": "A feature where Meta automatically edits your video to make it shorter", "is_correct": false },
+        { "content": "A feature where you provide multiple images, videos, headlines, and descriptions, and Meta automatically tests combinations to find what works best", "is_correct": true },
+        { "content": "A feature that forces your ad to only show on desktop computers", "is_correct": false },
+        { "content": "A bidding strategy that lowers costs", "is_correct": false }
+      ]
+    }
+  ]
+}

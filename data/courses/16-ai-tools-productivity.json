@@ -1,0 +1,174 @@
+{
+  "title": "AI Tools for Productivity",
+  "description": "Discover how to leverage the latest AI tools to automate your workflow, manage your time, and produce high-quality work faster. This course explores practical applications of AI beyond just ChatGPT.",
+  "difficulty": "beginner",
+  "course_type": "certificate",
+  "category": "Artificial Intelligence",
+  "seo_metadata": {
+    "title": "AI Tools for Productivity Certificate Course | ProCerix",
+    "description": "Boost your productivity with AI. Learn to use AI for writing, image generation, meeting summaries, and automation.",
+    "keywords": ["AI productivity tools", "AI automation", "Midjourney basics", "Otter.ai", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Identify the right AI tool for specific professional tasks",
+    "Use AI for advanced writing and copywriting (Jasper, Copy.ai)",
+    "Generate professional images and presentations using AI (Midjourney, Tome)",
+    "Automate meeting notes and action items (Otter, Fathom)",
+    "Integrate AI tools into your daily workflow without losing the human touch"
+  ],
+  "modules": [
+    {
+      "title": "AI for Writing and Content",
+      "description": "Creating text faster and better.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Specialized Writing Tools",
+          "content": "<h1>Beyond ChatGPT</h1><p>While ChatGPT is a generalist, tools like Jasper and Copy.ai are trained specifically for marketing copy, blog posts, and emails, offering templates and brand-voice consistency.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Editing and Refinement",
+          "content": "<h1>Polishing Your Work</h1><p>GrammarlyGO and Notion AI help you refine existing text directly within your workspace, adjusting tone, fixing grammar, and suggesting better vocabulary.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "AI for Visuals and Presentations",
+      "description": "Generating images and decks in seconds.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Image Generation Basics",
+          "content": "<h1>Midjourney and DALL-E</h1><p>Learn how to prompt AI image generators to create professional assets for presentations, blog posts, or marketing materials without needing a graphic designer.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "AI Presentations",
+          "content": "<h1>Tome and Gamma</h1><p>These tools allow you to type a single prompt and receive a fully formatted, multi-slide presentation complete with text and generated images, ready for editing.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "AI for Meetings and Automation",
+      "description": "Reclaiming your time from administrative tasks.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Meeting Assistants",
+          "content": "<h1>Never Take Notes Again</h1><p>Tools like Otter.ai and Fathom join your Zoom or Teams calls, transcribe the conversation in real-time, and automatically generate summaries and action items.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Workflow Automation",
+          "content": "<h1>Connecting the Dots</h1><p>Learn how to use Zapier's AI integrations to connect different apps. For example, automatically summarizing an incoming email and posting the summary to a Slack channel.</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which of the following AI tools is specifically tailored for marketing copywriting rather than general conversation?",
+      "points": 1,
+      "options": [
+        { "content": "Midjourney", "is_correct": false },
+        { "content": "Jasper", "is_correct": true },
+        { "content": "Otter.ai", "is_correct": false },
+        { "content": "DALL-E", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary function of tools like Otter.ai and Fathom?",
+      "points": 1,
+      "options": [
+        { "content": "Generating images", "is_correct": false },
+        { "content": "Transcribing meetings and generating summaries", "is_correct": true },
+        { "content": "Writing Python code", "is_correct": false },
+        { "content": "Creating presentations", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Midjourney and DALL-E are examples of what type of AI tool?",
+      "points": 1,
+      "options": [
+        { "content": "Text-to-Image Generators", "is_correct": true },
+        { "content": "Audio Transcription", "is_correct": false },
+        { "content": "Spreadsheet automation", "is_correct": false },
+        { "content": "Video editing", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which AI tool allows you to generate a multi-slide presentation from a single text prompt?",
+      "points": 1,
+      "options": [
+        { "content": "Grammarly", "is_correct": false },
+        { "content": "Tome", "is_correct": true },
+        { "content": "Zapier", "is_correct": false },
+        { "content": "Copy.ai", "is_correct": false }
+      ]
+    },
+    {
+      "question": "When using AI for productivity, what is a crucial 'human touch' step that should never be skipped?",
+      "points": 1,
+      "options": [
+        { "content": "Printing everything on paper", "is_correct": false },
+        { "content": "Reviewing and verifying the AI-generated output for accuracy and tone", "is_correct": true },
+        { "content": "Rewriting the entire output from scratch", "is_correct": false },
+        { "content": "Only using AI on weekends", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What platform allows you to connect AI tools to other apps (like Slack or Gmail) to automate workflows?",
+      "points": 1,
+      "options": [
+        { "content": "Midjourney", "is_correct": false },
+        { "content": "Tome", "is_correct": false },
+        { "content": "Zapier", "is_correct": true },
+        { "content": "Notion", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which tool provides AI-assisted editing and refinement directly within your workspace notes?",
+      "points": 1,
+      "options": [
+        { "content": "Notion AI", "is_correct": true },
+        { "content": "Fathom", "is_correct": false },
+        { "content": "DALL-E", "is_correct": false },
+        { "content": "Excel", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why might a company choose Jasper over ChatGPT for their marketing team?",
+      "points": 1,
+      "options": [
+        { "content": "It is completely free", "is_correct": false },
+        { "content": "It offers built-in templates and brand-voice consistency features", "is_correct": true },
+        { "content": "It does not use the internet", "is_correct": false },
+        { "content": "It generates better images", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does a meeting assistant AI typically provide after a call?",
+      "points": 1,
+      "options": [
+        { "content": "A pizza delivery", "is_correct": false },
+        { "content": "A transcript, summary, and list of action items", "is_correct": true },
+        { "content": "A new PowerPoint deck", "is_correct": false },
+        { "content": "A calendar invite for next year", "is_correct": false }
+      ]
+    },
+    {
+      "question": "How can AI tools best help with 'Blank Page Syndrome'?",
+      "points": 1,
+      "options": [
+        { "content": "By writing the final draft perfectly the first time", "is_correct": false },
+        { "content": "By generating rough drafts, outlines, or ideas to kickstart the creative process", "is_correct": true },
+        { "content": "By turning off your computer", "is_correct": false },
+        { "content": "By automatically sending emails", "is_correct": false }
+      ]
+    }
+  ]
+}

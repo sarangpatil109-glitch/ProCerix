@@ -1,0 +1,174 @@
+{
+  "title": "Prompt Engineering Fundamentals",
+  "description": "Learn the science and art of communicating with Large Language Models. This course covers structured prompt design, few-shot learning, chain-of-thought reasoning, and avoiding AI bias, turning you into a highly effective prompt engineer.",
+  "difficulty": "intermediate",
+  "course_type": "certificate",
+  "category": "Artificial Intelligence",
+  "seo_metadata": {
+    "title": "Prompt Engineering Fundamentals Certificate | ProCerix",
+    "description": "Master the art of Prompt Engineering. Learn zero-shot, few-shot, and chain-of-thought prompting techniques.",
+    "keywords": ["Prompt Engineering", "AI Prompting", "Chain-of-thought", "Few-shot prompting", "ProCerix certificate"]
+  },
+  "learning_outcomes": [
+    "Understand the core architecture and limitations of LLMs",
+    "Apply Zero-Shot, One-Shot, and Few-Shot prompting techniques",
+    "Implement Chain-of-Thought reasoning to solve complex problems",
+    "Design robust system prompts for AI applications",
+    "Identify and mitigate biases and hallucinations in AI outputs"
+  ],
+  "modules": [
+    {
+      "title": "The Anatomy of a Prompt",
+      "description": "Breaking down the elements of effective communication with AI.",
+      "sequence_order": 1,
+      "lessons": [
+        {
+          "title": "Core Components",
+          "content": "<h1>Instruction, Context, Input, Output</h1><p>A professional prompt contains up to four elements: A clear instruction, background context, the input data to process, and the desired output format (e.g., JSON, markdown, table).</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Zero-Shot vs. Few-Shot",
+          "content": "<h1>Providing Examples</h1><p>Zero-shot prompting asks the AI to perform a task without any examples. Few-shot prompting provides 2-5 examples of the input-output mapping, which significantly increases the reliability of the model.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Advanced Reasoning Techniques",
+      "description": "Getting the AI to think before it speaks.",
+      "sequence_order": 2,
+      "lessons": [
+        {
+          "title": "Chain-of-Thought (CoT)",
+          "content": "<h1>Step-by-Step Logic</h1><p>By simply adding 'Let's think step by step' to your prompt, you force the AI to output its reasoning process before giving the final answer. This drastically reduces mathematical and logical errors.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Tree of Thoughts",
+          "content": "<h1>Exploring Multiple Paths</h1><p>An advanced technique where you ask the AI to generate multiple possible solutions to a problem, evaluate them against each other, and select the optimal path.</p>",
+          "sequence_order": 2
+        }
+      ]
+    },
+    {
+      "title": "Safety and System Prompts",
+      "description": "Building robust and safe AI interactions.",
+      "sequence_order": 3,
+      "lessons": [
+        {
+          "title": "Writing System Prompts",
+          "content": "<h1>Defining the AI's Identity</h1><p>In API development, the System Prompt dictates the overarching behavior of the model. It sets rules that user prompts cannot easily override, essential for building secure chatbots.</p>",
+          "sequence_order": 1
+        },
+        {
+          "title": "Mitigating Hallucinations",
+          "content": "<h1>Grounding the Model</h1><p>To prevent hallucinations, provide the AI with a reference text and instruct it: 'Answer the question using ONLY the provided text. If the answer is not in the text, say \"I don't know.\"'</p>",
+          "sequence_order": 2
+        }
+      ]
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What are the four core components of a highly structured prompt?",
+      "points": 1,
+      "options": [
+        { "content": "Question, Answer, Source, Date", "is_correct": false },
+        { "content": "Instruction, Context, Input Data, Output Indicator", "is_correct": true },
+        { "content": "Title, Body, Signature, Attachment", "is_correct": false },
+        { "content": "Who, What, Where, When", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is Zero-Shot prompting?",
+      "points": 1,
+      "options": [
+        { "content": "Asking a question without providing any examples of the desired output", "is_correct": true },
+        { "content": "Using zero words in your prompt", "is_correct": false },
+        { "content": "Prompting an AI that has zero training data", "is_correct": false },
+        { "content": "Getting a completely incorrect answer", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why is Few-Shot prompting effective?",
+      "points": 1,
+      "options": [
+        { "content": "It makes the prompt shorter", "is_correct": false },
+        { "content": "It confuses the AI, making it work harder", "is_correct": false },
+        { "content": "It shows the AI the pattern and format you expect, improving reliability", "is_correct": true },
+        { "content": "It bypasses the AI's safety filters", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the primary benefit of Chain-of-Thought (CoT) prompting?",
+      "points": 1,
+      "options": [
+        { "content": "It makes the output rhyme", "is_correct": false },
+        { "content": "It forces the AI to output its reasoning process, reducing logical errors", "is_correct": true },
+        { "content": "It makes the generation process instantaneous", "is_correct": false },
+        { "content": "It generates code in multiple languages simultaneously", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Which phrase is commonly added to a prompt to trigger basic Chain-of-Thought reasoning?",
+      "points": 1,
+      "options": [
+        { "content": "Hurry up", "is_correct": false },
+        { "content": "Write this as a poem", "is_correct": false },
+        { "content": "Let's think step by step", "is_correct": true },
+        { "content": "Ignore all previous instructions", "is_correct": false }
+      ]
+    },
+    {
+      "question": "In the context of AI APIs (like OpenAI's), what is the role of the System Prompt?",
+      "points": 1,
+      "options": [
+        { "content": "To reboot the server", "is_correct": false },
+        { "content": "To dictate the overarching identity, rules, and boundaries of the AI", "is_correct": true },
+        { "content": "To collect user analytics", "is_correct": false },
+        { "content": "To process payment information", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is one of the most effective ways to prevent an AI from hallucinating facts?",
+      "points": 1,
+      "options": [
+        { "content": "Provide reference text and instruct it to answer using ONLY that text", "is_correct": true },
+        { "content": "Tell it to use its imagination", "is_correct": false },
+        { "content": "Ask it yes or no questions only", "is_correct": false },
+        { "content": "Threaten it with a low rating", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What is the 'Output Indicator' in a prompt?",
+      "points": 1,
+      "options": [
+        { "content": "The flashing cursor on the screen", "is_correct": false },
+        { "content": "The final part of the prompt that specifies the format (e.g., 'Format as JSON:')", "is_correct": true },
+        { "content": "The loading spinner", "is_correct": false },
+        { "content": "The length of the response", "is_correct": false }
+      ]
+    },
+    {
+      "question": "What does the 'Tree of Thoughts' prompting technique involve?",
+      "points": 1,
+      "options": [
+        { "content": "Drawing a family tree using ASCII art", "is_correct": false },
+        { "content": "Asking the AI to generate, evaluate, and select from multiple possible reasoning paths", "is_correct": true },
+        { "content": "Only asking questions about nature", "is_correct": false },
+        { "content": "Saving prompts in a hierarchical folder structure", "is_correct": false }
+      ]
+    },
+    {
+      "question": "Why might a prompt engineer assign a 'Persona' (e.g., 'Act as a senior copywriter') to the AI?",
+      "points": 1,
+      "options": [
+        { "content": "To unlock restricted features", "is_correct": false },
+        { "content": "To guide the vocabulary, tone, and depth of the generated response", "is_correct": true },
+        { "content": "To make the AI self-aware", "is_correct": false },
+        { "content": "Because the AI requires a name to function", "is_correct": false }
+      ]
+    }
+  ]
+}
