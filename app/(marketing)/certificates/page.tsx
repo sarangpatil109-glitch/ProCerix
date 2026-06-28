@@ -1,14 +1,14 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { CourseCard } from "@/components/search/course-card";
 import { ShieldCheck } from "lucide-react";
 
 export default async function CertificatesPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: courses } = await supabase
     .from("courses")
     .select("*")
     .eq("course_type", "certificate")
-    .eq("is_published", true)
+    .is("deleted_at", null)
     .order("created_at", { ascending: false });
 
   return (
