@@ -3,8 +3,7 @@ import { SettingsService } from "@/services/settings-service";
 import { APP_CONFIG } from "@/constants";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await SettingsService.getAllSettings();
-  const siteName = settings.platform_name || APP_CONFIG.name;
+  const siteName = await SettingsService.getSetting("platform_name", APP_CONFIG.name);
   return {
     title: `About Us | ${siteName}`,
     description: `Learn more about ${siteName} and our mission.`
@@ -12,8 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const settings = await SettingsService.getAllSettings();
-  const siteName = settings.platform_name || APP_CONFIG.name;
+  const siteName = await SettingsService.getSetting("platform_name", APP_CONFIG.name);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-24 sm:px-6 lg:px-8">

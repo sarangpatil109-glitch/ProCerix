@@ -2,7 +2,7 @@
 
 import { courseSchema, type CourseInput } from "@/validators/course";
 import { CourseService } from "@/services/course-service";
-import { revalidateTag } from "next/cache";
+import { revalidateTag   } from "next/cache";
 
 export async function createCourseAction(data: CourseInput) {
   const result = courseSchema.safeParse(data);
@@ -12,7 +12,7 @@ export async function createCourseAction(data: CourseInput) {
 
   try {
     const course = await CourseService.createCourse(result.data);
-    revalidateTag("courses");
+    revalidateTag("courses", "default");
     return { success: true, data: course };
   } catch (error: any) {
     return { error: error.message };
@@ -22,19 +22,19 @@ export async function createCourseAction(data: CourseInput) {
 export async function updateCourseAction(id: string, data: Partial<CourseInput>) {
   try {
     const course = await CourseService.updateCourse(id, data);
-    revalidateTag("courses");
+    revalidateTag("courses", "default");
     return { success: true, data: course };
   } catch (error: any) {
     return { error: error.message };
   }
 }
 
-export async function archiveCourseAction(id: string) {
-  try {
-    await CourseService.archiveCourse(id);
-    revalidateTag("courses");
-    return { success: true };
-  } catch (error: any) {
-    return { error: error.message };
+  export async function archiveCourseAction(id: string) {
+    try {
+      await CourseService.archiveCourse(id);
+      revalidateTag("courses", "default");
+      return { success: true };
+    } catch (error: any) {
+      return { error: error.message };
+    }
   }
-}

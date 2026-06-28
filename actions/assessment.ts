@@ -2,7 +2,7 @@
 
 import { startAttemptSchema, submitAttemptSchema, type StartAttemptInput, type SubmitAttemptInput } from "@/validators/assessment";
 import { AssessmentService } from "@/services/assessment-service";
-import { revalidateTag } from "next/cache";
+import { revalidateTag   } from "next/cache";
 
 export async function startAttemptAction(data: StartAttemptInput) {
   const result = startAttemptSchema.safeParse(data);
@@ -10,7 +10,7 @@ export async function startAttemptAction(data: StartAttemptInput) {
 
   try {
     const attempt = await AssessmentService.startAttempt(result.data);
-    revalidateTag(`attempts-${data.enrollment_id}`);
+    revalidateTag(`attempts-${data.enrollment_id}`, "default");
     return { success: true, data: attempt };
   } catch (error: any) {
     return { error: error.message };
@@ -24,7 +24,7 @@ export async function submitAttemptAction(data: SubmitAttemptInput) {
   try {
     const attemptResult = await AssessmentService.submitAttempt(result.data);
     
-    revalidateTag("attempts");
+    revalidateTag("attempts", "default");
     
     return { success: true, data: attemptResult };
   } catch (error: any) {

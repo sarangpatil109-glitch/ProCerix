@@ -4,8 +4,7 @@ import { APP_CONFIG } from "@/constants";
 import { Mail, MapPin, Send } from "lucide-react";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await SettingsService.getAllSettings();
-  const siteName = settings.platform_name || APP_CONFIG.name;
+  const siteName = await SettingsService.getSetting("platform_name", APP_CONFIG.name);
   return {
     title: `Contact Us | ${siteName}`,
     description: `Contact ${siteName} for any support or inquiries.`
@@ -13,9 +12,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
-  const settings = await SettingsService.getAllSettings();
-  const siteName = settings.platform_name || APP_CONFIG.name;
-  const supportEmail = settings.support_email || "support@procerix.com";
+  const siteName = await SettingsService.getSetting("platform_name", APP_CONFIG.name);
+  const supportEmail = await SettingsService.getSetting("support_email", "support@procerix.com");
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-24 sm:px-6 lg:px-8">

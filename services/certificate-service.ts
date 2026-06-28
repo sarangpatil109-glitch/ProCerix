@@ -8,7 +8,7 @@ export class CertificateService {
     return `PCX-${year}-${random}`;
   }
 
-  static async issueCertificate(userId: string, courseId: string) {
+  static async issueCertificate(userId: string, courseId: string): Promise<{ credential_id: string }> {
     const supabase = await createClient();
 
     // 1. Idempotency Check: Prevent duplicate generation per user/course

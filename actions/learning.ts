@@ -2,7 +2,7 @@
 
 import { moduleSchema, lessonSchema, progressSchema, type ModuleInput, type LessonInput, type ProgressInput } from "@/validators/learning";
 import { LearningService } from "@/services/learning-service";
-import { revalidateTag } from "next/cache";
+import { revalidateTag   } from "next/cache";
 
 export async function createModuleAction(data: ModuleInput) {
   const result = moduleSchema.safeParse(data);
@@ -10,7 +10,7 @@ export async function createModuleAction(data: ModuleInput) {
 
   try {
     const module = await LearningService.createModule(result.data);
-    revalidateTag(`course-content-${data.course_id}`);
+    revalidateTag(`course-content-${data.course_id}`, "default");
     return { success: true, data: module };
   } catch (error: any) {
     return { error: error.message };
@@ -20,7 +20,7 @@ export async function createModuleAction(data: ModuleInput) {
 export async function updateModuleAction(id: string, courseId: string, data: Partial<ModuleInput>) {
   try {
     const module = await LearningService.updateModule(id, data);
-    revalidateTag(`course-content-${courseId}`);
+    revalidateTag(`course-content-${courseId}`, "default");
     return { success: true, data: module };
   } catch (error: any) {
     return { error: error.message };
@@ -33,7 +33,7 @@ export async function createLessonAction(data: LessonInput, courseId: string) {
 
   try {
     const lesson = await LearningService.createLesson(result.data);
-    revalidateTag(`course-content-${courseId}`);
+    revalidateTag(`course-content-${courseId}`, "default");
     return { success: true, data: lesson };
   } catch (error: any) {
     return { error: error.message };
@@ -43,7 +43,7 @@ export async function createLessonAction(data: LessonInput, courseId: string) {
 export async function updateLessonAction(id: string, courseId: string, data: Partial<LessonInput>) {
   try {
     const lesson = await LearningService.updateLesson(id, data);
-    revalidateTag(`course-content-${courseId}`);
+    revalidateTag(`course-content-${courseId}`, "default");
     return { success: true, data: lesson };
   } catch (error: any) {
     return { error: error.message };
@@ -56,7 +56,7 @@ export async function updateProgressAction(data: ProgressInput) {
 
   try {
     const progress = await LearningService.updateProgress(result.data);
-    revalidateTag(`progress-${data.enrollment_id}`);
+    revalidateTag(`progress-${data.enrollment_id}`, "default");
     return { success: true, data: progress };
   } catch (error: any) {
     return { error: error.message };

@@ -25,6 +25,21 @@ export class SettingsService {
     return defaultValue;
   }
 
+  static async getAllSettings(): Promise<Record<string, any>> {
+    try {
+      const supabase = await createClient();
+      const { data, error } = await supabase.from("system_settings").select("*");
+      if (!error && data) {
+        const result: Record<string, any> = {};
+        data.forEach(row => { result[row.key] = row.value; });
+        return result;
+      }
+    } catch (e) {
+      console.error(`Failed to fetch all settings`, e);
+    }
+    return {};
+  }
+
   static async invalidate(key: string) {
     delete this.cache[key];
   }
