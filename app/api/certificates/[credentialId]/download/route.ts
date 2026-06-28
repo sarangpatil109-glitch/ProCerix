@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CertificateService } from "@/services/certificate-service";
 
-export async function GET(req: NextRequest, { params }: { params: { credentialId: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ credentialId: string }> }) {
   try {
+    const params = await props.params;
     const pdfBuffer = await CertificateService.downloadCertificatePdf(params.credentialId);
 
     return new NextResponse(pdfBuffer, {
