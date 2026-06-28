@@ -43,9 +43,11 @@ export async function GET() {
               slug,
               description: payload.description,
               difficulty: payload.difficulty,
+              course_type: payload.course_type,
+              is_published: true,
             } as any)
             .eq("id", existing.id);
-            
+
           if (updateErr) {
             skipped++;
             errors.push({ file, error: updateErr.message });
@@ -53,8 +55,9 @@ export async function GET() {
             updated++;
           }
         } else {
-          // Does not exist, insert via StorageAdapter
-          await StorageAdapter.persistGeneratedCourse(payload.title, payload);
+          // Does not exist, insert via StorageAdapter then publish
+          const course = await StorageAdapter.persistGeneratedCourse(payload.title, payload);
+          await supabase.from("courses").update({ is_published: true } as any).eq("id", course.id);
           inserted++;
         }
       } catch (err: any) {
