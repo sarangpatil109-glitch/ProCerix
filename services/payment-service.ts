@@ -67,15 +67,20 @@ export class PaymentService {
     console.log("[create-order] payment created", { paymentId: payment.id, orderId });
 
     // Step 3: Log payment_created event (best-effort).
-    await (supabase as any)
-      .from("payment_events")
-      .insert({
-        payment_id: payment.id,
-        event_type: "payment_created",
-        cashfree_order_id: orderId,
-        status: "pending",
-      })
-      .catch((e: any) => console.error("[payment] payment_events insert failed:", e));
+    try {
+      const { error: eventError } = await (supabase as any)
+        .from("payment_events")
+        .insert({
+          payment_id: payment.id,
+          event_type: "payment_created",
+          cashfree_order_id: orderId,
+          status: "pending",
+        });
+      
+      if (eventError) throw eventError;
+    } catch (e: any) {
+      console.error("[payment] payment_events insert failed:", e);
+    }
 
     // Step 4: Create Cashfree order.
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -138,15 +143,20 @@ export class PaymentService {
       } as any)
       .eq("id", payment.id);
 
-    await (supabase as any)
-      .from("payment_events")
-      .insert({
-        payment_id: payment.id,
-        event_type: "payment_success",
-        cashfree_order_id: orderId,
-        status: "success",
-      })
-      .catch((e: any) => console.error("[payment] payment_events insert failed:", e));
+    try {
+      const { error: eventError } = await (supabase as any)
+        .from("payment_events")
+        .insert({
+          payment_id: payment.id,
+          event_type: "payment_success",
+          cashfree_order_id: orderId,
+          status: "success",
+        });
+
+      if (eventError) throw eventError;
+    } catch (e: any) {
+      console.error("[payment] payment_events insert failed:", e);
+    }
 
     // Create enrollment using admin client so RLS is bypassed in webhook context.
     const courseSlug: string = payment.course_slug || payment.skill_name || orderId;
@@ -177,15 +187,20 @@ export class PaymentService {
       .update({ status: "failed", updated_at: new Date().toISOString() } as any)
       .eq("id", payment.id);
 
-    await (supabase as any)
-      .from("payment_events")
-      .insert({
-        payment_id: payment.id,
-        event_type: "payment_failed",
-        cashfree_order_id: orderId,
-        status: reason || "failed",
-      })
-      .catch((e: any) => console.error("[payment] payment_events insert failed:", e));
+    try {
+      const { error: eventError } = await (supabase as any)
+        .from("payment_events")
+        .insert({
+          payment_id: payment.id,
+          event_type: "payment_failed",
+          cashfree_order_id: orderId,
+          status: reason || "failed",
+        });
+
+      if (eventError) throw eventError;
+    } catch (e: any) {
+      console.error("[payment] payment_events insert failed:", e);
+    }
   }
 
   static async getUserPayments(supabase: any, userId: string) {
