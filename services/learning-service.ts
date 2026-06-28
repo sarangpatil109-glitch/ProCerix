@@ -4,13 +4,13 @@ import { createClient } from "@/lib/supabase/server";
 import { sortModulesAndLessons } from "@/engines/learning/utils";
 
 export class LearningService {
-  static async getRepository() {
-    const supabase = await createClient();
+  static async getRepository(adminClient?: any) {
+    const supabase = adminClient || await createClient();
     return new LearningRepository(supabase);
   }
 
-  static async getCourseContent(courseId: string) {
-    const repo = await this.getRepository();
+  static async getCourseContent(courseId: string, adminClient?: any) {
+    const repo = await this.getRepository(adminClient);
     const modules = await repo.getCourseContent(courseId);
     return sortModulesAndLessons(modules as any);
   }

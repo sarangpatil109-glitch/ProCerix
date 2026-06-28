@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { CourseService } from "@/services/course-service";
 import { LearningService } from "@/services/learning-service";
 import { EnrollmentService } from "@/services/enrollment-service";
@@ -13,14 +14,15 @@ export default async function LessonPage(props: { params: Promise<{ slug: string
   if (!user) redirect("/login");
   const userId = user.id;
 
-  const courseRepo = await CourseService.getRepository();
+  const adminDb = createAdminClient();
+  const courseRepo = await CourseService.getRepository(adminDb);
   const course = await courseRepo.getCourseBySlug(params.slug).catch(() => null);
   if (!course) notFound();
 
   const enrollment = await EnrollmentService.checkAccess(userId, course.id).catch(() => null);
   if (!enrollment) redirect(`/course/${params.slug}`);
 
-  const curriculum = await LearningService.getCourseContent(course.id);
+  const curriculum = await LearningService.getCourseContent(course.id, adminDb);
   const progress = await LearningService.getUserProgress(enrollment.id);
 
   // Flatten curriculum to find prev/next relationships

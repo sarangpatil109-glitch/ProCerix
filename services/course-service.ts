@@ -3,8 +3,8 @@ import { CourseInput } from "@/validators/course";
 import { createClient } from "@/lib/supabase/server";
 
 export class CourseService {
-  static async getRepository() {
-    const supabase = await createClient();
+  static async getRepository(adminClient?: any) {
+    const supabase = adminClient || await createClient();
     return new CourseRepository(supabase);
   }
 
