@@ -10,7 +10,7 @@ export function buildQuizQuery(client: SupabaseClient<Database>, quizId: string)
 }
 
 export function buildUserAttemptsQuery(client: SupabaseClient<Database>, enrollmentId: string, quizId: string) {
-  return client
+  return (client as any)
     .from("attempts")
     .select("*")
     .eq("enrollment_id", enrollmentId)

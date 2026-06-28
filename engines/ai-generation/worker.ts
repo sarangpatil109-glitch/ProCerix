@@ -22,7 +22,7 @@ export class GenerationWorker {
     const supabase = await createClient();
 
     // 1. Locate pending/queued generation requests securely
-    const { data: request, error: lockError } = await supabase
+    const { data: request, error: lockError } = await (supabase as any)
       .from("course_generation_requests")
       .select("*")
       .in("status", ["pending", "queued"])

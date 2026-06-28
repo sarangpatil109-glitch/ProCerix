@@ -78,7 +78,9 @@ export default async function SearchPage({
             </p>
           </div>
           
-          <SearchBar />
+          <Suspense fallback={<div className="h-16 max-w-2xl mx-auto bg-gray-100 dark:bg-gray-900 animate-pulse rounded-full" />}>
+            <SearchBar />
+          </Suspense>
         </div>
       </div>
 

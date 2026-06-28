@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { CourseEngine } from "@/engines/course";
 import { EnrollmentService } from "@/services/enrollment-service";
 
 export class AIPipelineService {

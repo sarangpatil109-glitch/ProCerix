@@ -6,7 +6,7 @@ export async function getById<T extends keyof Database['public']['Tables']>(
   table: T,
   id: string
 ) {
-  const { data, error } = await client
+  const { data, error } = await (client as any)
     .from(table)
     .select("*")
     .eq("id", id)

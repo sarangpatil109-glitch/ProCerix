@@ -6,12 +6,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://procerix.com';
   const supabase = await createClient();
 
-  const { data: courses } = await supabase
+  const { data: courses } = await (supabase as any)
     .from('courses')
     .select('slug, updated_at, course_type')
     .eq('is_published', true);
 
-  const courseUrls = (courses || []).map((course) => ({
+  const courseUrls = (courses || []).map((course: any) => ({
     url: `${baseUrl}/${course.course_type}/${course.slug}`,
     lastModified: new Date(course.updated_at),
     changeFrequency: 'weekly' as const,

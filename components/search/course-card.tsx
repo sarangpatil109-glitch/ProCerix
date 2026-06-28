@@ -48,7 +48,7 @@ export function CourseCard({ course }: { course: CourseRow & { duration_minutes?
             </div>
             
             <div className="text-lg font-bold text-gray-900 dark:text-white">
-              {course.price > 0 ? `$${course.price}` : "Free"}
+              {(course.price ?? 0) > 0 ? `$${course.price}` : "Free"}
             </div>
           </div>
         </div>

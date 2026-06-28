@@ -16,7 +16,7 @@ export class PromptManager {
     }
 
     // Get the active version
-    const { data: version } = await supabase
+    const { data: version } = await (supabase as any)
       .from("prompt_versions")
       .select("content")
       .eq("template_id", template.id)

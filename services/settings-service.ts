@@ -18,7 +18,8 @@ export class SettingsService {
          this.cache[key] = { value: data.value, expiresAt: now + this.TTL };
          return data.value as T;
       }
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.digest === 'DYNAMIC_SERVER_USAGE') throw e;
       console.error(`Failed to fetch setting ${key}`, e);
     }
 
@@ -34,7 +35,8 @@ export class SettingsService {
         data.forEach(row => { result[row.key] = row.value; });
         return result;
       }
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.digest === 'DYNAMIC_SERVER_USAGE') throw e;
       console.error(`Failed to fetch all settings`, e);
     }
     return {};

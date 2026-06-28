@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { updateResumeAction } from "@/actions/resume";
 import { ResumeData } from "@/engines/resume/repository";
-import { Save, FileDown, Download, Check, RefreshCw } from "lucide-react";
+import { Save, FileDown, Download, Check, RefreshCw, FileText } from "lucide-react";
 
 export function ResumeBuilderClient({ resume, userId }: { resume: ResumeData, userId: string }) {
   const [data, setData] = useState<ResumeData>(resume);

@@ -6,7 +6,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ credentia
     const params = await props.params;
     const pdfBuffer = await CertificateService.downloadCertificatePdf(params.credentialId);
 
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(new Uint8Array(pdfBuffer), {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="ProCerix_Certificate_${params.credentialId}.pdf"`,

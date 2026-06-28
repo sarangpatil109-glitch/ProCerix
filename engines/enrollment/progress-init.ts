@@ -6,7 +6,7 @@ export async function initializeProgressRecords(
   enrollmentId: string, 
   courseId: string
 ) {
-  const { data: modules, error: modErr } = await client
+  const { data: modules, error: modErr } = await (client as any)
     .from("learning_modules")
     .select("id, lessons(id)")
     .eq("course_id", courseId)

@@ -59,7 +59,7 @@ export class StorageAdapter {
 
     if (quizData) {
       // Attach the quiz to the last module dynamically
-      const { data: lastModule } = await supabase.from("learning_modules").select("id").eq("course_id", course.id).order("sequence_order", { ascending: false }).limit(1).single();
+      const { data: lastModule } = await (supabase as any).from("learning_modules").select("id").eq("course_id", course.id).order("sequence_order", { ascending: false }).limit(1).single();
       
       if (lastModule) {
         await supabase.from("quizzes").update({ module_id: lastModule.id } as any).eq("id", quizData.id);

@@ -33,7 +33,8 @@ export class GenerationService {
 
     if (product && !product.useAI) {
       // For products that don't use AI (e.g., HR Directory), instantiate them immediately in DB
-      const { data: newCourse, error } = await courseRepo.supabase
+      const supabase = await createClient();
+      const { data: newCourse, error } = await (supabase as any)
         .from("courses")
         .insert({
           title: product.name,

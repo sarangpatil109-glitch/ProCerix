@@ -11,7 +11,7 @@ async function getInternshipsHandler(req: any, ctx: any, auth: any) {
   }
 
   const supabase = await createClient();
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from("internship_submissions")
     .select("*, tasks(*)")
     .eq("user_id", userId);

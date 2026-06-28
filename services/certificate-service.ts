@@ -91,6 +91,12 @@ export class CertificateService {
     return data;
   }
 
+  static async verifyCertificate(credentialId: string) {
+    const certificate = await this.getCertificate(credentialId);
+    if (!certificate) return { valid: false };
+    return { valid: true, certificate };
+  }
+
   static async downloadCertificatePdf(credentialId: string) {
     const cert = await this.getCertificate(credentialId);
     if (!cert) throw new Error("Certificate not found");

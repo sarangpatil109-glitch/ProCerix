@@ -2,7 +2,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase";
 
 export function buildModulesQuery(client: SupabaseClient<Database>, courseId: string) {
-  return client
+  return (client as any)
     .from("learning_modules")
     .select("*, lessons(*)")
     .eq("course_id", courseId)

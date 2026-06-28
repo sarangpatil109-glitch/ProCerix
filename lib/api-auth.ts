@@ -45,7 +45,7 @@ export async function logApiAudit(
     endpoint: request.nextUrl.pathname,
     method: request.method,
     status_code: statusCode,
-    ip_address: request.headers.get("x-forwarded-for") || request.ip || "unknown"
+    ip_address: request.headers.get("x-forwarded-for") || "unknown"
   } as any);
 }
 
@@ -74,7 +74,7 @@ export function checkRateLimit(ip: string, limit: number = 100, windowMs: number
 export function withApiAuth(handler: (req: NextRequest, ctx: any, auth: any) => Promise<NextResponse>) {
   return async (req: NextRequest, ctx: any) => {
     // 1. Rate Limiting
-    const ip = req.headers.get("x-forwarded-for") || req.ip || "unknown";
+    const ip = req.headers.get("x-forwarded-for") || "unknown";
     const rl = checkRateLimit(ip, 100, 60000); // 100 reqs per minute
     
     if (!rl.allowed) {
@@ -93,11 +93,11 @@ export function withApiAuth(handler: (req: NextRequest, ctx: any, auth: any) => 
 
     // 3. Execution & Logging
     try {
-      const response = await handler(req, ctx, authResult.apiKey);
-      await logApiAudit(authResult.apiKey.id, authResult.apiKey.user_id, req, response.status);
+      const response = await handler(req, ctx, authResult.apiKey!);
+      await logApiAudit(authResult.apiKey!.id, authResult.apiKey!.user_id, req, response.status);
       return response;
     } catch (error: any) {
-      await logApiAudit(authResult.apiKey.id, authResult.apiKey.user_id, req, 500);
+      await logApiAudit(authResult.apiKey!.id, authResult.apiKey!.user_id, req, 500);
       return NextResponse.json({ error: "Internal Server Error", details: error.message }, { status: 500 });
     }
   };

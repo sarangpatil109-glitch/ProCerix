@@ -54,7 +54,7 @@ export default async function ResumeDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {resumes?.map(resume => (
+        {resumes?.map((resume: any) => (
           <div key={resume.id} className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col h-48">
             <div className="flex items-start justify-between mb-auto">
               <div className="flex items-center gap-3">
