@@ -8,19 +8,19 @@ export async function POST(req: NextRequest) {
 
   try {
     if (action === "CREATE") {
-      const { data, error } = await supabase.from(entity).insert(payload).select().single();
+      const { data, error } = await (supabase as any).from(entity).insert(payload).select().single();
       if (error) throw error;
       return NextResponse.json(data);
     } 
     else if (action === "UPDATE") {
       const pk = reqData.primaryKey || "id";
-      const { data, error } = await supabase.from(entity).update(payload).eq(pk, id).select().single();
+      const { data, error } = await (supabase as any).from(entity).update(payload).eq(pk, id).select().single();
       if (error) throw error;
       return NextResponse.json(data);
     }
     else if (action === "DELETE") {
       const pk = reqData.primaryKey || "id";
-      const { error } = await supabase.from(entity).delete().eq(pk, id);
+      const { error } = await (supabase as any).from(entity).delete().eq(pk, id);
       if (error) throw error;
       return NextResponse.json({ success: true });
     }

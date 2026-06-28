@@ -1,4 +1,4 @@
-import { ReactNode } from "next";
+import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
