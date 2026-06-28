@@ -4,7 +4,8 @@ import { ProductRegistry } from "@/engines/registry/product-registry";
 import { createClient } from "@/lib/supabase/server";
 import { CourseStickyCard } from "@/components/course/course-sticky-card";
 
-export async function generateMetadata({ params }: { params: { productSlug: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ productSlug: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const product = ProductRegistry.getProductBySlug(params.productSlug);
   if (!product) return { title: "Not Found" };
   
@@ -14,7 +15,8 @@ export async function generateMetadata({ params }: { params: { productSlug: stri
   };
 }
 
-export default async function ProductLandingPage({ params }: { params: { productSlug: string } }) {
+export default async function ProductLandingPage(props: { params: Promise<{ productSlug: string }> }) {
+  const params = await props.params;
   const product = ProductRegistry.getProductBySlug(params.productSlug);
   if (!product) notFound();
 

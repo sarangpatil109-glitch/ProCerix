@@ -6,7 +6,8 @@ import { EnrollmentService } from "@/services/enrollment-service";
 import { LessonViewer } from "@/components/learn/lesson-viewer";
 import { LessonNavigation } from "@/components/learn/lesson-navigation";
 
-export default async function LessonPage({ params }: { params: { slug: string, lessonId: string } }) {
+export default async function LessonPage(props: { params: Promise<{ slug: string, lessonId: string }> }) {
+  const params = await props.params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");

@@ -3,7 +3,8 @@ import { ProductRegistry, ProductType } from "@/engines/registry/product-registr
 import { notFound, redirect } from "next/navigation";
 import { EnrollmentService } from "@/services/enrollment-service";
 
-export default async function GenericDashboardProductPage({ params }: { params: { productType: string } }) {
+export default async function GenericDashboardProductPage(props: { params: Promise<{ productType: string }> }) {
+  const params = await props.params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");

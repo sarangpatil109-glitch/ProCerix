@@ -6,13 +6,7 @@ import { LearningService } from "@/services/learning-service";
 import { EnrollmentService } from "@/services/enrollment-service";
 import { LearnSidebar } from "@/components/learn/learn-sidebar";
 
-export default async function LearnLayout({ 
-  params, 
-  children 
-}: { 
-  params: { slug: string }; 
-  children: ReactNode;
-}) {
+export default async function LearnLayout(props: { params: Promise<{ slug: string  }>; children: ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const userId = user?.id || "demo-user-id";

@@ -4,7 +4,8 @@ import { PromptVersionClient } from "./PromptVersionClient";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default async function PromptVersionPage({ params }: { params: { id: string } }) {
+export default async function PromptVersionPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const supabase = await createClient();
 
   const { data: template } = await supabase

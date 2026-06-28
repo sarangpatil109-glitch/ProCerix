@@ -3,7 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { CourseEditorClient } from "./CourseEditorClient";
 import { LearningService } from "@/services/learning-service";
 
-export default async function EditCoursePage({ params }: { params: { id: string } }) {
+export default async function EditCoursePage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const supabase = await createClient();
 
   const { data: course } = await supabase.from("courses").select("*").eq("id", params.id).single();

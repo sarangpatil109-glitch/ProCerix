@@ -4,13 +4,15 @@ import { CertificateService } from "@/services/certificate-service";
 import { ShieldCheck, Calendar, BookOpen, User } from "lucide-react";
 import Link from "next/link";
 
-export async function generateMetadata({ params }: { params: { credentialId: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ credentialId: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const cert = await CertificateService.getCertificate(params.credentialId);
   if (!cert) return { title: "Certificate Not Found" };
   return { title: `ProCerix Verified: ${cert.profiles.first_name} ${cert.profiles.last_name}` };
 }
 
-export default async function VerifyCertificatePage({ params }: { params: { credentialId: string } }) {
+export default async function VerifyCertificatePage(props: { params: Promise<{ credentialId: string }> }) {
+  const params = await props.params;
   const cert = await CertificateService.getCertificate(params.credentialId);
 
   if (!cert) {

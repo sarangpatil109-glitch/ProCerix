@@ -2,7 +2,8 @@ import { redirect, notFound } from "next/navigation";
 import { CourseService } from "@/services/course-service";
 import { LearningService } from "@/services/learning-service";
 
-export default async function LearnRedirectPage({ params }: { params: { slug: string } }) {
+export default async function LearnRedirectPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const courseRepo = await CourseService.getRepository();
   const course = await courseRepo.getCourseBySlug(params.slug).catch(() => null);
 
