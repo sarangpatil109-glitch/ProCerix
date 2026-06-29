@@ -12,6 +12,7 @@ export function LessonNavigation({
   isCompleted,
   prevLessonId,
   nextLessonId,
+  moduleQuizId,
   userId,
   courseId
 }: {
@@ -21,6 +22,7 @@ export function LessonNavigation({
   isCompleted: boolean;
   prevLessonId: string | null;
   nextLessonId: string | null;
+  moduleQuizId: string | null;
   userId: string;
   courseId: string;
 }) {
@@ -37,11 +39,17 @@ export function LessonNavigation({
     });
     setLoading(false);
     
-    if (!isCompleted && nextLessonId) {
-      router.push(`/learn/${courseSlug}/${nextLessonId}`);
-    } else if (!isCompleted && !nextLessonId) {
-      // Auto-trigger certificate if last lesson
-      handleCertificate();
+    if (!isCompleted) {
+      if (moduleQuizId) {
+        // Last lesson in this module — go to the module quiz before advancing
+        router.push(`/learn/${courseSlug}/quiz/${moduleQuizId}`);
+      } else if (nextLessonId) {
+        // Next lesson exists (module has no quiz, or cross-module)
+        router.push(`/learn/${courseSlug}/${nextLessonId}`);
+      } else {
+        // Last lesson in the entire course and no quiz — issue certificate
+        handleCertificate();
+      }
     } else {
       router.refresh();
     }

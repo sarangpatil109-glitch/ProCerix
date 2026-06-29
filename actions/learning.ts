@@ -2,6 +2,7 @@
 
 import { moduleSchema, lessonSchema, progressSchema, type ModuleInput, type LessonInput, type ProgressInput } from "@/validators/learning";
 import { LearningService } from "@/services/learning-service";
+import { createClient } from "@/lib/supabase/server";
 import { revalidateTag   } from "next/cache";
 
 export async function createModuleAction(data: ModuleInput) {
@@ -45,6 +46,32 @@ export async function updateLessonAction(id: string, courseId: string, data: Par
     const lesson = await LearningService.updateLesson(id, data);
     revalidateTag(`course-content-${courseId}`, "default");
     return { success: true, data: lesson };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+export async function submitQuizAttemptAction(data: {
+  enrollmentId: string;
+  quizId: string;
+  score: number;
+  passed: boolean;
+}) {
+  try {
+    const supabase = await createClient();
+    const { data: attempt, error } = await supabase
+      .from("attempts")
+      .insert({
+        enrollment_id: data.enrollmentId,
+        quiz_id: data.quizId,
+        score: data.score,
+        status: data.passed ? ("passed" as const) : ("failed" as const),
+        completed_at: new Date().toISOString(),
+      } as any)
+      .select()
+      .single();
+    if (error) return { error: error.message };
+    return { success: true, data: attempt };
   } catch (error: any) {
     return { error: error.message };
   }

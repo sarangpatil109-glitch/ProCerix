@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { CheckCircle2, Circle, PlayCircle, FileText } from "lucide-react";
+import { CheckCircle2, Circle, PlayCircle, FileText, ClipboardList } from "lucide-react";
 
 export function LearnSidebar({ 
   course, 
@@ -15,7 +15,8 @@ export function LearnSidebar({
   enrollmentId: string
 }) {
   const params = useParams();
-  const currentLessonId = params.lessonId as string;
+  const currentLessonId = params.lessonId as string | undefined;
+  const currentQuizId = params.quizId as string | undefined;
 
   const getProgress = (lessonId: string) => {
     return progress.find((p) => p.lesson_id === lessonId)?.is_completed;
@@ -48,7 +49,7 @@ export function LearnSidebar({
                     key={lesson.id}
                     href={`/learn/${course.slug}/${lesson.id}`}
                     className={`flex items-start gap-3 p-3 rounded-xl transition-all ${
-                      isActive 
+                      isActive
                         ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"
                         : "hover:bg-gray-50 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-300"
                     }`}
@@ -65,6 +66,30 @@ export function LearnSidebar({
                       <div className="flex items-center gap-1.5 mt-1 opacity-60">
                         {lesson.video_url ? <PlayCircle className="w-3.5 h-3.5" /> : <FileText className="w-3.5 h-3.5" />}
                         <span className="text-xs">{lesson.video_url ? "Video" : "Article"}</span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+              {(module.quizzes as any[] | undefined)?.filter((q: any) => !q.deleted_at).map((quiz: any) => {
+                const isActive = currentQuizId === quiz.id;
+                return (
+                  <Link
+                    key={quiz.id}
+                    href={`/learn/${course.slug}/quiz/${quiz.id}`}
+                    className={`flex items-start gap-3 p-3 rounded-xl transition-all ${
+                      isActive
+                        ? "bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300"
+                        : "hover:bg-gray-50 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-300"
+                    }`}
+                  >
+                    <div className="mt-0.5 shrink-0">
+                      <ClipboardList className={`w-5 h-5 ${isActive ? "text-orange-500" : "text-orange-400"}`} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-sm leading-snug">{quiz.title}</p>
+                      <div className="flex items-center gap-1.5 mt-1 opacity-60">
+                        <span className="text-xs">Module Quiz</span>
                       </div>
                     </div>
                   </Link>
