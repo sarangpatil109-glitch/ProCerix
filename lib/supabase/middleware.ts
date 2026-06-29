@@ -1,5 +1,4 @@
 import { createServerClient } from "@supabase/ssr";
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 import { env } from "@/validators/env";
 import type { Database } from "@/types/supabase";
@@ -20,7 +19,7 @@ export const updateSession = async (request: NextRequest) => {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value));
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
             request,
           });
@@ -48,66 +47,23 @@ export const updateSession = async (request: NextRequest) => {
 
   // ── Admin route protection ────────────────────────────────────────────────
   if (url.pathname.startsWith("/admin")) {
-    // 1. Must be authenticated
+    const adminEmail = process.env.ADMIN_EMAIL;
+
     if (!user) {
-      console.log(`[proxy] ${url.pathname} → /login | reason: unauthenticated`);
+      console.log(`[proxy] /admin → /login | reason: unauthenticated`);
       url.pathname = "/login";
       return NextResponse.redirect(url);
     }
 
-    // 2. Validate env before touching the DB
-    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (!serviceKey) {
-      console.error(
-        `[proxy] FATAL: SUPABASE_SERVICE_ROLE_KEY is not set. ` +
-        `Cannot verify admin status for userId=${user.id}. ` +
-        `Add it to .env.local and restart the dev server.`
-      );
-      // Fail open toward login, not dashboard — admin panel stays protected
-      url.pathname = "/login";
-      return NextResponse.redirect(url);
-    }
+    console.log(`[proxy] /admin check | loggedInEmail=${user.email} | adminEmail=${adminEmail ?? "(not set)"}`);
 
-    // 3. Query admin_users with the service role key (bypasses RLS)
-    const serviceDb = createSupabaseClient<Database>(
-      env.NEXT_PUBLIC_SUPABASE_URL,
-      serviceKey,
-      { auth: { autoRefreshToken: false, persistSession: false } }
-    );
-
-    const { data: adminUser, error: adminError } = await serviceDb
-      .from("admin_users")
-      .select("id, role")
-      .eq("id", user.id)
-      .single();
-
-    console.log(
-      `[proxy] /admin check | ` +
-      `url=${url.pathname} | ` +
-      `userId=${user.id} | ` +
-      `email=${user.email ?? "unknown"} | ` +
-      `adminRow=${JSON.stringify(adminUser)} | ` +
-      `dbError=${adminError?.code ?? "none"} (${adminError?.message ?? ""})`
-    );
-
-    if (!adminUser) {
-      // User is authenticated but not in admin_users
-      const reason = adminError
-        ? `db error: ${adminError.code} – ${adminError.message}`
-        : `userId ${user.id} not found in admin_users table`;
-
-      console.warn(
-        `[proxy] ${url.pathname} → /dashboard | ` +
-        `reason: ${reason} | ` +
-        `fix: INSERT INTO admin_users (id, role) VALUES ('${user.id}', 'admin');`
-      );
-
+    if (!adminEmail || user.email !== adminEmail) {
+      console.warn(`[proxy] /admin → /dashboard | reason: ${user.email} is not the admin email`);
       url.pathname = "/dashboard";
       return NextResponse.redirect(url);
     }
 
-    // 4. Admin confirmed — let the request through
-    console.log(`[proxy] ${url.pathname} → ALLOWED | userId=${user.id} | role=${(adminUser as any).role}`);
+    console.log(`[proxy] /admin → ALLOWED | email=${user.email}`);
   }
   // ─────────────────────────────────────────────────────────────────────────
 

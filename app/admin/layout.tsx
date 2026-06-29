@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { Toaster } from "sonner";
 
@@ -11,10 +10,8 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   if (!user) redirect("/login");
 
-  // Use the service role client so RLS cannot block the admin-status lookup.
-  const adminDb = createAdminClient();
-  const { data: adminUser } = await adminDb.from("admin_users").select("role").eq("id", user.id).single();
-  if (!adminUser) notFound();
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!adminEmail || user.email !== adminEmail) notFound();
 
   return (
     <div className="flex h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30 overflow-hidden">
