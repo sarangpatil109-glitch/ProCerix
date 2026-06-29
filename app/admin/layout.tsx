@@ -1,17 +1,19 @@
 import { ReactNode } from "react";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { Toaster } from "sonner";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  
+
   if (!user) redirect("/login");
 
-  // Verify Admin Role in Production
-  const { data: adminUser } = await supabase.from("admin_users").select("role").eq("id", user.id).single();
+  // Use the service role client so RLS cannot block the admin-status lookup.
+  const adminDb = createAdminClient();
+  const { data: adminUser } = await adminDb.from("admin_users").select("role").eq("id", user.id).single();
   if (!adminUser) notFound();
 
   return (
