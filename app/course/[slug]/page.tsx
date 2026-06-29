@@ -7,7 +7,6 @@ import { CourseHero } from "@/components/course/course-hero";
 import { CourseCurriculum } from "@/components/course/course-curriculum";
 import { CourseStickyCard } from "@/components/course/course-sticky-card";
 import { generateCourseMetadata } from "@/engines/course/metadata";
-import { ProductRegistry, ProductType } from "@/engines/registry/product-registry";
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const params = await props.params;
@@ -39,13 +38,6 @@ export default async function CourseDetailsPage(props: { params: Promise<{ slug:
 
   if (!course) {
     notFound();
-  }
-
-  // Use registry as the authoritative price source.
-  // DB courses may have legacy USD prices; virtual courses default to certificate price.
-  const registryProduct = ProductRegistry.getProduct(course.course_type as ProductType);
-  if (registryProduct) {
-    course = { ...course, price: registryProduct.defaultPrice };
   }
 
   return (

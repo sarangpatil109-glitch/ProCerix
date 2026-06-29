@@ -6,52 +6,64 @@ import { CourseService } from "@/services/course-service";
 import { LearningService } from "@/services/learning-service";
 import { EnrollmentService } from "@/services/enrollment-service";
 import { LearnSidebar } from "@/components/learn/learn-sidebar";
+import { MarketingHeader } from "@/components/marketing/marketing-header";
+import { MarketingFooter } from "@/components/marketing/marketing-footer";
 
-export default async function LearnLayout({ params: paramsPromise, children }: { params: Promise<{ slug: string  }>; children: ReactNode }) {
+export default async function LearnLayout({
+  params: paramsPromise,
+  children,
+}: {
+  params: Promise<{ slug: string }>;
+  children: ReactNode;
+}) {
   const params = await paramsPromise;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // Require authentication — never fall back to a demo ID
   if (!user) redirect("/login");
   const userId = user.id;
 
-  // Use admin client so courses with is_published=false (AI-generated drafts,
-  // seeded courses) are visible to enrolled users. Enrollment check below
-  // enforces access control — the admin client is not a security bypass.
   const adminDb = createAdminClient();
   const courseRepo = await CourseService.getRepository(adminDb);
   const course = await courseRepo.getCourseBySlug(params.slug).catch(() => null);
 
   if (!course) notFound();
 
-  // Validate enrollment before granting access to learning materials.
   const enrollment = await EnrollmentService.checkAccess(userId, course.id).catch(() => null);
-  if (!enrollment) {
-    redirect(`/course/${params.slug}`);
-  }
+  if (!enrollment) redirect(`/course/${params.slug}`);
 
   const curriculum = await LearningService.getCourseContent(course.id, adminDb);
   const progress = await LearningService.getUserProgress(enrollment.id);
 
   return (
-    <div className="flex h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30 overflow-hidden">
-      
-      {/* Sidebar */}
-      <div className="hidden lg:block h-full shadow-2xl z-10 shrink-0">
-        <LearnSidebar 
-          course={course} 
-          curriculum={curriculum} 
-          progress={progress} 
-          enrollmentId={enrollment.id}
-        />
-      </div>
-      
-      {/* Main Content Area */}
-      <main className="flex-1 h-full overflow-y-auto">
-        {children}
-      </main>
+    <div className="flex flex-col min-h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30">
+      {/* Global site header — fixed, h-20 (5rem) */}
+      <MarketingHeader />
 
+      {/* Content area pushed below the fixed header */}
+      <div className="flex flex-1 pt-20">
+        {/* Sidebar: sticky so it stays in view while the main content scrolls */}
+        <div className="hidden lg:block shrink-0 shadow-2xl z-10">
+          <div className="sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto">
+            <LearnSidebar
+              course={course}
+              curriculum={curriculum}
+              progress={progress}
+              enrollmentId={enrollment.id}
+            />
+          </div>
+        </div>
+
+        {/* Main content — scrolls independently */}
+        <main className="flex-1 overflow-x-hidden">
+          {children}
+        </main>
+      </div>
+
+      {/* Global site footer */}
+      <MarketingFooter />
     </div>
   );
 }
