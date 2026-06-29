@@ -14,7 +14,8 @@ export class AnalyticsService {
       { count: failedGenerations },
       { count: publishedCourses },
       { count: draftCourses },
-      { data: recentActivity }
+      { data: recentActivity },
+      { data: recentUsers }
     ] = await Promise.all([
       supabase.from("profiles").select("*", { count: "exact", head: true }),
       supabase.from("payments").select("*"), // Fetching all to calculate revenue
@@ -25,7 +26,8 @@ export class AnalyticsService {
       supabase.from("courses").select("*", { count: "exact", head: true }).eq("is_published", true),
       supabase.from("courses").select("*", { count: "exact", head: true }).eq("is_published", false),
       // Mocking recent activity query since it requires cross-table joins, we'll fetch recent payments and courses
-      supabase.from("payments").select("*, profiles(first_name, last_name), courses(title)").order("created_at", { ascending: false }).limit(5)
+      supabase.from("payments").select("*, profiles(first_name, last_name), courses(title)").order("created_at", { ascending: false }).limit(5),
+      supabase.from("profiles").select("*").order("created_at", { ascending: false }).limit(5)
     ]);
 
     // Calculate Revenues
@@ -61,7 +63,8 @@ export class AnalyticsService {
       draftCourses: draftCourses || 0,
       successfulPaymentsCount: successfulPayments.length,
       failedPaymentsCount: payments?.filter(p => p.status === "failed").length || 0,
-      recentActivity: recentActivity || []
+      recentActivity: recentActivity || [],
+      recentUsers: recentUsers || []
     };
   }
 }

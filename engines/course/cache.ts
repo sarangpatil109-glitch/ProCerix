@@ -10,7 +10,7 @@ export const getCachedCourseBySlug = unstable_cache(
   },
   ["course-by-slug"],
   {
-    revalidate: 3600,
+    revalidate: 60,
     tags: ["courses"],
   }
 );

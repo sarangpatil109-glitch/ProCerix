@@ -7,6 +7,7 @@ import { CourseHero } from "@/components/course/course-hero";
 import { CourseCurriculum } from "@/components/course/course-curriculum";
 import { CourseStickyCard } from "@/components/course/course-sticky-card";
 import { generateCourseMetadata } from "@/engines/course/metadata";
+import { ProductRegistry, ProductType } from "@/engines/registry/product-registry";
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const params = await props.params;
@@ -38,6 +39,16 @@ export default async function CourseDetailsPage(props: { params: Promise<{ slug:
 
   if (!course) {
     notFound();
+  }
+
+  // The course cache may hold a stale price (DB was migrated from legacy USD to INR
+  // but Next.js unstable_cache revalidates on a 60-second window, not instantly).
+  // The ProductRegistry is the single authoritative price source; the migration syncs
+  // the DB to match it. Override the cached price so the detail page always agrees
+  // with the catalog, the payment order, and the registry.
+  const registryProduct = ProductRegistry.getProduct(course.course_type as ProductType);
+  if (registryProduct) {
+    course = { ...course, price: registryProduct.defaultPrice };
   }
 
   return (

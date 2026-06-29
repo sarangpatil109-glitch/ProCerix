@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
-import { User, Shield, Search } from "lucide-react";
+import { User, Shield, Search, Ban } from "lucide-react";
+import { UserActions } from "@/components/admin/users/user-actions";
 
 export default async function AdminUsersPage() {
   const supabase = await createClient();
@@ -51,6 +52,10 @@ export default async function AdminUsersPage() {
                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                       <Shield className="w-3 h-3" /> Admin
                     </span>
+                  ) : user.is_suspended ? (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      <Ban className="w-3 h-3" /> Suspended
+                    </span>
                   ) : (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
                       Student
@@ -60,7 +65,8 @@ export default async function AdminUsersPage() {
                 <td className="px-6 py-4">
                   {new Date(user.created_at).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-6 py-4 text-right flex items-center justify-end gap-4">
+                  <UserActions userId={user.id} isSuspended={user.is_suspended || false} />
                   <button className="text-sm text-blue-600 font-medium hover:underline">View Details</button>
                 </td>
               </tr>

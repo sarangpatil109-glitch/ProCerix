@@ -1,8 +1,9 @@
 import { AnalyticsService } from "@/services/analytics-service";
 import { 
   Users, DollarSign, Award, Briefcase, FileText, 
-  Share2, Cpu, BookOpen, AlertCircle, CheckCircle2, XCircle
+  Share2, Cpu, BookOpen, AlertCircle, CheckCircle2, XCircle, TrendingUp
 } from "lucide-react";
+import { RevenueChart } from "@/components/admin/charts";
 
 export default async function AdminDashboard() {
   const metrics = await AnalyticsService.getDashboardMetrics();
@@ -20,6 +21,21 @@ export default async function AdminDashboard() {
         <MetricCard title="Today's Revenue" value={`₹${metrics.todayRevenue.toLocaleString()}`} icon={<DollarSign className="w-5 h-5 text-emerald-600" />} trend="Last 24h" />
         <MetricCard title="Total Users" value={metrics.totalUsers} icon={<Users className="w-5 h-5 text-blue-600" />} trend="Registered" />
         <MetricCard title="Certificates Issued" value={metrics.certificates} icon={<Award className="w-5 h-5 text-yellow-600" />} trend="Completed" />
+      </div>
+      
+      {/* Sales Graph */}
+      <div className="bg-white dark:bg-[#161616] p-6 rounded-2xl border border-gray-200 dark:border-gray-800/60 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-base font-semibold text-gray-900 dark:text-white tracking-tight">Revenue Overview</h3>
+            <p className="text-sm text-gray-500">Monthly revenue for the current year</p>
+          </div>
+          <div className="flex items-center gap-2 text-sm font-medium text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-1 rounded-md">
+            <TrendingUp className="w-4 h-4" />
+            +14.5%
+          </div>
+        </div>
+        <RevenueChart />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -79,47 +95,72 @@ export default async function AdminDashboard() {
         </div>
       </div>
 
-      {/* Recent Activity */}
-      <div className="bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-100 dark:border-gray-800 pb-4">Recent Transactions</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="text-gray-500 border-b border-gray-100 dark:border-gray-800">
-                <th className="pb-3 font-semibold">User</th>
-                <th className="pb-3 font-semibold">Product</th>
-                <th className="pb-3 font-semibold">Amount</th>
-                <th className="pb-3 font-semibold">Status</th>
-                <th className="pb-3 font-semibold">Date</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-              {metrics.recentActivity.map((activity: any) => (
-                <tr key={activity.id}>
-                  <td className="py-4 font-medium text-gray-900 dark:text-white">
-                    {activity.profiles?.first_name} {activity.profiles?.last_name}
-                  </td>
-                  <td className="py-4 text-gray-600 dark:text-gray-400">
-                    {activity.courses?.title || activity.skill_name || "Unknown Product"}
-                  </td>
-                  <td className="py-4 font-bold text-gray-900 dark:text-white">₹{activity.amount}</td>
-                  <td className="py-4">
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${activity.status === 'success' ? 'bg-green-100 text-green-700' : activity.status === 'failed' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'}`}>
-                      {activity.status}
-                    </span>
-                  </td>
-                  <td className="py-4 text-gray-500">
-                    {new Date(activity.created_at).toLocaleDateString()}
-                  </td>
+      {/* Recent Activity & Recent Users */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-100 dark:border-gray-800 pb-4">Recent Transactions</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="text-gray-500 border-b border-gray-100 dark:border-gray-800">
+                  <th className="pb-3 font-semibold">User</th>
+                  <th className="pb-3 font-semibold">Amount</th>
+                  <th className="pb-3 font-semibold">Status</th>
                 </tr>
-              ))}
-              {metrics.recentActivity.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="py-8 text-center text-gray-500">No recent activity.</td>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                {metrics.recentActivity.map((activity: any) => (
+                  <tr key={activity.id}>
+                    <td className="py-4 font-medium text-gray-900 dark:text-white">
+                      {activity.profiles?.first_name} {activity.profiles?.last_name}
+                    </td>
+                    <td className="py-4 font-bold text-gray-900 dark:text-white">₹{activity.amount}</td>
+                    <td className="py-4">
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${activity.status === 'success' ? 'bg-green-100 text-green-700' : activity.status === 'failed' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'}`}>
+                        {activity.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+                {metrics.recentActivity.length === 0 && (
+                  <tr>
+                    <td colSpan={3} className="py-8 text-center text-gray-500">No recent activity.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-100 dark:border-gray-800 pb-4">Recent Users</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="text-gray-500 border-b border-gray-100 dark:border-gray-800">
+                  <th className="pb-3 font-semibold">Name</th>
+                  <th className="pb-3 font-semibold">Joined</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                {metrics.recentUsers.map((user: any) => (
+                  <tr key={user.id}>
+                    <td className="py-4 font-medium text-gray-900 dark:text-white">
+                      {user.first_name} {user.last_name}
+                    </td>
+                    <td className="py-4 text-gray-500">
+                      {new Date(user.created_at).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+                {metrics.recentUsers.length === 0 && (
+                  <tr>
+                    <td colSpan={2} className="py-8 text-center text-gray-500">No recent users.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -130,13 +171,13 @@ function MetricCard({ title, value, icon, trend }: { title: string, value: strin
   return (
     <div className="bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col justify-between">
       <div className="flex justify-between items-start mb-4">
-        <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">{icon}</div>
+        <div className="p-2.5 bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-100 dark:border-white/5">{icon}</div>
       </div>
       <div>
-        <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{title}</p>
-        <p className="text-3xl font-extrabold text-gray-900 dark:text-white">{value}</p>
+        <p className="text-[13px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">{title}</p>
+        <p className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">{value}</p>
       </div>
-      <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+      <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800/60">
         <span className="text-xs font-medium text-gray-500">{trend}</span>
       </div>
     </div>

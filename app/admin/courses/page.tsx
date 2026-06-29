@@ -13,10 +13,16 @@ export default async function AdminCourses() {
       { key: "slug", title: "Slug", type: "text" },
       { key: "difficulty", title: "Difficulty", type: "enum", options: ["beginner", "intermediate", "advanced"] },
       { key: "course_type", title: "Type", type: "enum", options: ["certificate", "internship"] },
+      { key: "price", title: "Price", type: "number" },
+      { key: "original_price", title: "Original Price", type: "number" },
+      { key: "discount", title: "Discount %", type: "number" },
+      { key: "duration", title: "Duration", type: "text" },
+      { key: "is_featured", title: "Featured", type: "boolean" },
       { key: "is_published", title: "Published", type: "boolean" }
     ],
     actions: { create: true, edit: true, delete: true },
-    customEditRoute: (id) => `/admin/courses/${id}`
+    customEditRoute: (id) => `/admin/courses/${id}`,
+    bulkActions: { publish: true, feature: true, delete: true }
   };
 
   return (

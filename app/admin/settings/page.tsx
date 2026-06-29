@@ -1,34 +1,20 @@
 import { createClient } from "@/lib/supabase/server";
-import { GenericCRUDEngine, CRUDConfig } from "@/components/admin/crud-engine";
+import { SiteSettingsForm } from "@/components/admin/settings/site-settings-form";
 
-export default async function AdminSettings() {
+export default async function SettingsPage() {
   const supabase = await createClient();
-  const { data: settings } = await supabase.from("system_settings").select("*").order("category", { ascending: true });
-
-  const config: CRUDConfig = {
-    entityName: "Setting",
-    tableName: "system_settings",
-    columns: [
-      { key: "category", title: "Category", type: "text" },
-      { key: "description", title: "Description", type: "text" },
-      { key: "key", title: "Key", type: "text" },
-      { key: "value", title: "Value", type: "text" }
-    ],
-    actions: { create: false, edit: true, delete: false },
-    primaryKey: "key"
-  };
-
-  // Convert JSONB values to string for editing, but they will be parsed when saving if we did custom logic.
-  // Wait, our generic CRUD API handles string updates, but if the DB column is JSONB and we send a string, Supabase might cast it to JSON string.
-  // It's perfectly fine as long as they type "true" or "100" or ""My Title"".
+  const { data: settings } = await supabase.from("site_settings").select("*").single();
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">System Settings</h2>
-        <p className="text-gray-500 dark:text-gray-400">Manage all core platform configurations centrally. Changes propagate globally.</p>
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
+      <div>
+        <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Site Settings</h2>
+        <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">Manage global configuration for ProCerix.</p>
       </div>
-      <GenericCRUDEngine config={config} data={settings || []} />
+
+      <div className="bg-white dark:bg-gray-900 p-6 md:p-8 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm max-w-4xl">
+        <SiteSettingsForm initialData={settings || {}} />
+      </div>
     </div>
   );
 }

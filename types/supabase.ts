@@ -18,11 +18,13 @@ export type Database = {
           id: string; title: string; slug: string; course_type: string;
           is_published: boolean; created_at: string; description: string;
           deleted_at?: string; difficulty?: string; category?: string; price?: number;
+          original_price?: number; discount?: number; thumbnail?: string;
+          duration?: string; is_featured?: boolean; tags?: string[];
         };
         Insert: any; Update: any; Relationships: [];
       };
       profiles: {
-        Row: { id: string; first_name: string; last_name: string; avatar_url?: string; bio?: string; created_at: string; };
+        Row: { id: string; first_name: string; last_name: string; avatar_url?: string; bio?: string; created_at: string; is_suspended?: boolean; };
         Insert: any; Update: any; Relationships: [];
       };
       generation_queue: {
@@ -184,6 +186,56 @@ export type Database = {
       };
       modules: {
         Row: { id: string; course_id: string; };
+        Insert: any; Update: any; Relationships: [];
+      };
+      site_settings: {
+        Row: {
+          id: string; logo?: string; favicon?: string; site_name: string;
+          primary_color?: string; secondary_color?: string; contact_email?: string;
+          contact_phone?: string; footer_text?: string; facebook?: string;
+          instagram?: string; linkedin?: string; youtube?: string;
+          created_at?: string; updated_at?: string;
+        };
+        Insert: any; Update: any; Relationships: [];
+      };
+      homepage_sections: {
+        Row: {
+          id: string; hero_title?: string; hero_subtitle?: string;
+          hero_image?: string; hero_cta?: string; stats?: any;
+          features?: any; testimonials?: any; faq?: any;
+          created_at?: string; updated_at?: string;
+        };
+        Insert: any; Update: any; Relationships: [];
+      };
+      banners: {
+        Row: {
+          id: string; title: string; subtitle?: string; button_text?: string;
+          image_url?: string; link_url?: string; priority?: number;
+          is_published?: boolean; created_at?: string; updated_at?: string;
+        };
+        Insert: any; Update: any; Relationships: [];
+      };
+      coupons: {
+        Row: {
+          id: string; code: string; discount_amount: number; is_percentage?: boolean;
+          expiry_date?: string; usage_limit?: number; usage_count?: number;
+          min_amount?: number; is_active?: boolean; created_at?: string; updated_at?: string;
+        };
+        Insert: any; Update: any; Relationships: [];
+      };
+      certificate_settings: {
+        Row: {
+          id: string; prefix?: string; logo_url?: string; signature_url?: string;
+          background_url?: string; qr_enabled?: boolean; created_at?: string; updated_at?: string;
+        };
+        Insert: any; Update: any; Relationships: [];
+      };
+      posts: {
+        Row: {
+          id: string; title: string; slug: string; content?: string; excerpt?: string;
+          thumbnail?: string; is_published?: boolean; author_id?: string;
+          created_at?: string; updated_at?: string;
+        };
         Insert: any; Update: any; Relationships: [];
       };
     };
