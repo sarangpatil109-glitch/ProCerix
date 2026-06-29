@@ -11,15 +11,17 @@ export class CertificatePDFGenerator {
   }): Promise<Buffer> {
     const qrCodeDataUrl = await QRCode.toDataURL(data.verificationUrl, { errorCorrectionLevel: 'H' });
 
+    // All fonts are system/web-safe — no external network requests during render.
     const html = `
       <!DOCTYPE html>
       <html>
       <head>
+        <meta charset="utf-8" />
         <style>
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+          * { box-sizing: border-box; margin: 0; padding: 0; }
           body {
-            margin: 0; padding: 0; font-family: 'Inter', sans-serif;
-            width: 1123px; height: 794px; /* A4 Landscape */
+            font-family: Georgia, 'Times New Roman', serif;
+            width: 1123px; height: 794px;
             background: #ffffff;
             color: #1a1a1a;
             display: flex;
@@ -33,23 +35,50 @@ export class CertificatePDFGenerator {
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             position: relative;
             padding: 40px;
-            box-sizing: border-box;
             text-align: center;
           }
-          .logo { font-size: 32px; font-weight: 800; color: #2563eb; margin-bottom: 20px; letter-spacing: -1px; }
-          .title { font-size: 56px; font-weight: 800; color: #111827; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; }
-          .subtitle { font-size: 20px; color: #6b7280; font-weight: 400; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px; }
-          .awarded-to { font-size: 16px; color: #6b7280; margin-bottom: 10px; }
-          .name { font-size: 48px; font-weight: 800; color: #1f2937; margin-bottom: 30px; border-bottom: 2px solid #2563eb; padding-bottom: 10px; display: inline-block; }
-          .reason { font-size: 18px; color: #6b7280; margin-bottom: 15px; }
-          .course { font-size: 32px; font-weight: 600; color: #111827; margin-bottom: 60px; }
-          .footer { display: flex; justify-content: space-between; align-items: flex-end; position: absolute; bottom: 40px; left: 40px; right: 40px; }
-          .qr-code { width: 100px; height: 100px; }
-          .meta { text-align: left; font-size: 14px; color: #4b5563; line-height: 1.6; }
+          .logo {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 32px; font-weight: 800; color: #2563eb;
+            margin-bottom: 20px; letter-spacing: -1px;
+          }
+          .title {
+            font-size: 52px; font-weight: bold; color: #111827;
+            text-transform: uppercase; letter-spacing: 4px; margin-bottom: 8px;
+          }
+          .subtitle {
+            font-size: 20px; color: #6b7280; margin-bottom: 36px;
+            text-transform: uppercase; letter-spacing: 2px;
+          }
+          .awarded-to { font-size: 16px; color: #6b7280; margin-bottom: 8px; }
+          .name {
+            font-size: 44px; font-weight: bold; color: #1f2937;
+            margin-bottom: 28px; border-bottom: 2px solid #2563eb;
+            padding-bottom: 8px; display: inline-block;
+          }
+          .reason { font-size: 18px; color: #6b7280; margin-bottom: 12px; }
+          .course { font-size: 28px; font-weight: bold; color: #111827; margin-bottom: 56px; }
+          .footer {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            position: absolute; bottom: 40px; left: 40px; right: 40px;
+          }
+          .qr-code { width: 90px; height: 90px; }
+          .meta { text-align: left; font-size: 13px; color: #4b5563; line-height: 1.7; }
           .signature { text-align: center; }
-          .sig-line { width: 200px; border-bottom: 2px solid #111827; margin-bottom: 10px; }
-          .sig-title { font-size: 14px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
-          .badge { position: absolute; top: 40px; right: 40px; width: 100px; height: 100px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px; text-align: center; border: 4px solid #bfdbfe; box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3); }
+          .sig-line { width: 200px; border-bottom: 2px solid #111827; margin-bottom: 8px; }
+          .sig-title {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px; color: #6b7280;
+            text-transform: uppercase; letter-spacing: 1px;
+          }
+          .badge {
+            position: absolute; top: 40px; right: 40px;
+            width: 96px; height: 96px; background: #2563eb; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: bold; font-size: 13px; text-align: center;
+            border: 4px solid #bfdbfe;
+            font-family: Arial, Helvetica, sans-serif;
+          }
         </style>
       </head>
       <body>
@@ -62,7 +91,7 @@ export class CertificatePDFGenerator {
           <div class="name">${data.candidateName}</div>
           <div class="reason">for successfully completing the course</div>
           <div class="course">${data.courseName}</div>
-          
+
           <div class="footer">
             <div class="meta">
               <strong>Credential ID:</strong> ${data.credentialId}<br/>
@@ -84,19 +113,27 @@ export class CertificatePDFGenerator {
 
     const browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+      ],
     });
 
-    const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'load' });
-    const pdf = await page.pdf({
-      format: 'A4',
-      landscape: true,
-      printBackground: true,
-    });
-
-    await browser.close();
-    
-    return Buffer.from(pdf);
+    try {
+      const page = await browser.newPage();
+      // domcontentloaded: don't wait for external network resources (fonts, images).
+      // All assets are inlined (QR code is a data URL, fonts are system fonts).
+      await page.setContent(html, { waitUntil: 'domcontentloaded' });
+      const pdf = await page.pdf({
+        format: 'A4',
+        landscape: true,
+        printBackground: true,
+      });
+      return Buffer.from(pdf);
+    } finally {
+      await browser.close();
+    }
   }
 }

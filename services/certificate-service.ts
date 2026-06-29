@@ -116,12 +116,17 @@ export class CertificateService {
     const cert = await this.getCertificate(credentialId);
     if (!cert) throw new Error("Certificate not found");
 
+    const profiles = (cert as any).profiles as { first_name: string; last_name: string } | null;
+    const courses = (cert as any).courses as { title: string } | null;
+
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const verificationUrl = `${appUrl}/verify/${credentialId}`;
 
     const pdfBuffer = await CertificatePDFGenerator.generate({
-      candidateName: `${cert.profiles.first_name} ${cert.profiles.last_name}`,
-      courseName: cert.courses.title,
+      candidateName: profiles
+        ? `${profiles.first_name} ${profiles.last_name}`
+        : "Certificate Holder",
+      courseName: courses?.title ?? "Course",
       credentialId: cert.credential_id,
       issueDate: new Date(cert.issued_at).toLocaleDateString('en-US', {
         year: 'numeric', month: 'long', day: 'numeric'
