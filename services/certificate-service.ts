@@ -67,8 +67,10 @@ export class CertificateService {
   }
 
   static async getCertificate(credentialId: string) {
-    const supabase = await createClient();
-    const { data, error } = await supabase
+    // Admin client: verify page is public (no auth required), and profiles/courses
+    // joins may be blocked by RLS for unauthenticated visitors.
+    const adminDb = createAdminClient();
+    const { data, error } = await adminDb
       .from("certificates")
       .select(`
         *,
@@ -76,9 +78,9 @@ export class CertificateService {
         courses!inner(title)
       `)
       .eq("credential_id", credentialId)
-      .single();
+      .maybeSingle();
 
-    if (error) return null;
+    if (error || !data) return null;
     return data;
   }
 
