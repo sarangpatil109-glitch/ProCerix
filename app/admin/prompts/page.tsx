@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { GenericCRUDEngine, CRUDConfig } from "@/components/admin/crud-engine";
 
 export default async function AdminPrompts() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: templates } = await supabase.from("prompt_templates").select("*").order("created_at", { ascending: false });
 
   const config: CRUDConfig = {
@@ -14,7 +14,7 @@ export default async function AdminPrompts() {
       { key: "description", title: "Description", type: "text" }
     ],
     actions: { create: true, edit: true, delete: true },
-    customEditRoute: (id) => `/admin/prompts/${id}`
+    customEditRoute: "/admin/prompts",
   };
 
   return (

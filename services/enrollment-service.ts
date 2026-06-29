@@ -31,8 +31,8 @@ export class EnrollmentService {
   }
 
   static async getUserEnrollments(userId: string, adminClient?: any) {
-    const repo = adminClient 
-      ? new EnrollmentRepository(adminClient) 
+    const repo = adminClient
+      ? new EnrollmentRepository(adminClient)
       : await this.getRepository();
     return repo.getUserEnrollments(userId);
   }

@@ -1,9 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { GovernanceClient } from "./GovernanceClient";
 import { Database, Zap, RefreshCw, AlertTriangle, ShieldCheck } from "lucide-react";
 
 export default async function AIGovernanceDashboard() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   // Fetch Metrics
   const { data: metrics } = await supabase.from("ai_cost_metrics").select("*");

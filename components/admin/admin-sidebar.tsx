@@ -48,6 +48,7 @@ export function AdminSidebar() {
     return (
       <Link
         href={item.href}
+        prefetch={false}
         className={`flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ${
           isActive 
             ? "bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-white shadow-sm" 

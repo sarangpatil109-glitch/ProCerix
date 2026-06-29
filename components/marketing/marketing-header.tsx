@@ -9,17 +9,17 @@ export async function MarketingHeader() {
   return (
     <header className="fixed top-0 w-full z-50 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-800/50">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-black text-blue-600 dark:text-blue-500 tracking-tighter">
+        <Link prefetch={false} href="/" className="text-2xl font-black text-blue-600 dark:text-blue-500 tracking-tighter">
           ProCerix
         </Link>
 
         <nav className="hidden md:flex items-center gap-8 font-semibold text-sm">
-          <Link href="/certificates" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Certificates</Link>
-          <Link href="/internships" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Virtual Internships</Link>
-          <Link href="/resume-builder" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Resume Builder</Link>
-          <Link href="/linkedin-optimizer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">LinkedIn Optimizer</Link>
-          <Link href="/pricing" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Pricing</Link>
-          <Link href="/search" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors flex items-center gap-1">
+          <Link prefetch={false} href="/certificates" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Certificates</Link>
+          <Link prefetch={false} href="/internships" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Virtual Internships</Link>
+          <Link prefetch={false} href="/resume-builder" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Resume Builder</Link>
+          <Link prefetch={false} href="/linkedin-optimizer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">LinkedIn Optimizer</Link>
+          <Link prefetch={false} href="/pricing" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Pricing</Link>
+          <Link prefetch={false} href="/search" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors flex items-center gap-1">
             <Search className="w-4 h-4" /> Search
           </Link>
         </nav>
@@ -34,7 +34,7 @@ export async function MarketingHeader() {
             </Link>
           ) : (
             <>
-              <Link href="/login" className="hidden md:block text-gray-900 dark:text-white font-bold text-sm hover:underline">
+              <Link prefetch={false} href="/login" className="hidden md:block text-gray-900 dark:text-white font-bold text-sm hover:underline">
                 Log In
               </Link>
               <Link 

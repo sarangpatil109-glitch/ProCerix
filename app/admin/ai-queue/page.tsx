@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { Cpu, Search } from "lucide-react";
 
 export default async function AdminAiQueuePage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: queue } = await supabase
     .from("generation_queue")
     .select("*, profiles(first_name, last_name)")

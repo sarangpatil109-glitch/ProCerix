@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { GenericCRUDEngine, CRUDConfig } from "@/components/admin/crud-engine";
 
 export default async function BlogCMSPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: posts } = await supabase.from("posts").select("*").order("created_at", { ascending: false });
 
   const config: CRUDConfig = {
@@ -13,11 +13,12 @@ export default async function BlogCMSPage() {
       { key: "slug", title: "Slug", type: "text" },
       { key: "excerpt", title: "Excerpt", type: "text" },
       { key: "content", title: "Content", type: "richtext" },
-      { key: "thumbnail", title: "Thumbnail URL", type: "text" },
+      { key: "thumbnail", title: "Thumbnail URL", type: "image" },
       { key: "is_published", title: "Published", type: "boolean" }
     ],
-    actions: { create: true, edit: true, delete: true },
-    primaryKey: "id"
+    actions: { create: true, edit: true, delete: true, duplicate: true, publish: true },
+    primaryKey: "id",
+    bulkActions: { publish: true, delete: true }
   };
 
   return (

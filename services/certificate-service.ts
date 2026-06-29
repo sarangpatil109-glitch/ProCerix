@@ -112,20 +112,36 @@ export class CertificateService {
     return { valid: true, certificate };
   }
 
+  static async getCertificateHolderName(cert: any) {
+    let candidateName = "Certificate Holder";
+    try {
+      const adminDb = createAdminClient();
+      const { data: { user } } = await adminDb.auth.admin.getUserById(cert.user_id);
+      if (user) {
+        candidateName = 
+          user.user_metadata?.full_name || 
+          user.user_metadata?.name || 
+          user.email || 
+          candidateName;
+      }
+    } catch (error) {
+      console.error("[getCertificateHolderName] Error fetching user:", error);
+    }
+    return candidateName;
+  }
+
   static async downloadCertificatePdf(credentialId: string) {
     const cert = await this.getCertificate(credentialId);
     if (!cert) throw new Error("Certificate not found");
 
-    const profiles = (cert as any).profiles as { first_name: string; last_name: string } | null;
     const courses = (cert as any).courses as { title: string } | null;
+    const candidateName = await this.getCertificateHolderName(cert);
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const verificationUrl = `${appUrl}/verify/${credentialId}`;
 
     const pdfBuffer = await CertificatePDFGenerator.generate({
-      candidateName: profiles
-        ? `${profiles.first_name} ${profiles.last_name}`
-        : "Certificate Holder",
+      candidateName,
       courseName: courses?.title ?? "Course",
       credentialId: cert.credential_id,
       issueDate: new Date(cert.issued_at).toLocaleDateString('en-US', {

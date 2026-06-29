@@ -5,6 +5,7 @@ import { SearchFilters } from "@/components/search/search-filters";
 import { CourseCard } from "@/components/search/course-card";
 import { SearchResultsSkeleton } from "@/components/search/search-results-skeleton";
 import { SearchService } from "@/services/search-service";
+import { AIGenerateButton } from "@/components/search/ai-generate-button";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -18,19 +19,31 @@ async function SearchResults({ searchParams }: { searchParams: any }) {
   if (!result.courses || result.courses.length === 0) {
     return (
       <div className="text-center py-24 bg-white/50 dark:bg-gray-900/30 rounded-3xl border border-gray-100 dark:border-gray-800 backdrop-blur-sm">
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">No courses found</h3>
-        <p className="text-gray-600 dark:text-gray-400">
-          Try adjusting your search or filters to find what you're looking for.
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">We couldn't find an exact course.</h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-10 max-w-lg mx-auto">
+          However, our AI can generate a custom curriculum for exactly what you're looking for, tailored to your needs.
         </p>
+        <AIGenerateButton query={searchParams.q || "Custom Course"} />
       </div>
     );
   }
+
+  const buildPaginationUrl = (pageOffset: number) => {
+    const urlParams = new URLSearchParams();
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (typeof key === "string" && typeof value === "string") {
+        urlParams.set(key, value);
+      }
+    });
+    urlParams.set("page", String(parseInt(searchParams.page || "1") + pageOffset));
+    return `/search?${urlParams.toString()}`;
+  };
 
   return (
     <div className="space-y-12">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {result.courses.map((course: any) => (
-          <CourseCard key={course.id} course={course} />
+          <CourseCard key={course.id} course={course} searchQuery={searchParams.q} />
         ))}
       </div>
       
@@ -38,7 +51,7 @@ async function SearchResults({ searchParams }: { searchParams: any }) {
         <div className="flex gap-4">
           {parseInt(searchParams.page || "1") > 1 && (
             <Link 
-              href={`/search?${new URLSearchParams({...searchParams, page: String(parseInt(searchParams.page || "1") - 1)}).toString()}`}
+              href={buildPaginationUrl(-1)}
               className="px-6 py-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium text-gray-900 dark:text-white"
             >
               Previous
@@ -46,7 +59,7 @@ async function SearchResults({ searchParams }: { searchParams: any }) {
           )}
           {result.pagination.hasMore && (
             <Link 
-              href={`/search?${new URLSearchParams({...searchParams, page: String(parseInt(searchParams.page || "1") + 1)}).toString()}`}
+              href={buildPaginationUrl(1)}
               className="px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-colors font-medium shadow-sm hover:shadow-md"
             >
               Next Page
@@ -58,11 +71,11 @@ async function SearchResults({ searchParams }: { searchParams: any }) {
   );
 }
 
-export default async function SearchPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
+export default async function SearchPage(props: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
+  const searchParams = await props.searchParams;
+  
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30 pb-20">
       {/* Hero Section */}

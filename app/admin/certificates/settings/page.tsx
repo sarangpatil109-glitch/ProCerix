@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { CertificateSettingsForm } from "@/components/admin/settings/certificate-settings-form";
 
 export default async function CertificateSettingsPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: settings } = await supabase.from("certificate_settings").select("*").single();
 
   return (

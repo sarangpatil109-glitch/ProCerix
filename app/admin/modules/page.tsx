@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { GenericCRUDEngine, CRUDConfig } from "@/components/admin/crud-engine";
 
 export default async function AdminModules() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: modules } = await supabase.from("learning_modules").select("*").order("created_at", { ascending: false });
 
   const config: CRUDConfig = {

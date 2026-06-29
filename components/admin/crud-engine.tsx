@@ -10,7 +10,7 @@ import { toast } from "sonner";
 export type CRUDColumn = {
   key: string;
   title: string;
-  type: "text" | "number" | "boolean" | "enum" | "richtext";
+  type: "text" | "number" | "boolean" | "enum" | "richtext" | "image" | "tags";
   options?: string[];
 };
 
@@ -22,8 +22,10 @@ export type CRUDConfig = {
     create: boolean;
     edit: boolean;
     delete: boolean;
+    duplicate?: boolean;
+    publish?: boolean;
   };
-  customEditRoute?: (id: string) => string;
+  customEditRoute?: string;
   primaryKey?: string;
   bulkActions?: {
     publish?: boolean;
@@ -78,7 +80,7 @@ export function GenericCRUDEngine({
 
   const openDrawer = (item?: any) => {
     if (item && config.customEditRoute) {
-      router.push(config.customEditRoute(item[pk]));
+      router.push(`${config.customEditRoute}/${item[pk]}`);
       return;
     }
     setEditingItem(item || null);
@@ -134,6 +136,32 @@ export function GenericCRUDEngine({
       router.refresh();
     } catch (error: any) {
       toast.error(error.message || "Failed to delete", { id: toastId });
+    }
+    setLoading(false);
+  };
+
+  const handleDuplicate = async (id: string) => {
+    setLoading(true);
+    const toastId = toast.loading("Duplicating...");
+    try {
+      await executeCrud("DUPLICATE", id);
+      toast.success("Duplicated successfully!", { id: toastId });
+      router.refresh();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to duplicate", { id: toastId });
+    }
+    setLoading(false);
+  };
+
+  const handleTogglePublish = async (id: string, currentStatus: boolean) => {
+    setLoading(true);
+    const toastId = toast.loading(currentStatus ? "Unpublishing..." : "Publishing...");
+    try {
+      await executeCrud("UPDATE", id, { is_published: !currentStatus });
+      toast.success(currentStatus ? "Unpublished successfully!" : "Published successfully!", { id: toastId });
+      router.refresh();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to toggle status", { id: toastId });
     }
     setLoading(false);
   };
@@ -265,6 +293,19 @@ export function GenericCRUDEngine({
                             : <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-gray-50 dark:bg-gray-500/10 text-gray-700 dark:text-gray-400 text-xs font-medium"><span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>No</span>
                         ) : col.type === "richtext" ? (
                           <span className="text-gray-500 truncate block text-xs">{item[col.key]?.substring(0, 40) || '—'}</span>
+                        ) : col.type === "image" ? (
+                          item[col.key] ? (
+                            <img src={item[col.key]} alt="" className="w-10 h-10 rounded-md object-cover border border-gray-200 dark:border-gray-800" />
+                          ) : (
+                            <div className="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-xs text-gray-400">N/A</div>
+                          )
+                        ) : col.type === "tags" ? (
+                           <div className="flex flex-wrap gap-1">
+                             {(item[col.key] || []).slice(0,2).map((tag: string) => (
+                               <span key={tag} className="px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] whitespace-nowrap">{tag}</span>
+                             ))}
+                             {(item[col.key] || []).length > 2 && <span className="text-[10px] text-gray-500">+{item[col.key].length - 2}</span>}
+                           </div>
                         ) : (
                           <span className="font-medium">{item[col.key] ?? '—'}</span>
                         )}
@@ -275,6 +316,16 @@ export function GenericCRUDEngine({
                         {config.actions.edit && (
                           <button onClick={() => openDrawer(item)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors" title="Edit">
                             <Edit2 className="w-4 h-4" />
+                          </button>
+                        )}
+                        {config.actions.duplicate && (
+                          <button onClick={() => handleDuplicate(item[pk])} className="p-1.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-md transition-colors" title="Duplicate">
+                            <Copy className="w-4 h-4" />
+                          </button>
+                        )}
+                        {config.actions.publish && typeof item.is_published === 'boolean' && (
+                          <button onClick={() => handleTogglePublish(item[pk], item.is_published)} className={`p-1.5 text-gray-400 rounded-md transition-colors ${item.is_published ? 'hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20' : 'hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20'}`} title={item.is_published ? "Unpublish" : "Publish"}>
+                            {item.is_published ? <XCircle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
                           </button>
                         )}
                         {config.actions.delete && (
@@ -363,6 +414,25 @@ export function GenericCRUDEngine({
                         onChange={(e) => setFormData({...formData, [col.key]: e.target.value})}
                         rows={8}
                         className="w-full px-3 py-2.5 bg-gray-50 dark:bg-[#1C1C1C] border border-gray-200 dark:border-gray-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-shadow resize-none"
+                      />
+                    ) : col.type === "image" ? (
+                      <div className="space-y-2">
+                        {formData[col.key] && <img src={formData[col.key]} alt="" className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-gray-800" />}
+                        <input 
+                          type="text"
+                          placeholder="Image URL..."
+                          value={formData[col.key] || ""}
+                          onChange={(e) => setFormData({...formData, [col.key]: e.target.value})}
+                          className="w-full px-3 py-2.5 bg-gray-50 dark:bg-[#1C1C1C] border border-gray-200 dark:border-gray-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-shadow"
+                        />
+                      </div>
+                    ) : col.type === "tags" ? (
+                      <input 
+                        type="text"
+                        placeholder="Comma separated tags..."
+                        value={(formData[col.key] || []).join(", ")}
+                        onChange={(e) => setFormData({...formData, [col.key]: e.target.value.split(",").map(s => s.trim()).filter(Boolean)})}
+                        className="w-full px-3 py-2.5 bg-gray-50 dark:bg-[#1C1C1C] border border-gray-200 dark:border-gray-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-shadow"
                       />
                     ) : (
                       <input 

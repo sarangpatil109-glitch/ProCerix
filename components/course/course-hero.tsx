@@ -1,10 +1,11 @@
 import { Clock, BarChart, Tag, Award } from "lucide-react";
+import { BannerGenerator } from "@/components/course/banner-generator";
 
 export function CourseHero({ course }: { course: any }) {
   return (
-    <div className="bg-gray-900 text-white py-20 px-4 sm:px-6 lg:px-8 border-b border-gray-800">
+    <div className="bg-gray-900 text-white py-20 px-4 sm:px-6 lg:px-8 border-b border-gray-800 overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="space-y-8">
+        <div className="space-y-8 z-10">
           <div className="flex flex-wrap items-center gap-3">
             <span className="px-3 py-1 text-xs font-semibold rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 capitalize flex items-center gap-1">
               <Tag className="w-3 h-3" />
@@ -15,7 +16,7 @@ export function CourseHero({ course }: { course: any }) {
             </span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight drop-shadow-xl">
             {course.title}
           </h1>
           
@@ -41,14 +42,14 @@ export function CourseHero({ course }: { course: any }) {
           </div>
         </div>
         
-        {/* Decorative Hero Image / Video Placeholder */}
-        <div className="hidden lg:block relative h-full min-h-[400px] w-full rounded-3xl overflow-hidden border border-gray-800 shadow-2xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/50 to-gray-900/80 z-10" />
-          <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
-             <div className="w-24 h-24 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md z-20 shadow-lg cursor-pointer hover:scale-105 transition-transform">
-               <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-white border-b-[12px] border-b-transparent ml-2" />
-             </div>
-          </div>
+        {/* Dynamic Banner */}
+        <div className="hidden lg:block relative h-full min-h-[400px] w-full rounded-3xl overflow-hidden border border-gray-800 shadow-2xl z-10">
+          <BannerGenerator 
+            title={course.title} 
+            category={course.category || course.course_type} 
+            difficulty={course.difficulty} 
+            size="lg" 
+          />
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { HomepageForm } from "@/components/admin/settings/homepage-form";
 
 export default async function HomepageCMSPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: sections } = await supabase.from("homepage_sections").select("*").single();
 
   return (

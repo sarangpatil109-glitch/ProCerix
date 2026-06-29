@@ -3,9 +3,8 @@ import {
   Users, DollarSign, Award, Briefcase, FileText, 
   Share2, Cpu, BookOpen, AlertCircle, CheckCircle2, XCircle, TrendingUp
 } from "lucide-react";
-import { RevenueChart } from "@/components/admin/charts";
 
-const EMPTY_METRICS = {
+const EMPTY_METRICS: any = {
   totalUsers: 0, totalRevenue: 0, todayRevenue: 0, certificates: 0,
   internshipsCompleted: 0, resumePurchases: 0, linkedinPurchases: 0,
   pendingGenerations: 0, failedGenerations: 0, publishedCourses: 0,
@@ -48,7 +47,7 @@ export default async function AdminDashboard() {
             +14.5%
           </div>
         </div>
-        <RevenueChart />
+        {/* <RevenueChart /> */}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

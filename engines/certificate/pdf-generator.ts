@@ -141,7 +141,8 @@ function buildHtml(data: CertificateData, qrDataUrl: string): string {
       <img src="${qrDataUrl}" class="qr-code" alt="QR Code" />
       <div class="signature">
         <div class="sig-line"></div>
-        <div class="sig-title">Director of Education</div>
+        <div class="sig-name" style="font-family: Georgia, 'Times New Roman', serif; font-size: 16px; font-weight: bold; color: #111827; margin-bottom: 2px;">Bhika Patil</div>
+        <div class="sig-title" style="line-height: 1.4;">Founder &amp; CEO<br/>ProCerix</div>
       </div>
     </div>
   </div>
@@ -232,10 +233,20 @@ async function generateWithPdfLib(data: CertificateData): Promise<Buffer> {
     start: { x: width - 250, y: 75 }, end: { x: width - 60, y: 75 },
     thickness: 1, color: dark,
   });
-  const sigText = 'Director of Education';
-  page.drawText(sigText, {
-    x: width - 250 + (190 - fontRegular.widthOfTextAtSize(sigText, 10)) / 2,
-    y: 62, size: 10, font: fontRegular, color: gray,
+  const sigName = 'Bhika Patil';
+  page.drawText(sigName, {
+    x: width - 250 + (190 - fontBold.widthOfTextAtSize(sigName, 12)) / 2,
+    y: 60, size: 12, font: fontBold, color: dark,
+  });
+  const sigRole = 'Founder & CEO';
+  page.drawText(sigRole, {
+    x: width - 250 + (190 - fontRegular.widthOfTextAtSize(sigRole, 9)) / 2,
+    y: 48, size: 9, font: fontRegular, color: gray,
+  });
+  const sigCompany = 'ProCerix';
+  page.drawText(sigCompany, {
+    x: width - 250 + (190 - fontRegular.widthOfTextAtSize(sigCompany, 9)) / 2,
+    y: 36, size: 9, font: fontRegular, color: gray,
   });
 
   const pdfBytes = await doc.save();

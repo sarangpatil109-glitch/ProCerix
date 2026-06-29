@@ -1,20 +1,21 @@
 import { notFound } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { CourseEditorClient } from "./CourseEditorClient";
 import { LearningService } from "@/services/learning-service";
 
 export default async function EditCoursePage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: course } = await supabase.from("courses").select("*").eq("id", params.id).single();
   if (!course) notFound();
 
   // Fetch full curriculum (Modules & Lessons)
-  const curriculum = await LearningService.getCourseContent(course.id);
+  const curriculum = await LearningService.getCourseContent(course.id, supabase);
   
   // Fetch quizzes/MCQs
-  const moduleIds = curriculum.map((m: any) => m.id);
+  const safeCurriculum = Array.isArray(curriculum) ? curriculum : [];
+  const moduleIds = safeCurriculum.map((m: any) => m.id);
   let quizzes: any[] = [];
   if (moduleIds.length > 0) {
     const { data: qData } = await supabase.from("quizzes").select("*, questions(*, options(*))").in("module_id", moduleIds);

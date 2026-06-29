@@ -10,14 +10,11 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   if (!user) redirect("/login");
 
   return (
-    <div className="flex h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30 overflow-hidden">
+    <div className="flex h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30 overflow-hidden w-full max-w-[100vw]">
       <DashboardSidebar />
-      <div className="flex-1 flex flex-col h-full overflow-hidden">
-        <header className="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center px-6 shrink-0 shadow-sm z-10 lg:hidden">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-        </header>
-        <main className="flex-1 overflow-y-auto p-6 md:p-8 lg:p-12 relative">
-          <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="flex-1 flex flex-col h-full overflow-hidden w-full max-w-full">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden pt-16 md:pt-0 p-4 md:p-6 lg:p-10 relative w-full">
+          <div className="w-full max-w-7xl mx-auto space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
             {children}
           </div>
         </main>

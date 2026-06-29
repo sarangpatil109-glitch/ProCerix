@@ -1,10 +1,10 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { GenericCRUDEngine, CRUDConfig } from "@/components/admin/crud-engine";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default async function InternshipsCMSPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: internships } = await supabase.from("internships").select("*").order("title", { ascending: true });
 
   const config: CRUDConfig = {
@@ -13,7 +13,7 @@ export default async function InternshipsCMSPage() {
     columns: [
       { key: "title", title: "Title", type: "text" }
     ],
-    actions: { create: true, edit: true, delete: true },
+    actions: { create: true, edit: true, delete: true, duplicate: true },
     primaryKey: "id"
   };
 

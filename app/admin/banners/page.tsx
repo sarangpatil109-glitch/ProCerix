@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { BannerBuilder } from "@/components/admin/banner-builder";
 
 export default async function AdminBanners() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: banners } = await supabase.from("banners").select("*").order("priority", { ascending: true });
 
   return (

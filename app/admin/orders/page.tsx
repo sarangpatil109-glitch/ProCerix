@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { CreditCard, Search } from "lucide-react";
 
 export default async function AdminOrdersPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: payments } = await supabase
     .from("payments")
     .select("*, profiles(first_name, last_name)")

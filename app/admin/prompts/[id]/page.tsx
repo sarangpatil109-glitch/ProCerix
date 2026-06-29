@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import { PromptVersionClient } from "./PromptVersionClient";
 import { ArrowLeft } from "lucide-react";
@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default async function PromptVersionPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: template } = await supabase
     .from("prompt_templates")

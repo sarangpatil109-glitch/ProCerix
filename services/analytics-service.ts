@@ -3,7 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 // Safe helper: resolves to value or fallback — never throws, never hangs the page.
 async function safeQuery<T>(
   label: string,
-  fn: () => Promise<{ data: T | null; error: unknown; count?: number | null }>
+  fn: () => PromiseLike<{ data: T | null; error: unknown; count?: number | null }> | any
 ): Promise<{ data: T | null; count: number }> {
   console.time(`[admin] ${label}`);
   try {
@@ -82,7 +82,7 @@ export class AnalyticsService {
 
     console.timeEnd("[admin] getDashboardMetrics TOTAL");
 
-    const payments: any[] = paymentsResult.data ?? [];
+    const payments: any[] = (paymentsResult.data as any[]) ?? [];
     const successfulPayments = payments.filter((p) => p.status === "success");
     const totalRevenue = successfulPayments.reduce((sum, p) => sum + Number(p.amount), 0);
 

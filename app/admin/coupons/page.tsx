@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { GenericCRUDEngine, CRUDConfig } from "@/components/admin/crud-engine";
 
 export default async function CouponsCMSPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: coupons } = await supabase.from("coupons").select("*").order("created_at", { ascending: false });
 
   const config: CRUDConfig = {
@@ -18,7 +18,7 @@ export default async function CouponsCMSPage() {
       { key: "expiry_date", title: "Expiry", type: "text" },
       { key: "is_active", title: "Active", type: "boolean" }
     ],
-    actions: { create: true, edit: true, delete: true },
+    actions: { create: true, edit: true, delete: true, duplicate: true },
     primaryKey: "id"
   };
 

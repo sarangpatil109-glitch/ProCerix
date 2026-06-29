@@ -3,53 +3,10 @@
 import { CheckCircle2, Shield, Infinity } from "lucide-react";
 import { useState } from "react";
 import Script from "next/script";
+import { useCourseEnrollment } from "@/hooks/use-course-enrollment";
 
 export function CourseStickyCard({ course, userId }: { course: any; userId?: string }) {
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [error, setError] = useState("");
-  const [sdkReady, setSdkReady] = useState(false);
-
-  const handleEnroll = async () => {
-    if (!userId) {
-      window.location.href = `/login?redirect=/course/${course.slug}`;
-      return;
-    }
-
-    if (!sdkReady) {
-      setError("Payment gateway is loading. Please try again in a moment.");
-      return;
-    }
-
-    setIsProcessing(true);
-    setError("");
-
-    try {
-      const res = await fetch("/api/payments/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          courseId: course.is_virtual ? undefined : course.id,
-          courseSlug: course.slug,
-          skillName: course.category || course.title?.replace(" Masterclass", ""),
-          amount: course.price,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok || data.error) throw new Error(data.error || "Failed to create order");
-
-      // @ts-ignore
-      const cashfree = window.Cashfree({ mode: data.mode });
-      cashfree.checkout({
-        paymentSessionId: data.payment_session_id,
-        redirectTarget: "_self",
-      });
-    } catch (err: any) {
-      console.error(err);
-      setError(err.message || "Failed to initialize payment");
-      setIsProcessing(false);
-    }
-  };
+  const { handleEnroll, isProcessing, error, setSdkReady } = useCourseEnrollment({ course, userId });
 
   return (
     <>
@@ -58,10 +15,10 @@ export function CourseStickyCard({ course, userId }: { course: any; userId?: str
         strategy="afterInteractive"
         onLoad={() => setSdkReady(true)}
       />
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-6 md:p-8 shadow-xl shadow-gray-200/50 dark:shadow-none relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-indigo-600" />
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-6 md:p-8 shadow-xl shadow-gray-200/50 dark:shadow-none relative overflow-hidden pointer-events-auto z-20">
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-indigo-600 z-0" />
 
-        <div className="space-y-8">
+        <div className="space-y-8 relative z-10 pointer-events-auto">
           <div className="space-y-2">
             <div className="text-4xl font-extrabold text-gray-900 dark:text-white">
               {course.price > 0 ? `₹${course.price}` : "Free"}
@@ -76,16 +33,16 @@ export function CourseStickyCard({ course, userId }: { course: any; userId?: str
           <button
             onClick={handleEnroll}
             disabled={isProcessing}
-            className="w-full py-4 px-6 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:hover:translate-y-0"
+            className="w-full py-4 px-6 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:hover:translate-y-0 relative z-30 pointer-events-auto cursor-pointer"
           >
             {isProcessing ? "Processing..." : "Enroll Now"}
           </button>
 
           {error && (
-            <p className="text-sm text-red-500 text-center -mt-4">{error}</p>
+            <p className="text-sm text-red-500 text-center -mt-4 relative z-10">{error}</p>
           )}
 
-          <div className="space-y-4">
+          <div className="space-y-4 relative z-10">
             <h4 className="font-semibold text-gray-900 dark:text-white">This course includes:</h4>
             <ul className="space-y-3">
               {[

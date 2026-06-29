@@ -1,11 +1,11 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { AIPipelineService } from "@/services/ai-pipeline-service";
 import { Bot, RefreshCcw, XCircle, FileText, CheckCircle2, AlertCircle, Clock, PlayCircle } from "lucide-react";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 
 export default async function AdminAIPipelinePage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const stats = await AIPipelineService.getPipelineStats();
 
   const { data: queue } = await supabase

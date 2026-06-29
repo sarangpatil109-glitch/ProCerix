@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { MarketingHeader } from "@/components/marketing/marketing-header";
 import { MarketingFooter } from "@/components/marketing/marketing-footer";
+import { FloatingWhatsApp } from "@/components/common/FloatingWhatsApp";
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
       <MarketingFooter />
+      <FloatingWhatsApp />
     </div>
   );
 }

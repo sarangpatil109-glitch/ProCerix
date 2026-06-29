@@ -8,13 +8,8 @@ export async function verifyAdmin() {
     throw new Error("Unauthorized");
   }
 
-  const { data: adminUser } = await supabase
-    .from("admin_users")
-    .select("id")
-    .eq("id", user.id)
-    .single();
-
-  if (!adminUser) {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!adminEmail || user.email !== adminEmail) {
     throw new Error("Forbidden: Admin access required");
   }
 

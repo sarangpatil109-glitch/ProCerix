@@ -60,6 +60,13 @@ function SortableBannerCard({ banner, onEdit, onDelete, onTogglePublish }: Banne
         </div>
         
         <div className="flex items-center gap-2 mt-4">
+          <button onClick={() => {
+            const copy = { ...banner, title: `${banner.title} (Copy)` };
+            delete copy.id;
+            onEdit(copy);
+          }} className="px-3 py-1.5 text-xs font-semibold bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 rounded-md hover:bg-purple-100 transition-colors flex items-center gap-1.5">
+            Duplicate
+          </button>
           <button onClick={() => onEdit(banner)} className="px-3 py-1.5 text-xs font-semibold bg-gray-100 dark:bg-[#2C2C2C] text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-[#3C3C3C] transition-colors flex items-center gap-1.5">
             <Edit2 className="w-3.5 h-3.5" /> Edit
           </button>

@@ -1,10 +1,10 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { CheckCircle, XCircle } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import { updateSubmissionStatus } from "@/actions/admin/internships";
 
 export default async function SubmissionsPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: rawSubmissions } = await supabase
     .from("internship_submissions")
     .select("*, profiles(first_name, last_name, email), internship_tasks(title, internships(title))")

@@ -1,16 +1,16 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { GenericCRUDEngine, CRUDConfig } from "@/components/admin/crud-engine";
 import { ProductRegistry } from "@/engines/registry/product-registry";
 import { notFound } from "next/navigation";
 
-export default async function AdminProductsPage({ searchParams }: { searchParams: { type?: string } }) {
-  const type = searchParams.type;
+export default async function AdminProductsPage({ searchParams }: { searchParams: Promise<{ type?: string }> }) {
+  const { type } = await searchParams;
   if (!type) return notFound();
 
   const product = ProductRegistry.getProduct(type as any);
   if (!product) return notFound();
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   // Filter courses by the specific product type
   const { data: items } = await supabase
     .from("courses")
@@ -28,7 +28,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
       { key: "is_published", title: "Published", type: "boolean" }
     ],
     actions: { create: true, edit: true, delete: true },
-    customEditRoute: (id) => `/admin/courses/${id}` // Reusing existing course editor for all products!
+    customEditRoute: "/admin/courses", // Reusing existing course editor for all products!
   };
 
   return (

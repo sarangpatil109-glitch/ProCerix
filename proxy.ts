@@ -1,10 +1,9 @@
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 // Next.js 16 renamed "middleware" to "proxy" (Node.js runtime, not Edge).
-// This is the actual entry point Next.js calls for every request.
 export async function proxy(request: NextRequest) {
-  return await updateSession(request);
+  return updateSession(request);
 }
 
 export const config = {

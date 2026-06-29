@@ -1,18 +1,9 @@
 import { ReactNode } from "react";
-import { notFound, redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { Toaster } from "sonner";
 
-export default async function AdminLayout({ children }: { children: ReactNode }) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) redirect("/login");
-
-  const adminEmail = process.env.ADMIN_EMAIL;
-  if (!adminEmail || user.email !== adminEmail) notFound();
-
+// Auth is enforced by proxy.ts (updateSession) — no network call needed here.
+export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30 overflow-hidden">
       <AdminSidebar />

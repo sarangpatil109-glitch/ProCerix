@@ -8,8 +8,9 @@ export function CourseEditorClient({ course, curriculum, quizzes, tasks }: any) 
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const totalLessons = curriculum.reduce((acc: number, m: any) => acc + (m.lessons?.length || 0), 0);
-  const totalModules = curriculum.length;
+  const safeCurriculum = Array.isArray(curriculum) ? curriculum : [];
+  const totalLessons = safeCurriculum.reduce((acc: number, m: any) => acc + (m.lessons?.length || 0), 0);
+  const totalModules = safeCurriculum.length;
   
   let totalMCQs = 0;
   quizzes?.forEach((q: any) => {
@@ -136,7 +137,7 @@ export function CourseEditorClient({ course, curriculum, quizzes, tasks }: any) 
          <p className="text-gray-500 text-sm">To modify content, use the Modules and Lessons managers in the sidebar. This view is for structural review before publishing.</p>
          
          <div className="space-y-4">
-           {curriculum.map((mod: any, index: number) => (
+           {safeCurriculum.map((mod: any, index: number) => (
              <div key={mod.id} className="p-4 border border-gray-100 dark:border-gray-800 rounded-xl bg-gray-50 dark:bg-gray-800/30">
                <h4 className="font-bold text-lg">Module {index + 1}: {mod.title}</h4>
                <ul className="mt-3 space-y-2 pl-4">

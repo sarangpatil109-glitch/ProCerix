@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { SiteSettingsForm } from "@/components/admin/settings/site-settings-form";
 
 export default async function SettingsPage() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
   const { data: settings } = await supabase.from("site_settings").select("*").single();
 
   return (
