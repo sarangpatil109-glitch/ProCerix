@@ -1,70 +1,113 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+
+// Safe helper: resolves to value or fallback — never throws, never hangs the page.
+async function safeQuery<T>(
+  label: string,
+  fn: () => Promise<{ data: T | null; error: unknown; count?: number | null }>
+): Promise<{ data: T | null; count: number }> {
+  console.time(`[admin] ${label}`);
+  try {
+    const result = await fn();
+    console.timeEnd(`[admin] ${label}`);
+    if (result.error) {
+      console.error(`[admin] ${label} ERROR:`, result.error);
+    }
+    return { data: result.data ?? null, count: result.count ?? 0 };
+  } catch (err) {
+    console.timeEnd(`[admin] ${label}`);
+    console.error(`[admin] ${label} THREW:`, err);
+    return { data: null, count: 0 };
+  }
+}
 
 export class AnalyticsService {
   static async getDashboardMetrics() {
-    const supabase = await createClient();
+    // Use service-role client so RLS never blocks admin analytics queries.
+    const supabase = createAdminClient();
 
-    // Fire all queries concurrently for performance
+    console.log("[admin] getDashboardMetrics: starting all queries");
+    console.time("[admin] getDashboardMetrics TOTAL");
+
     const [
-      { count: totalUsers },
-      { data: payments },
-      { count: certificates },
-      { count: internshipsCompleted },
-      { count: pendingGenerations },
-      { count: failedGenerations },
-      { count: publishedCourses },
-      { count: draftCourses },
-      { data: recentActivity },
-      { data: recentUsers }
+      usersResult,
+      paymentsResult,
+      certificatesResult,
+      internshipsResult,
+      pendingGenResult,
+      failedGenResult,
+      publishedCoursesResult,
+      draftCoursesResult,
+      recentActivityResult,
+      recentUsersResult,
+      resumePurchasesResult,
+      linkedinPurchasesResult,
     ] = await Promise.all([
-      supabase.from("profiles").select("*", { count: "exact", head: true }),
-      supabase.from("payments").select("*"), // Fetching all to calculate revenue
-      supabase.from("certificates").select("*", { count: "exact", head: true }),
-      supabase.from("internship_submissions").select("*", { count: "exact", head: true }).eq("status", "approved"),
-      supabase.from("generation_queue").select("*", { count: "exact", head: true }).eq("status", "pending"),
-      supabase.from("generation_queue").select("*", { count: "exact", head: true }).eq("status", "failed"),
-      supabase.from("courses").select("*", { count: "exact", head: true }).eq("is_published", true),
-      supabase.from("courses").select("*", { count: "exact", head: true }).eq("is_published", false),
-      // Mocking recent activity query since it requires cross-table joins, we'll fetch recent payments and courses
-      supabase.from("payments").select("*, profiles(first_name, last_name), courses(title)").order("created_at", { ascending: false }).limit(5),
-      supabase.from("profiles").select("*").order("created_at", { ascending: false }).limit(5)
+      safeQuery("profiles count", () =>
+        supabase.from("profiles").select("*", { count: "exact", head: true })
+      ),
+      safeQuery("payments all", () =>
+        supabase.from("payments").select("id, amount, status, created_at")
+      ),
+      safeQuery("certificates count", () =>
+        supabase.from("certificates").select("*", { count: "exact", head: true })
+      ),
+      safeQuery("internships approved count", () =>
+        supabase.from("internship_submissions").select("*", { count: "exact", head: true }).eq("status", "approved")
+      ),
+      safeQuery("course_generation_requests pending count", () =>
+        supabase.from("course_generation_requests").select("*", { count: "exact", head: true }).eq("status", "pending")
+      ),
+      safeQuery("course_generation_requests failed count", () =>
+        supabase.from("course_generation_requests").select("*", { count: "exact", head: true }).eq("status", "failed")
+      ),
+      safeQuery("courses published count", () =>
+        supabase.from("courses").select("*", { count: "exact", head: true }).eq("is_published", true)
+      ),
+      safeQuery("courses draft count", () =>
+        supabase.from("courses").select("*", { count: "exact", head: true }).eq("is_published", false)
+      ),
+      safeQuery("recent payments", () =>
+        supabase.from("payments").select("id, amount, status, created_at, profiles(first_name, last_name)").order("created_at", { ascending: false }).limit(5)
+      ),
+      safeQuery("recent users", () =>
+        supabase.from("profiles").select("id, first_name, last_name, created_at").order("created_at", { ascending: false }).limit(5)
+      ),
+      safeQuery("resume enrollments count", () =>
+        supabase.from("enrollments").select("id, courses!inner(course_type)", { count: "exact", head: true }).eq("courses.course_type", "resume")
+      ),
+      safeQuery("linkedin enrollments count", () =>
+        supabase.from("enrollments").select("id, courses!inner(course_type)", { count: "exact", head: true }).eq("courses.course_type", "linkedin")
+      ),
     ]);
 
-    // Calculate Revenues
-    const successfulPayments = payments?.filter(p => p.status === "success") || [];
+    console.timeEnd("[admin] getDashboardMetrics TOTAL");
+
+    const payments: any[] = paymentsResult.data ?? [];
+    const successfulPayments = payments.filter((p) => p.status === "success");
     const totalRevenue = successfulPayments.reduce((sum, p) => sum + Number(p.amount), 0);
-    
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const todayRevenue = successfulPayments
-      .filter(p => new Date(p.created_at) >= today)
+      .filter((p) => new Date(p.created_at) >= today)
       .reduce((sum, p) => sum + Number(p.amount), 0);
-      
-    // Calculate Product purchases
-    // We can infer resume and linkedin purchases from course_type in the future if we join, 
-    // but for now, if they are fetched from courses, we count them if we had joined. 
-    // Let's do a direct count from enrollments for those specific types.
-    const [{ count: resumePurchases }, { count: linkedinPurchases }] = await Promise.all([
-      supabase.from("enrollments").select("*, courses!inner(course_type)", { count: "exact", head: true }).eq("courses.course_type", "resume"),
-      supabase.from("enrollments").select("*, courses!inner(course_type)", { count: "exact", head: true }).eq("courses.course_type", "linkedin"),
-    ]);
 
     return {
-      totalUsers: totalUsers || 0,
+      totalUsers: usersResult.count,
       totalRevenue,
       todayRevenue,
-      certificates: certificates || 0,
-      internshipsCompleted: internshipsCompleted || 0,
-      resumePurchases: resumePurchases || 0,
-      linkedinPurchases: linkedinPurchases || 0,
-      pendingGenerations: pendingGenerations || 0,
-      failedGenerations: failedGenerations || 0,
-      publishedCourses: publishedCourses || 0,
-      draftCourses: draftCourses || 0,
+      certificates: certificatesResult.count,
+      internshipsCompleted: internshipsResult.count,
+      resumePurchases: resumePurchasesResult.count,
+      linkedinPurchases: linkedinPurchasesResult.count,
+      pendingGenerations: pendingGenResult.count,
+      failedGenerations: failedGenResult.count,
+      publishedCourses: publishedCoursesResult.count,
+      draftCourses: draftCoursesResult.count,
       successfulPaymentsCount: successfulPayments.length,
-      failedPaymentsCount: payments?.filter(p => p.status === "failed").length || 0,
-      recentActivity: recentActivity || [],
-      recentUsers: recentUsers || []
+      failedPaymentsCount: payments.filter((p) => p.status === "failed").length,
+      recentActivity: recentActivityResult.data ?? [],
+      recentUsers: recentUsersResult.data ?? [],
     };
   }
 }

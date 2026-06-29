@@ -5,8 +5,21 @@ import {
 } from "lucide-react";
 import { RevenueChart } from "@/components/admin/charts";
 
+const EMPTY_METRICS = {
+  totalUsers: 0, totalRevenue: 0, todayRevenue: 0, certificates: 0,
+  internshipsCompleted: 0, resumePurchases: 0, linkedinPurchases: 0,
+  pendingGenerations: 0, failedGenerations: 0, publishedCourses: 0,
+  draftCourses: 0, successfulPaymentsCount: 0, failedPaymentsCount: 0,
+  recentActivity: [], recentUsers: [],
+};
+
 export default async function AdminDashboard() {
-  const metrics = await AnalyticsService.getDashboardMetrics();
+  let metrics = EMPTY_METRICS;
+  try {
+    metrics = await AnalyticsService.getDashboardMetrics();
+  } catch (err) {
+    console.error("[admin] getDashboardMetrics failed:", err);
+  }
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
