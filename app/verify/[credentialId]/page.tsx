@@ -8,7 +8,8 @@ export async function generateMetadata(props: { params: Promise<{ credentialId: 
   const params = await props.params;
   const cert = await CertificateService.getCertificate(params.credentialId);
   if (!cert) return { title: "Certificate Not Found" };
-  return { title: `ProCerix Verified: ${cert.profiles.first_name} ${cert.profiles.last_name}` };
+  const p = cert.profiles as { first_name: string; last_name: string } | null;
+  return { title: p ? `ProCerix Verified: ${p.first_name} ${p.last_name}` : "ProCerix Verified Certificate" };
 }
 
 export default async function VerifyCertificatePage(props: { params: Promise<{ credentialId: string }> }) {
@@ -19,8 +20,10 @@ export default async function VerifyCertificatePage(props: { params: Promise<{ c
     notFound();
   }
 
-  const name = `${cert.profiles.first_name} ${cert.profiles.last_name}`;
-  const course = cert.courses.title;
+  const profiles = cert.profiles as { first_name: string; last_name: string } | null;
+  const courses = cert.courses as { title: string } | null;
+  const name = profiles ? `${profiles.first_name} ${profiles.last_name}` : "Certificate Holder";
+  const course = courses?.title ?? "Course";
   const issueDate = new Date(cert.issued_at).toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric'
   });

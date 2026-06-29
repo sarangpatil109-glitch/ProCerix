@@ -74,13 +74,20 @@ export class CertificateService {
       .from("certificates")
       .select(`
         *,
-        profiles!inner(first_name, last_name),
-        courses!inner(title)
+        profiles(first_name, last_name),
+        courses(title)
       `)
       .eq("credential_id", credentialId)
       .maybeSingle();
 
-    if (error || !data) return null;
+    if (error) {
+      console.error("[getCertificate] Supabase error:", error.message, "code:", error.code);
+      return null;
+    }
+    if (!data) {
+      console.warn("[getCertificate] No certificate found for credential_id:", credentialId);
+      return null;
+    }
     return data;
   }
 
