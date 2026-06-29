@@ -41,6 +41,7 @@ export function QuizPlayer({
   const [result, setResult] = useState<{ score: number; passed: boolean; correctCount: number; totalCount: number } | null>(null);
   const [loading, setLoading] = useState(false);
   const [certCredential, setCertCredential] = useState<string | null>(null);
+  const [certError, setCertError] = useState<string | null>(null);
 
   const alreadyPassed = previousAttempt?.status === "passed";
 
@@ -78,6 +79,8 @@ export function QuizPlayer({
 
   const handleContinue = async () => {
     setLoading(true);
+    setCertError(null);
+
     if (isLastModule) {
       const res = await issueCertificateAction(userId, courseId);
       if (res.credentialId) {
@@ -85,11 +88,14 @@ export function QuizPlayer({
         setLoading(false);
         return;
       }
+      // Surface the error — never silently redirect back to the course page
+      setCertError(res.error ?? "Certificate generation failed. Please try again.");
+      setLoading(false);
+      return;
     }
+
     if (nextLessonId) {
       router.push(`/learn/${courseSlug}/${nextLessonId}`);
-    } else {
-      router.push(`/course/${courseSlug}`);
     }
     setLoading(false);
   };
@@ -99,6 +105,7 @@ export function QuizPlayer({
     setSubmitted(false);
     setResult(null);
     setCertCredential(null);
+    setCertError(null);
   };
 
   if (certCredential) {
@@ -251,6 +258,19 @@ export function QuizPlayer({
             className="flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Submitting…" : "Submit Quiz"}
+          </button>
+        </div>
+      )}
+
+      {/* Certificate error — shown when issueCertificateAction fails */}
+      {certError && (
+        <div className="rounded-xl p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 flex items-center justify-between gap-4">
+          <p className="text-sm text-red-700 dark:text-red-300">{certError}</p>
+          <button
+            onClick={() => setCertError(null)}
+            className="text-xs text-red-600 dark:text-red-400 underline shrink-0"
+          >
+            Dismiss
           </button>
         </div>
       )}

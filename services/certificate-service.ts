@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { CertificatePDFGenerator } from "@/engines/certificate/pdf-generator";
 
 export class CertificateService {
@@ -9,37 +10,40 @@ export class CertificateService {
   }
 
   static async issueCertificate(userId: string, courseId: string): Promise<{ credential_id: string }> {
-    const supabase = await createClient();
+    // Admin client is required: the certificates table has no INSERT RLS policy.
+    // The admin client bypasses RLS for write operations while the enrollment
+    // check still validates that the user is legitimately enrolled.
+    const adminDb = createAdminClient();
 
-    // 1. Idempotency Check: Prevent duplicate generation per user/course
-    const { data: existingCert } = await supabase
+    // 1. Idempotency: return existing certificate without creating a duplicate
+    const { data: existingCert } = await adminDb
       .from("certificates")
       .select("*")
       .eq("user_id", userId)
       .eq("course_id", courseId)
-      .single();
+      .maybeSingle();
 
     if (existingCert) {
-      return existingCert;
+      return existingCert as any;
     }
 
-    // 2. Security Check: Validate Enrollment Active
-    const { data: enrollment } = await supabase
+    // 2. Validate enrollment exists (active OR already completed)
+    const { data: enrollment } = await adminDb
       .from("enrollments")
       .select("*")
       .eq("user_id", userId)
       .eq("course_id", courseId)
-      .single();
+      .maybeSingle();
 
-    if (!enrollment || enrollment.status !== "active") {
+    if (!enrollment || !["active", "completed"].includes(enrollment.status)) {
       throw new Error("Active enrollment required for certificate issuance");
     }
 
-    // 3. Generate Secure Unique ID
+    // 3. Generate unique credential ID
     const credentialId = this.generateCredentialId();
 
-    // 4. Save Certificate
-    const { data: certificate, error } = await supabase
+    // 4. Save certificate record
+    const { data: certificate, error } = await adminDb
       .from("certificates")
       .insert({
         user_id: userId,
@@ -49,15 +53,17 @@ export class CertificateService {
       .select()
       .single();
 
-    if (error) throw new Error("Failed to issue certificate securely");
+    if (error) throw new Error(`Failed to save certificate: ${error.message}`);
 
-    // 5. Upgrade Enrollment Status
-    await supabase
-      .from("enrollments")
-      .update({ status: "completed", completed_at: new Date().toISOString() } as any)
-      .eq("id", enrollment.id);
+    // 5. Mark enrollment completed
+    if (enrollment.status === "active") {
+      await adminDb
+        .from("enrollments")
+        .update({ status: "completed", completed_at: new Date().toISOString() } as any)
+        .eq("id", enrollment.id);
+    }
 
-    return certificate;
+    return certificate as any;
   }
 
   static async getCertificate(credentialId: string) {
