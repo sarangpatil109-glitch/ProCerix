@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { CourseService } from "@/services/course-service";
 import { LearningService } from "@/services/learning-service";
 import { EnrollmentService } from "@/services/enrollment-service";
@@ -10,20 +11,27 @@ export default async function LearnLayout({ params: paramsPromise, children }: {
   const params = await paramsPromise;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const userId = user?.id || "demo-user-id";
 
-  const courseRepo = await CourseService.getRepository();
+  // Require authentication — never fall back to a demo ID
+  if (!user) redirect("/login");
+  const userId = user.id;
+
+  // Use admin client so courses with is_published=false (AI-generated drafts,
+  // seeded courses) are visible to enrolled users. Enrollment check below
+  // enforces access control — the admin client is not a security bypass.
+  const adminDb = createAdminClient();
+  const courseRepo = await CourseService.getRepository(adminDb);
   const course = await courseRepo.getCourseBySlug(params.slug).catch(() => null);
 
   if (!course) notFound();
 
-  // Validate Enrollment explicitly before granting access to learning materials
+  // Validate enrollment before granting access to learning materials.
   const enrollment = await EnrollmentService.checkAccess(userId, course.id).catch(() => null);
   if (!enrollment) {
     redirect(`/course/${params.slug}`);
   }
 
-  const curriculum = await LearningService.getCourseContent(course.id);
+  const curriculum = await LearningService.getCourseContent(course.id, adminDb);
   const progress = await LearningService.getUserProgress(enrollment.id);
 
   return (
