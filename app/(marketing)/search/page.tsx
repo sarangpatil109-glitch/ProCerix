@@ -13,17 +13,30 @@ export const metadata: Metadata = {
   description: "Discover top-tier courses, internships, and skill certificates on ProCerix.",
 };
 
+import { AutoGenerateCourse } from "@/components/search/auto-generate-course";
+import { redirect } from "next/navigation";
+
 async function SearchResults({ searchParams }: { searchParams: any }) {
   const result = await SearchService.searchCourses(searchParams);
   
+  if (searchParams.q && result.courses && result.courses.length > 0) {
+    // Exact or partial match exists -> immediately redirect to the top result!
+    redirect(`/course/${result.courses[0].slug}`);
+  }
+
   if (!result.courses || result.courses.length === 0) {
+    if (searchParams.q) {
+      // Course does not exist -> show auto generation screen
+      return <AutoGenerateCourse query={searchParams.q} />;
+    }
+    
+    // Empty state without query
     return (
       <div className="text-center py-24 bg-white/50 dark:bg-gray-900/30 rounded-3xl border border-gray-100 dark:border-gray-800 backdrop-blur-sm">
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">We couldn't find an exact course.</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Start exploring courses</h3>
         <p className="text-gray-600 dark:text-gray-400 mb-10 max-w-lg mx-auto">
-          However, our AI can generate a custom curriculum for exactly what you're looking for, tailored to your needs.
+          Use the search bar above to find exactly what you're looking for.
         </p>
-        <AIGenerateButton query={searchParams.q || "Custom Course"} />
       </div>
     );
   }
