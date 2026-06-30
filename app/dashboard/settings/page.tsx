@@ -1,11 +1,13 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { Lock, Palette, Mail, ShieldAlert, LogOut, Activity } from "lucide-react";
+import { Lock, Palette, Mail, ShieldAlert, LogOut, Activity, User } from "lucide-react";
 
 export default async function SettingsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+  
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
@@ -21,59 +23,77 @@ export default async function SettingsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="space-y-8">
           
-          {/* Email Update Section */}
+          {/* Profile Settings Section */}
           <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-8 shadow-sm">
             <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100 dark:border-gray-800">
               <div className="p-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 rounded-lg">
-                <Mail className="w-5 h-5" />
+                <User className="w-5 h-5" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Email Address</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Profile Settings</h2>
             </div>
             
             <form action={async (formData) => {
               "use server";
-              // Mock email update
+              const supabase = await createClient();
+              const { data: { user } } = await supabase.auth.getUser();
+              if (!user) return;
+              
+              const fullName = (formData.get("full_name") as string)?.trim();
+              const newPassword = (formData.get("new_password") as string)?.trim();
+              
+              if (fullName && fullName.length >= 2 && fullName.length <= 100) {
+                const parts = fullName.split(' ');
+                const firstName = parts[0];
+                const lastName = parts.slice(1).join(' ');
+                
+                await supabase.from('profiles').update({
+                  first_name: firstName,
+                  last_name: lastName
+                }).eq('id', user.id);
+                
+                await supabase.auth.updateUser({
+                  data: { full_name: fullName, name: fullName }
+                });
+              }
+              
+              if (newPassword && newPassword.length >= 6) {
+                await supabase.auth.updateUser({ password: newPassword });
+              }
             }} className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-900 dark:text-gray-200">Current Email</label>
+                <label className="text-sm font-medium text-gray-900 dark:text-gray-200">Full Name</label>
+                <input 
+                  type="text" 
+                  name="full_name" 
+                  placeholder="Enter full name" 
+                  defaultValue={user.user_metadata?.full_name || user.user_metadata?.name || (profile ? `${profile.first_name} ${profile.last_name}`.trim() : "")} 
+                  minLength={2} 
+                  maxLength={100} 
+                  required 
+                  className="w-full p-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none transition-all" 
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-900 dark:text-gray-200">Email Address</label>
                 <input type="email" readOnly value={user.email} className="w-full p-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-500 cursor-not-allowed outline-none" />
               </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-900 dark:text-gray-200">New Email</label>
-                <input type="email" name="new_email" placeholder="Enter new email address" required className="w-full p-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none transition-all" />
-              </div>
-              <div className="pt-2">
-                <button type="submit" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold transition-colors w-full">
-                  Update Email
-                </button>
-              </div>
-            </form>
-          </section>
-
-          {/* Security Section */}
-          <section className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-8 shadow-sm">
-            <div className="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100 dark:border-gray-800">
-              <div className="p-2 bg-rose-50 dark:bg-rose-900/30 text-rose-600 rounded-lg">
-                <Lock className="w-5 h-5" />
-              </div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Change Password</h2>
-            </div>
-            
-            <form action={async (formData) => {
-              "use server";
-              // Mock password update
-            }} className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-900 dark:text-gray-200">Current Password</label>
-                <input type="password" name="current_password" required className="w-full p-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-rose-600 outline-none transition-all" />
-              </div>
+              
+              {user.phone && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-900 dark:text-gray-200">Phone</label>
+                  <input type="text" readOnly value={user.phone} className="w-full p-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-500 cursor-not-allowed outline-none" />
+                </div>
+              )}
+              
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-900 dark:text-gray-200">New Password</label>
-                <input type="password" name="new_password" required className="w-full p-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-rose-600 outline-none transition-all" />
+                <input type="password" name="new_password" placeholder="Leave blank to keep current password" minLength={6} className="w-full p-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-600 outline-none transition-all" />
               </div>
+              
               <div className="pt-2">
-                <button type="submit" className="px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-full font-bold transition-colors w-full">
-                  Update Password
+                <button type="submit" className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-bold transition-colors w-full" onClick={() => {}}>
+                  Save Changes
                 </button>
               </div>
             </form>

@@ -190,7 +190,7 @@ export default async function CourseDetailsPage(props: { params: Promise<{ slug:
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-green-400" /> Official ProCerix Credential</li>
                   </ul>
                 </div>
-                <CertificatePreview />
+                <CertificatePreview user={user} />
               </div>
             </section>
 
