@@ -35,7 +35,6 @@ export function AffiliateApplyForm() {
   const router = useRouter();
   const [form, setForm] = useState<FormData>({ name: "", phone: "", college_name: "", designation: "", experience: "" });
   const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   const set = (k: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm(f => ({ ...f, [k]: e.target.value }));
@@ -62,8 +61,8 @@ export function AffiliateApplyForm() {
         toast.success("Application auto-approved! Redirecting to dashboard...");
         setTimeout(() => router.push("/affiliate/dashboard"), 1500);
       } else {
-        setSubmitted(true);
         toast.success("Application submitted successfully!");
+        setTimeout(() => router.push("/affiliate/status"), 1500);
       }
     } catch {
       toast.error("Network error. Please try again.");
@@ -71,23 +70,6 @@ export function AffiliateApplyForm() {
       setLoading(false);
     }
   };
-
-  if (submitted) {
-    return (
-      <div className="text-center py-6 space-y-4">
-        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
-          <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-          </svg>
-        </div>
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white">Application Submitted!</h3>
-        <p className="text-gray-500 text-sm">We'll review your application within 24–48 hours and notify you by email once approved.</p>
-        <div className="pt-2">
-          <Link href="/dashboard" className="text-blue-600 hover:underline text-sm font-medium">Back to Dashboard</Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <form onSubmit={submit} className="space-y-4">
