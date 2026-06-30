@@ -21,13 +21,24 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await query;
     if (error) {
-      console.error("[Admin Affiliate API] Error loading applications:", error);
-      return NextResponse.json({ error: "Failed to load applications", details: error }, { status: 500 });
+      console.error(error);
+      return NextResponse.json({
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint
+      }, { status: 500 });
     }
     return NextResponse.json({ applications: data || [] });
   } catch (err: any) {
-    console.error("[Admin Affiliate API] Unexpected GET error:", err);
-    return NextResponse.json({ error: "Unexpected server error", message: err.message, stack: err.stack }, { status: 500 });
+    console.error(err);
+    return NextResponse.json({
+      message: err.message,
+      code: err.code,
+      details: err.details,
+      hint: err.hint,
+      stack: err.stack
+    }, { status: 500 });
   }
 }
 
@@ -45,8 +56,8 @@ export async function PATCH(req: NextRequest) {
     const adminDb = createAdminClient();
     const { data: app, error: appFetchErr } = await (adminDb as any).from("affiliate_applications").select("*").eq("id", id).maybeSingle();
     if (appFetchErr) {
-      console.error("[Admin Affiliate API] Error fetching application:", appFetchErr);
-      return NextResponse.json({ error: "Failed to fetch application", details: appFetchErr }, { status: 500 });
+      console.error(appFetchErr);
+      return NextResponse.json({ message: appFetchErr.message, code: appFetchErr.code, details: appFetchErr.details, hint: appFetchErr.hint }, { status: 500 });
     }
     if (!app) return NextResponse.json({ error: "Application not found" }, { status: 404 });
 
@@ -54,8 +65,8 @@ export async function PATCH(req: NextRequest) {
       // Update application status
       const { error: updErr } = await (adminDb as any).from("affiliate_applications").update({ status: "approved", updated_at: new Date().toISOString() }).eq("id", id);
       if (updErr) {
-        console.error("[Admin Affiliate API] Error approving application:", updErr);
-        return NextResponse.json({ error: "Failed to approve application", details: updErr }, { status: 500 });
+        console.error(updErr);
+        return NextResponse.json({ message: updErr.message, code: updErr.code, details: updErr.details, hint: updErr.hint }, { status: 500 });
       }
 
       const settings = await getAffiliateSettings();
@@ -68,8 +79,8 @@ export async function PATCH(req: NextRequest) {
       for (let i = 0; i < 10; i++) {
         const { data: exists, error: existErr } = await (adminDb as any).from("affiliate_profiles").select("id").eq("coupon_code", coupon).maybeSingle();
         if (existErr) {
-          console.error("[Admin Affiliate API] Error checking coupon uniqueness:", existErr);
-          return NextResponse.json({ error: "Failed to verify coupon", details: existErr }, { status: 500 });
+          console.error(existErr);
+          return NextResponse.json({ message: existErr.message, code: existErr.code, details: existErr.details, hint: existErr.hint }, { status: 500 });
         }
         if (!exists) break;
         coupon = generateAffiliateCoupon(app.name);
@@ -78,8 +89,8 @@ export async function PATCH(req: NextRequest) {
       // Check if profile already exists
       const { data: existProfile, error: profFetchErr } = await (adminDb as any).from("affiliate_profiles").select("id").eq("user_id", app.user_id).maybeSingle();
       if (profFetchErr) {
-        console.error("[Admin Affiliate API] Error checking existing profile:", profFetchErr);
-        return NextResponse.json({ error: "Failed to verify profile", details: profFetchErr }, { status: 500 });
+        console.error(profFetchErr);
+        return NextResponse.json({ message: profFetchErr.message, code: profFetchErr.code, details: profFetchErr.details, hint: profFetchErr.hint }, { status: 500 });
       }
 
       if (existProfile) {
@@ -92,8 +103,8 @@ export async function PATCH(req: NextRequest) {
           updated_at: new Date().toISOString(),
         }).eq("id", existProfile.id);
         if (profUpdErr) {
-          console.error("[Admin Affiliate API] Error updating existing profile:", profUpdErr);
-          return NextResponse.json({ error: "Failed to update profile", details: profUpdErr }, { status: 500 });
+          console.error(profUpdErr);
+          return NextResponse.json({ message: profUpdErr.message, code: profUpdErr.code, details: profUpdErr.details, hint: profUpdErr.hint }, { status: 500 });
         }
       } else {
         const { error: profInsErr } = await (adminDb as any).from("affiliate_profiles").insert({
@@ -108,8 +119,8 @@ export async function PATCH(req: NextRequest) {
           status: "active",
         });
         if (profInsErr) {
-          console.error("[Admin Affiliate API] Error creating profile:", profInsErr);
-          return NextResponse.json({ error: "Failed to create profile", details: profInsErr }, { status: 500 });
+          console.error(profInsErr);
+          return NextResponse.json({ message: profInsErr.message, code: profInsErr.code, details: profInsErr.details, hint: profInsErr.hint }, { status: 500 });
         }
       }
 
@@ -127,15 +138,15 @@ export async function PATCH(req: NextRequest) {
         updated_at: new Date().toISOString(),
       }).eq("id", id);
       if (rejUpdErr) {
-        console.error("[Admin Affiliate API] Error rejecting application:", rejUpdErr);
-        return NextResponse.json({ error: "Failed to reject application", details: rejUpdErr }, { status: 500 });
+        console.error(rejUpdErr);
+        return NextResponse.json({ message: rejUpdErr.message, code: rejUpdErr.code, details: rejUpdErr.details, hint: rejUpdErr.hint }, { status: 500 });
       }
 
       // Deactivate profile if exists
       const { error: profDeactErr } = await (adminDb as any).from("affiliate_profiles").update({ status: "inactive", updated_at: new Date().toISOString() }).eq("user_id", app.user_id);
       if (profDeactErr && profDeactErr.code !== 'PGRST116') { // Ignore missing row if no profile existed
-        console.error("[Admin Affiliate API] Error deactivating profile:", profDeactErr);
-        return NextResponse.json({ error: "Failed to deactivate profile", details: profDeactErr }, { status: 500 });
+        console.error(profDeactErr);
+        return NextResponse.json({ message: profDeactErr.message, code: profDeactErr.code, details: profDeactErr.details, hint: profDeactErr.hint }, { status: 500 });
       }
 
       if (app.email) {
@@ -146,7 +157,7 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json({ error: "Unknown action" }, { status: 400 });
   } catch (err: any) {
-    console.error("[Admin Affiliate API] Unexpected PATCH error:", err);
-    return NextResponse.json({ error: "Unexpected server error", message: err.message, stack: err.stack }, { status: 500 });
+    console.error(err);
+    return NextResponse.json({ message: err.message, code: err.code, details: err.details, hint: err.hint, stack: err.stack }, { status: 500 });
   }
 }

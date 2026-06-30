@@ -24,10 +24,12 @@ export async function POST(req: NextRequest) {
       .maybeSingle();
 
     if (existingErr) {
-      console.error("[Affiliate API] Error fetching existing application:", existingErr);
+      console.error(existingErr);
       return NextResponse.json({ 
-        error: "Failed to fetch existing application", 
-        details: existingErr 
+        message: existingErr.message,
+        code: existingErr.code,
+        details: existingErr.details,
+        hint: existingErr.hint
       }, { status: 500 });
     }
 
@@ -48,10 +50,12 @@ export async function POST(req: NextRequest) {
       }).eq("id", existing.id);
       
       if (updateErr) {
-        console.error("[Affiliate API] Error updating application:", updateErr);
+        console.error(updateErr);
         return NextResponse.json({ 
-          error: "Failed to update application", 
-          details: updateErr 
+          message: updateErr.message,
+          code: updateErr.code,
+          details: updateErr.details,
+          hint: updateErr.hint
         }, { status: 500 });
       }
     } else {
@@ -67,10 +71,12 @@ export async function POST(req: NextRequest) {
       });
       
       if (insertErr) {
-        console.error("[Affiliate API] Error inserting application:", insertErr);
+        console.error(insertErr);
         return NextResponse.json({ 
-          error: "Failed to submit application", 
-          details: insertErr 
+          message: insertErr.message,
+          code: insertErr.code,
+          details: insertErr.details,
+          hint: insertErr.hint
         }, { status: 500 });
       }
     }
@@ -84,8 +90,8 @@ export async function POST(req: NextRequest) {
       for (let i = 0; i < 5; i++) {
         const { data: exists, error: existErr } = await (adminDb as any).from("affiliate_profiles").select("id").eq("coupon_code", coupon).maybeSingle();
         if (existErr) {
-          console.error("[Affiliate API] Error checking unique coupon:", existErr);
-          return NextResponse.json({ error: "Failed to check coupon", details: existErr }, { status: 500 });
+          console.error(existErr);
+          return NextResponse.json({ message: existErr.message, code: existErr.code, details: existErr.details, hint: existErr.hint }, { status: 500 });
         }
         if (!exists) break;
         coupon = generateAffiliateCoupon(name);
@@ -93,14 +99,14 @@ export async function POST(req: NextRequest) {
 
       const { error: approveErr } = await (adminDb as any).from("affiliate_applications").update({ status: "approved", updated_at: new Date().toISOString() }).eq("user_id", user.id);
       if (approveErr) {
-        console.error("[Affiliate API] Error auto-approving application:", approveErr);
-        return NextResponse.json({ error: "Failed to auto-approve", details: approveErr }, { status: 500 });
+        console.error(approveErr);
+        return NextResponse.json({ message: approveErr.message, code: approveErr.code, details: approveErr.details, hint: approveErr.hint }, { status: 500 });
       }
       
       const { data: app, error: appErr } = await (adminDb as any).from("affiliate_applications").select("id").eq("user_id", user.id).maybeSingle();
       if (appErr) {
-        console.error("[Affiliate API] Error fetching app for profile:", appErr);
-        return NextResponse.json({ error: "Failed to fetch application ID", details: appErr }, { status: 500 });
+        console.error(appErr);
+        return NextResponse.json({ message: appErr.message, code: appErr.code, details: appErr.details, hint: appErr.hint }, { status: 500 });
       }
 
       const { error: profErr } = await (adminDb as any).from("affiliate_profiles").insert({
@@ -115,8 +121,8 @@ export async function POST(req: NextRequest) {
         status: "active",
       });
       if (profErr) {
-        console.error("[Affiliate API] Error creating profile:", profErr);
-        return NextResponse.json({ error: "Failed to create profile", details: profErr }, { status: 500 });
+        console.error(profErr);
+        return NextResponse.json({ message: profErr.message, code: profErr.code, details: profErr.details, hint: profErr.hint }, { status: 500 });
       }
 
       sendAffiliateEmail(user.email!, "🎉 Welcome to ProCerix Affiliate Program!", AFFILIATE_EMAIL_TEMPLATES.applicationApproved(name, coupon, settings.default_commission_percentage)).catch(() => {});
@@ -126,11 +132,13 @@ export async function POST(req: NextRequest) {
     sendAffiliateEmail(user.email!, "Affiliate Application Received", AFFILIATE_EMAIL_TEMPLATES.applicationSubmitted(name)).catch(() => {});
     return NextResponse.json({ ok: true, status: "pending" });
   } catch (err: any) {
-    console.error("[Affiliate API] Unexpected POST error:", err);
+    console.error(err);
     return NextResponse.json({ 
-      error: "Unexpected server error", 
-      message: err.message, 
-      stack: err.stack 
+      message: err.message,
+      code: err.code,
+      details: err.details,
+      hint: err.hint,
+      stack: err.stack
     }, { status: 500 });
   }
 }
@@ -149,8 +157,8 @@ export async function GET(req: NextRequest) {
       .maybeSingle();
 
     if (appErr) {
-      console.error("[Affiliate API] Error fetching application GET:", appErr);
-      return NextResponse.json({ error: "Failed to fetch application", details: appErr }, { status: 500 });
+      console.error(appErr);
+      return NextResponse.json({ message: appErr.message, code: appErr.code, details: appErr.details, hint: appErr.hint }, { status: 500 });
     }
 
     const { data: profile, error: profErr } = await (adminDb as any)
@@ -160,17 +168,19 @@ export async function GET(req: NextRequest) {
       .maybeSingle();
 
     if (profErr) {
-      console.error("[Affiliate API] Error fetching profile GET:", profErr);
-      return NextResponse.json({ error: "Failed to fetch profile", details: profErr }, { status: 500 });
+      console.error(profErr);
+      return NextResponse.json({ message: profErr.message, code: profErr.code, details: profErr.details, hint: profErr.hint }, { status: 500 });
     }
 
     return NextResponse.json({ application, profile });
   } catch (err: any) {
-    console.error("[Affiliate API] Unexpected GET error:", err);
+    console.error(err);
     return NextResponse.json({ 
-      error: "Unexpected server error", 
-      message: err.message, 
-      stack: err.stack 
+      message: err.message,
+      code: err.code,
+      details: err.details,
+      hint: err.hint,
+      stack: err.stack
     }, { status: 500 });
   }
 }
