@@ -2,12 +2,43 @@ import Link from "next/link";
 import { MarketingHeroSearch } from "@/components/marketing/marketing-search";
 import { CheckCircle, ShieldCheck, Zap, Bot, Star } from "lucide-react";
 import { ProductRegistry } from "@/engines/registry/product-registry";
+import { Metadata } from "next";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { organizationSchema, websiteSchema } from "@/lib/seo";
+
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://procerix.com";
+
+export const metadata: Metadata = {
+  title: { absolute: "ProCerix — Search Any Skill. Get Certified." },
+  description:
+    "ProCerix uses AI to generate skill certifications and virtual internships on demand. Search any skill, get certified instantly, and verify credentials for life.",
+  keywords: ["AI certification", "online certificate", "virtual internship", "skill certificate", "ProCerix", "AI course"],
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "ProCerix — Search Any Skill. Get Certified.",
+    description:
+      "ProCerix uses AI to generate skill certifications and virtual internships on demand. Search any skill, get certified instantly.",
+    url: BASE_URL,
+    siteName: "ProCerix",
+    images: [{ url: "/branding/logo.png", width: 1200, height: 630, alt: "ProCerix — AI Certification Platform" }],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ProCerix — Search Any Skill. Get Certified.",
+    description: "AI-generated certifications and virtual internships. Get certified in any skill instantly.",
+    images: ["/branding/logo.png"],
+  },
+};
 
 export default function Home() {
   const certPrice = ProductRegistry.getProduct("certificate")!.defaultPrice;
   const internPrice = ProductRegistry.getProduct("internship")!.defaultPrice;
   return (
     <div className="w-full">
+      <JsonLd data={organizationSchema()} />
+      <JsonLd data={websiteSchema()} />
       {/* 1. Premium Hero */}
       <section className="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden px-6">
         <div className="absolute inset-0 bg-blue-50/50 dark:bg-blue-950/10 [mask-image:linear-gradient(to_bottom,white,transparent)] -z-10"></div>

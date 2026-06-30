@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { CertificateService } from "@/services/certificate-service";
 import { ShieldCheck, Calendar, BookOpen, User } from "lucide-react";
 import Link from "next/link";
+import { ClarityFire } from "@/components/clarity/ClarityFire";
 
 export async function generateMetadata(props: { params: Promise<{ credentialId: string }> }): Promise<Metadata> {
   const params = await props.params;
@@ -29,6 +30,7 @@ export default async function VerifyCertificatePage(props: { params: Promise<{ c
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-black selection:bg-blue-500/30 flex items-center justify-center p-4">
+      <ClarityFire event="certificate_verified" />
       <div className="max-w-xl w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-indigo-600" />
         

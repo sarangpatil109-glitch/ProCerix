@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
+import { ClarityFire } from "@/components/clarity/ClarityFire";
 
 export default function ErrorPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-black flex items-center justify-center p-4 selection:bg-blue-500/30">
+      <ClarityFire event="payment_failed" />
       <div className="max-w-md w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-10 text-center space-y-6 shadow-2xl shadow-gray-200/50 dark:shadow-none transition-all">
         <div className="w-24 h-24 bg-red-100 dark:bg-red-900/30 text-red-500 rounded-full flex items-center justify-center mx-auto ring-8 ring-red-50 dark:ring-red-900/10">
           <AlertTriangle className="w-12 h-12" />

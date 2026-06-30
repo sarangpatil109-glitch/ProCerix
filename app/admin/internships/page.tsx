@@ -5,15 +5,26 @@ import { ArrowRight } from "lucide-react";
 
 export default async function InternshipsCMSPage() {
   const supabase = createAdminClient();
-  const { data: internships } = await supabase.from("internships").select("*").order("title", { ascending: true });
+  const { data: internships } = await supabase
+    .from("internships")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   const config: CRUDConfig = {
     entityName: "Internship",
     tableName: "internships",
     columns: [
-      { key: "title", title: "Title", type: "text" }
+      { key: "title", title: "Title", type: "text" },
+      { key: "slug", title: "Slug", type: "text" },
+      { key: "company_name", title: "Company", type: "text" },
+      { key: "description", title: "Description", type: "richtext" },
+      { key: "category", title: "Category", type: "text" },
+      { key: "price", title: "Selling Price", type: "number" },
+      { key: "original_price", title: "Original Price", type: "number" },
+      { key: "is_published", title: "Published", type: "boolean" }
     ],
-    actions: { create: true, edit: true, delete: true, duplicate: true },
+    actions: { create: true, edit: true, delete: true, duplicate: true, publish: true },
+    bulkActions: { publish: true, delete: true, bulkPrice: true },
     primaryKey: "id"
   };
 
@@ -28,7 +39,7 @@ export default async function InternshipsCMSPage() {
           View Submissions <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
-      
+
       <GenericCRUDEngine config={config} data={internships || []} />
     </div>
   );

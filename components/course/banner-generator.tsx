@@ -14,7 +14,7 @@ interface BannerGeneratorProps {
   size?: "sm" | "md" | "lg";
 }
 
-export const BannerGenerator: React.FC<BannerGeneratorProps> = React.memo(({
+const BannerGeneratorBase: React.FC<BannerGeneratorProps> = ({
   title,
   category = "General",
   difficulty = "beginner",
@@ -83,4 +83,7 @@ export const BannerGenerator: React.FC<BannerGeneratorProps> = React.memo(({
       </div>
     </div>
   );
-});
+};
+
+export const BannerGenerator = React.memo(BannerGeneratorBase);
+BannerGenerator.displayName = "BannerGenerator";

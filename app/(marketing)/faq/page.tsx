@@ -1,6 +1,10 @@
-"use client";
-import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { Metadata } from "next";
+import { FAQAccordion } from "@/components/faq/FAQAccordion";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqSchema } from "@/lib/seo";
+import { APP_CONFIG } from "@/constants";
+
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://procerix.com";
 
 const faqs = [
   { q: "How does the AI Generation work?", a: "When you search for a skill we don't have, our AI generation pipeline instantly starts building a structured course just for you. It writes lessons, creates MCQs, and outlines tasks using advanced LLMs with strict pedagogical schemas." },
@@ -10,38 +14,42 @@ const faqs = [
   { q: "How long do I have access to the course?", a: "Once enrolled, you have lifetime access to the learning materials and the learning player for that specific course." },
 ];
 
-export default function FAQPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+export const metadata: Metadata = {
+  title: "FAQ",
+  description: "Answers to common questions about ProCerix — AI certification, virtual internships, verifiable credentials, and billing.",
+  keywords: ["FAQ", "ProCerix", "AI certification questions", "virtual internship", "certificate verification"],
+  alternates: { canonical: "/faq" },
+  openGraph: {
+    title: `FAQ | ${APP_CONFIG.name}`,
+    description: "Frequently asked questions about ProCerix AI certifications and virtual internships.",
+    url: `${BASE_URL}/faq`,
+    siteName: APP_CONFIG.name,
+    images: [{ url: "/branding/logo.png", width: 1200, height: 630, alt: APP_CONFIG.name }],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `FAQ | ${APP_CONFIG.name}`,
+    description: "Frequently asked questions about ProCerix AI certifications and virtual internships.",
+    images: ["/branding/logo.png"],
+  },
+};
 
+export default function FAQPage() {
   return (
     <div className="py-24 px-6 bg-[#FAFAFA] dark:bg-black min-h-[80vh]">
+      <JsonLd data={faqSchema(faqs)} />
       <div className="max-w-3xl mx-auto space-y-12">
         <div className="text-center">
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-4">Frequently Asked Questions</h1>
-          <p className="text-gray-500 dark:text-gray-400">Everything you need to know about the product and billing.</p>
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tighter mb-4">
+            Frequently Asked Questions
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400">
+            Everything you need to know about the product and billing.
+          </p>
         </div>
-
-        <div className="space-y-4">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div key={index} className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm transition-all">
-                <button 
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full px-6 py-6 text-left flex justify-between items-center focus:outline-none"
-                >
-                  <span className="font-bold text-gray-900 dark:text-white text-lg">{faq.q}</span>
-                  {isOpen ? <ChevronUp className="w-5 h-5 text-gray-500" /> : <ChevronDown className="w-5 h-5 text-gray-500" />}
-                </button>
-                {isOpen && (
-                  <div className="px-6 pb-6 text-gray-600 dark:text-gray-400">
-                    <p>{faq.a}</p>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+        <FAQAccordion faqs={faqs} />
       </div>
     </div>
   );

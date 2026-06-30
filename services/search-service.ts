@@ -1,7 +1,5 @@
 import { CourseService } from "@/services/course-service";
-import { generateVirtualCourse } from "@/engines/generation/virtual";
-import { ProductRegistry } from "@/engines/registry/product-registry";
-import { SemanticSearchEngine } from "@/engines/search/semantic-engine";
+import { createClient } from "@/lib/supabase/server";
 
 export class SearchService {
   static async searchCourses(searchParams: {
@@ -18,15 +16,29 @@ export class SearchService {
     const offset = (page - 1) * limit;
 
     let courses: any[] = [];
-    const repo = await CourseService.getRepository();
 
-    // 1. If searching for specific course types or no specific type
-    if (!searchParams.type || searchParams.type === "certificate" || searchParams.type === "internship") {
+    // ── Internship search → query internships table ──────────────────────────
+    if (searchParams.type === "internship") {
+      const supabase = await createClient();
+      let query = supabase
+        .from("internships")
+        .select("*")
+        .eq("is_published", true);
+
+      if (searchParams.category) query = query.eq("category", searchParams.category);
+
+      const { data } = await query.order("created_at", { ascending: false });
+
+      if (data) {
+        courses = data.map(i => ({ ...i, course_type: "internship" }));
+      }
+    } else {
+      // ── Certificate / general search → query courses table ──────────────────
+      const repo = await CourseService.getRepository();
       const dbCourses = await repo.getCourses({
         status: "published",
         search: searchParams.q,
         category: searchParams.category,
-        courseType: searchParams.type as any,
         difficulty: searchParams.difficulty,
         isFree: searchParams.free === "true" ? true : (searchParams.free === "false" ? false : undefined),
         sort: searchParams.sort,
@@ -36,27 +48,21 @@ export class SearchService {
       courses = [...(dbCourses || [])];
     }
 
-
-
-    // Apply Scoring
+    // Apply relevance scoring when a query is present
     if (searchParams.q) {
       const query = searchParams.q.toLowerCase().trim();
       const queryWords = query.split(/\s+/).filter(w => w.length > 0);
 
       const calculateScore = (course: any, q: string) => {
         let score = 0;
-        const title = (course.title || course.name || "").toLowerCase().trim();
+        const title = (course.title || "").toLowerCase().trim();
         const category = (course.category || "").toLowerCase();
         const tags = Array.isArray(course.tags) ? course.tags.join(" ").toLowerCase() : (course.tags || "").toLowerCase();
         const description = (course.description || "").toLowerCase();
 
         if (title === q) score += 10000;
         if (title.startsWith(q)) score += 8000;
-        
-        if (queryWords.length > 0 && queryWords.every(word => title.includes(word))) {
-          score += 7000;
-        }
-        
+        if (queryWords.length > 0 && queryWords.every(word => title.includes(word))) score += 7000;
         if (title.includes(q)) score += 5000;
         if (category.includes(q)) score += 3000;
         if (tags.includes(q)) score += 2500;
@@ -65,21 +71,12 @@ export class SearchService {
         return score;
       };
 
-      courses = courses.map(course => ({
-        ...course,
-        _score: calculateScore(course, query)
-      })).sort((a, b) => {
-        if (a._score !== b._score) return b._score - a._score;
-        const popA = a.enrolled_count || a.students || 0;
-        const popB = b.enrolled_count || b.students || 0;
-        return popB - popA;
-      });
+      courses = courses
+        .map(course => ({ ...course, _score: calculateScore(course, query) }))
+        .sort((a, b) => b._score - a._score || (b.enrolled_count || 0) - (a.enrolled_count || 0));
 
       courses = courses.slice(offset, offset + limit);
     }
-
-    console.log("SEARCH SERVICE USED");
-    console.log(courses.map(c => c.title));
 
     return {
       courses,
@@ -89,5 +86,17 @@ export class SearchService {
         hasMore: courses && courses.length === limit
       }
     };
+  }
+
+  // Separate helper for search suggestions bar
+  static async searchInternships(q: string, limit = 2): Promise<any[]> {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("internships")
+      .select("id, title, slug, price, original_price, description")
+      .eq("is_published", true)
+      .ilike("title", `%${q}%`)
+      .limit(limit);
+    return (data || []).map(i => ({ ...i, course_type: "internship" }));
   }
 }

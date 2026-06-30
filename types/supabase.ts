@@ -149,7 +149,12 @@ export type Database = {
         Insert: any; Update: any; Relationships: [];
       };
       internships: {
-        Row: { id: string; title: string; };
+        Row: {
+          id: string; title: string; slug?: string; price: number; original_price: number;
+          is_published: boolean; is_active: boolean; created_at: string; updated_at: string;
+          company_name?: string; description?: string; category?: string;
+          thumbnail_url?: string; deleted_at?: string;
+        };
         Insert: any; Update: any; Relationships: [];
       };
       internship_tasks: {

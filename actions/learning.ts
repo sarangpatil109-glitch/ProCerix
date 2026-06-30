@@ -10,9 +10,9 @@ export async function createModuleAction(data: ModuleInput) {
   if (!result.success) return { error: "Invalid module data" };
 
   try {
-    const module = await LearningService.createModule(result.data);
+    const learningModule = await LearningService.createModule(result.data);
     revalidateTag(`course-content-${data.course_id}`, "default");
-    return { success: true, data: module };
+    return { success: true, data: learningModule };
   } catch (error: any) {
     return { error: error.message };
   }
@@ -20,9 +20,9 @@ export async function createModuleAction(data: ModuleInput) {
 
 export async function updateModuleAction(id: string, courseId: string, data: Partial<ModuleInput>) {
   try {
-    const module = await LearningService.updateModule(id, data);
+    const learningModule = await LearningService.updateModule(id, data);
     revalidateTag(`course-content-${courseId}`, "default");
-    return { success: true, data: module };
+    return { success: true, data: learningModule };
   } catch (error: any) {
     return { error: error.message };
   }

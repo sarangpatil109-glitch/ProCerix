@@ -4,6 +4,7 @@ import { CourseInput } from "@/validators/course";
 import { generateCourseSlug } from "./utils";
 import { buildCourseQuery } from "./queries";
 import { CourseFilter } from "./types";
+import { withDefaultPricing } from "@/lib/pricing/defaults";
 
 export class CourseRepository {
   constructor(private client: SupabaseClient<Database>) {}
@@ -40,9 +41,10 @@ export class CourseRepository {
 
   async createCourse(input: CourseInput) {
     const slug = generateCourseSlug(input.title);
+    const payload = withDefaultPricing({ ...input, slug }, (input as any).course_type);
     const { data, error } = await this.client
       .from("courses")
-      .insert({ ...input, slug } as any)
+      .insert(payload as any)
       .select()
       .single();
       

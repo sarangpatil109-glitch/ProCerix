@@ -3,7 +3,8 @@ import { Database } from "@/types/supabase";
 import { CourseFilter } from "./types";
 
 export function buildCourseQuery(client: SupabaseClient<Database>, filter?: CourseFilter) {
-  let query = client.from("courses").select("*");
+  // Courses table holds certificates only; exclude any legacy internship rows
+  let query = client.from("courses").select("*").neq("course_type", "internship");
 
   if (filter?.status) {
     if (filter.status === "published") {

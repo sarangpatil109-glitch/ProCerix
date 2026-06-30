@@ -1,5 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { Download, ExternalLink, ShieldCheck } from "lucide-react";
+import { lead } from "@/lib/meta-pixel";
+import { analyticsDownloadCertificate } from "@/lib/analytics";
+import { trackEvent } from "@/lib/clarity";
 
 export function CertificateCard({ certificate }: { certificate: any }) {
   const issueDate = new Date(certificate.issued_at).toLocaleDateString('en-US', {
@@ -31,9 +36,10 @@ export function CertificateCard({ certificate }: { certificate: any }) {
         >
           <ExternalLink className="w-4 h-4" /> Verify
         </Link>
-        <Link 
+        <Link
           href={`/api/certificates/${certificate.credential_id}/download`}
           target="_blank"
+          onClick={() => { lead({ content_name: "Certificate Download" }); analyticsDownloadCertificate(certificate.courses.title); trackEvent("certificate_download"); }}
           className="flex items-center gap-2 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors text-sm"
         >
           <Download className="w-4 h-4" /> Download

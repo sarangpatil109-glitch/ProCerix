@@ -31,6 +31,7 @@ export type CRUDConfig = {
     publish?: boolean;
     feature?: boolean;
     delete?: boolean;
+    bulkPrice?: boolean;
   };
 };
 
@@ -46,6 +47,9 @@ export function GenericCRUDEngine({
   const [editingItem, setEditingItem] = useState<any>(null);
   const [formData, setFormData] = useState<any>({});
   const [loading, setLoading] = useState(false);
+  
+  const [bulkPriceModalOpen, setBulkPriceModalOpen] = useState(false);
+  const [bulkPriceForm, setBulkPriceForm] = useState({ price: "", original_price: "" });
   
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [page, setPage] = useState(1);
@@ -191,6 +195,36 @@ export function GenericCRUDEngine({
     }
   };
 
+  const handleBulkPriceApply = async (applyToAll: boolean) => {
+    if (!applyToAll && selectedIds.size === 0) {
+      toast.error("No items selected. Select rows first or use \"Apply to All\".");
+      return;
+    }
+    if (applyToAll && !confirm(`Are you sure you want to apply this price to ALL ${config.entityName.toLowerCase()}s?`)) return;
+
+    setLoading(true);
+    const toastId = toast.loading("Updating prices...");
+
+    try {
+      const payload = {
+        price: Number(bulkPriceForm.price),
+        original_price: Number(bulkPriceForm.original_price)
+      };
+
+      const ids = applyToAll ? data.map(item => item[pk]) : Array.from(selectedIds);
+      await executeCrud("BULK_UPDATE", undefined, payload, ids);
+
+      toast.success("Prices updated successfully!", { id: toastId });
+      setBulkPriceModalOpen(false);
+      setSelectedIds(new Set());
+      router.refresh();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update prices", { id: toastId });
+    }
+    setLoading(false);
+  };
+
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500 font-sans">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -228,6 +262,10 @@ export function GenericCRUDEngine({
                 <button onClick={() => handleBulkAction("delete")} className="px-3 py-1.5 text-xs font-semibold bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800/50 rounded-md hover:bg-red-100 transition-colors">Delete</button>
               )}
             </div>
+          )}
+
+          {config.bulkActions?.bulkPrice && (
+            <button onClick={() => setBulkPriceModalOpen(true)} className="px-3 py-1.5 text-xs font-semibold bg-yellow-50 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/50 rounded-md hover:bg-yellow-100 transition-colors">💰 Bulk Price</button>
           )}
 
           {config.actions.create && (
@@ -463,6 +501,69 @@ export function GenericCRUDEngine({
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Price Modal */}
+      {bulkPriceModalOpen && (
+        <div className="fixed inset-0 z-[60] overflow-hidden font-sans flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setBulkPriceModalOpen(false)} />
+          <div className="relative bg-white dark:bg-[#0E0E0E] shadow-2xl rounded-2xl w-full max-w-md border border-gray-200 dark:border-gray-800/60 animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800/60">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white tracking-tight">
+                {config.entityName === "Internship" ? "Bulk Internship Price Editor" : "Bulk Price Editor"}
+              </h2>
+              <button onClick={() => setBulkPriceModalOpen(false)} className="p-2 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="p-6 space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Selling Price</label>
+                <input 
+                  type="number"
+                  value={bulkPriceForm.price}
+                  onChange={e => setBulkPriceForm(prev => ({ ...prev, price: e.target.value }))}
+                  className="w-full px-4 py-2.5 bg-gray-50 dark:bg-[#1C1C1C] border border-gray-200 dark:border-gray-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-shadow"
+                  placeholder="e.g. 99"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Original Price</label>
+                <input 
+                  type="number"
+                  value={bulkPriceForm.original_price}
+                  onChange={e => setBulkPriceForm(prev => ({ ...prev, original_price: e.target.value }))}
+                  className="w-full px-4 py-2.5 bg-gray-50 dark:bg-[#1C1C1C] border border-gray-200 dark:border-gray-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-shadow"
+                  placeholder="e.g. 499"
+                />
+              </div>
+            </div>
+            
+            <div className="p-4 border-t border-gray-200 dark:border-gray-800/60 bg-gray-50 dark:bg-[#161616] flex flex-col gap-2 shrink-0 rounded-b-2xl">
+              <button 
+                onClick={() => handleBulkPriceApply(false)} 
+                disabled={loading}
+                className="w-full py-2.5 text-sm font-semibold bg-gray-900 dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 rounded-lg transition-colors shadow-sm disabled:opacity-50"
+              >
+                Apply to Selected
+              </button>
+              <button 
+                onClick={() => handleBulkPriceApply(true)} 
+                disabled={loading}
+                className="w-full py-2.5 text-sm font-semibold bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors shadow-sm disabled:opacity-50"
+              >
+                {config.entityName === "Internship" ? "Apply to All Internships" : "Apply to All Courses"}
+              </button>
+              <button 
+                onClick={() => setBulkPriceModalOpen(false)}
+                className="w-full py-2.5 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg transition-colors mt-2"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}

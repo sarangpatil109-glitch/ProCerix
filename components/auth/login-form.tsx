@@ -7,6 +7,9 @@ import { loginSchema, type LoginInput } from "@/validators/auth";
 import { loginAction } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import { Loading } from "@/components/ui/loading";
+import { completeRegistration } from "@/lib/meta-pixel";
+import { analyticsLogin } from "@/lib/analytics";
+import { trackEvent } from "@/lib/clarity";
 
 export function LoginForm() {
   const router = useRouter();
@@ -27,6 +30,9 @@ export function LoginForm() {
     if (result.error) {
       setError(result.error);
     } else {
+      completeRegistration({ em: data.email });
+      analyticsLogin();
+      trackEvent("login");
       router.push("/dashboard");
     }
   };

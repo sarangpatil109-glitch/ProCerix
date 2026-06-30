@@ -2,32 +2,46 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import { SearchBar } from "@/components/search/search-bar";
 import { SearchFilters } from "@/components/search/search-filters";
+import { MobileFilterDrawer } from "@/components/search/mobile-filter-drawer";
 import { CourseCard } from "@/components/search/course-card";
 import { SearchResultsSkeleton } from "@/components/search/search-results-skeleton";
 import { SearchService } from "@/services/search-service";
-import { AIGenerateButton } from "@/components/search/ai-generate-button";
 import Link from "next/link";
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://procerix.com";
+
 export const metadata: Metadata = {
-  title: "Explore Courses | ProCerix",
-  description: "Discover top-tier courses, internships, and skill certificates on ProCerix.",
+  title: "Explore Courses",
+  description: "Search thousands of AI-generated skill certifications and virtual internships. Find the course you need or let AI generate one for you instantly.",
+  keywords: ["explore courses", "skill certificates", "AI courses", "online learning", "ProCerix search"],
+  alternates: { canonical: "/search" },
+  openGraph: {
+    title: "Explore Courses | ProCerix",
+    description: "Search AI-generated skill certifications and virtual internships. Can't find it? AI will create it.",
+    url: `${BASE_URL}/search`,
+    siteName: "ProCerix",
+    images: [{ url: "/branding/logo.png", width: 1200, height: 630, alt: "ProCerix — Explore Courses" }],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Explore Courses | ProCerix",
+    description: "Search AI-generated skill certifications and virtual internships.",
+    images: ["/branding/logo.png"],
+  },
 };
 
 import { AutoGenerateCourse } from "@/components/search/auto-generate-course";
-import { redirect } from "next/navigation";
+import { PixelFireSearch } from "@/components/meta-pixel/PixelFireSearch";
 
 async function SearchResults({ searchParams }: { searchParams: any }) {
   const result = await SearchService.searchCourses(searchParams);
-  
-  if (searchParams.q && result.courses && result.courses.length > 0) {
-    // Exact or partial match exists -> immediately redirect to the top result!
-    redirect(`/course/${result.courses[0].slug}`);
-  }
 
   if (!result.courses || result.courses.length === 0) {
     if (searchParams.q) {
-      // Course does not exist -> show auto generation screen
-      return <AutoGenerateCourse query={searchParams.q} />;
+      // Content does not exist → show auto generation screen
+      return <AutoGenerateCourse query={searchParams.q} type={searchParams.type} />;
     }
     
     // Empty state without query
@@ -113,8 +127,8 @@ export default async function SearchPage(props: {
       {/* Main Content Layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-          {/* Sidebar Filters */}
-          <aside className="w-full lg:w-64 flex-shrink-0">
+          {/* Desktop sidebar — hidden on mobile */}
+          <aside className="hidden lg:block w-64 flex-shrink-0">
             <Suspense fallback={<div className="h-96 bg-gray-100 dark:bg-gray-900 animate-pulse rounded-2xl" />}>
               <SearchFilters />
             </Suspense>
@@ -122,12 +136,20 @@ export default async function SearchPage(props: {
 
           {/* Results Area */}
           <main className="flex-1 min-w-0">
+            {/* Mobile filter bar — hidden on desktop */}
+            <div className="block lg:hidden">
+              <Suspense fallback={<div className="h-12 bg-gray-100 dark:bg-gray-900 animate-pulse rounded-xl mb-5" />}>
+                <MobileFilterDrawer />
+              </Suspense>
+            </div>
+
             <div className="mb-6 flex items-center justify-between">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {searchParams.q ? `Results for "${searchParams.q}"` : "All Courses"}
               </h2>
             </div>
-            
+
+            {searchParams.q && <PixelFireSearch query={searchParams.q} />}
             <Suspense fallback={<SearchResultsSkeleton />}>
               <SearchResults searchParams={searchParams} />
             </Suspense>

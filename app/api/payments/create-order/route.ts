@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PaymentService } from "@/services/payment-service";
 import { ProductRegistry, ProductType } from "@/engines/registry/product-registry";
+import { calcDiscount } from "@/lib/partner";
 
 export async function POST(req: NextRequest) {
   // Step 1: Authenticate user.
@@ -24,7 +25,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { courseId, courseSlug, skillName, phone } = body;
+  const { courseId, courseSlug, skillName, phone, referralCode, couponCode } = body;
 
   if (!courseSlug) {
     return NextResponse.json({ error: "courseSlug is required." }, { status: 400 });
@@ -32,8 +33,7 @@ export async function POST(req: NextRequest) {
 
   console.log(`[create-order] user=${user.id} email=${user.email} slug=${courseSlug}`);
 
-  // Step 2: Derive canonical amount server-side.
-  // Never trust the amount coming from the client.
+  // Step 2: Derive canonical amount server-side. Never trust client amount.
   let canonicalAmount: number;
   let resolvedCourseId: string | undefined = courseId;
 
@@ -48,21 +48,15 @@ export async function POST(req: NextRequest) {
 
     if (dbCourse) {
       resolvedCourseId = resolvedCourseId || dbCourse.id;
-      // Registry is authoritative; DB price is a fallback for unlisted types.
       const registryProduct = ProductRegistry.getProduct(dbCourse.course_type as ProductType);
       canonicalAmount = registryProduct?.defaultPrice ?? Number(dbCourse.price);
-      console.log(
-        `[create-order] DB course found course_type=${dbCourse.course_type} canonical=₹${canonicalAmount}`,
-      );
+      console.log(`[create-order] DB course found course_type=${dbCourse.course_type} canonical=₹${canonicalAmount}`);
     } else {
-      // Virtual course or product page (resume-builder, linkedin-optimizer, etc.)
       const registryProduct = ProductRegistry.getProductBySlug(courseSlug);
       canonicalAmount =
         registryProduct?.defaultPrice ??
         ProductRegistry.getProduct("certificate")!.defaultPrice;
-      console.log(
-        `[create-order] Virtual/product slug=${courseSlug} canonical=₹${canonicalAmount}`,
-      );
+      console.log(`[create-order] Virtual/product slug=${courseSlug} canonical=₹${canonicalAmount}`);
     }
   } catch (lookupError: any) {
     console.error("[create-order] Price lookup failed:", lookupError);
@@ -70,6 +64,36 @@ export async function POST(req: NextRequest) {
       { error: "Could not determine course price. Please try again." },
       { status: 500 },
     );
+  }
+
+  // Step 2b: Validate coupon/referral code — apply discount if partner coupon.
+  let validatedCouponCode: string | undefined;
+  let validatedPartnerId: string | undefined;
+  let discountAmount = 0;
+  let finalAmount = canonicalAmount;
+
+  const incomingCode = couponCode || referralCode;
+  if (incomingCode) {
+    const adminDb2 = createAdminClient();
+    const { data: partnerRow } = await (adminDb2 as any)
+      .from("partners")
+      .select("id, status, discount_type, discount_value, commission_percentage")
+      .eq("referral_code", String(incomingCode).toUpperCase())
+      .maybeSingle();
+
+    if (partnerRow?.status === "approved") {
+      validatedCouponCode = String(incomingCode).toUpperCase();
+      validatedPartnerId = partnerRow.id;
+
+      const disc = calcDiscount(
+        canonicalAmount,
+        partnerRow.discount_type || "percentage",
+        Number(partnerRow.discount_value ?? 10),
+      );
+      discountAmount = disc.discountAmount;
+      finalAmount = disc.finalAmount;
+      console.log(`[create-order] Coupon ${validatedCouponCode} applied — discount=₹${discountAmount} final=₹${finalAmount}`);
+    }
   }
 
   // Step 3: Create payment record + Cashfree order.
@@ -80,25 +104,31 @@ export async function POST(req: NextRequest) {
       courseId: resolvedCourseId,
       courseSlug,
       skillName: skillName || courseSlug,
-      amount: canonicalAmount,
+      amount: finalAmount,
+      originalAmount: canonicalAmount,
+      discountAmount,
       email: user.email!,
       phone: phone || "9999999999",
       name:
         (user.user_metadata?.full_name as string | undefined) ||
         user.email ||
         undefined,
+      referralCode: validatedCouponCode,
+      partnerId: validatedPartnerId,
+      couponCode: validatedCouponCode,
     });
 
-    console.log(`[create-order] Success — session=${order.payment_session_id}`);
+    console.log(`[create-order] Success — session=${order.payment_session_id} amount=₹${finalAmount}`);
 
     return NextResponse.json({
       payment_session_id: order.payment_session_id,
       mode: process.env.CASHFREE_ENV === "PRODUCTION" ? "production" : "sandbox",
+      final_amount: finalAmount,
+      discount_amount: discountAmount,
     });
   } catch (error: any) {
     console.error("[create-order] Payment creation failed:", error);
 
-    // Classify errors — only expose safe messages to the client.
     const msg: string = error.message ?? "";
     if (msg.includes("Profile sync")) {
       return NextResponse.json(

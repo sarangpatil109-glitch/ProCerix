@@ -17,8 +17,8 @@ export async function initializeProgressRecords(
 
   const inserts: { enrollment_id: string, lesson_id: string, is_completed: boolean }[] = [];
   
-  for (const module of modules) {
-    for (const lesson of module.lessons) {
+  for (const courseModule of modules) {
+    for (const lesson of courseModule.lessons) {
       inserts.push({
         enrollment_id: enrollmentId,
         lesson_id: lesson.id,

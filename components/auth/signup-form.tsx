@@ -6,6 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema, type SignupInput } from "@/validators/auth";
 import { signupAction } from "@/actions/auth";
 import { useRouter } from "next/navigation";
+import { completeRegistration } from "@/lib/meta-pixel";
+import { analyticsSignUp } from "@/lib/analytics";
+import { trackEvent } from "@/lib/clarity";
 
 export function SignupForm() {
   const router = useRouter();
@@ -28,6 +31,9 @@ export function SignupForm() {
     if (result.error) {
       setError(result.error);
     } else if (result.success) {
+      completeRegistration({ em: data.email });
+      analyticsSignUp();
+      trackEvent("signup");
       setSuccess(result.message || "Signed up successfully.");
     }
   };

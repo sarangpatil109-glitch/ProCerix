@@ -3,6 +3,7 @@ import { Clock, Tag } from "lucide-react";
 import { CourseRow } from "@/engines/course/types";
 
 import { BannerGenerator } from "@/components/course/banner-generator";
+import { ProductRegistry } from "@/engines/registry/product-registry";
 
 function HighlightText({ text, query }: { text: string, query?: string }) {
   if (!query || !text) return <>{text}</>;
@@ -67,8 +68,13 @@ export function CourseCard({ course, searchQuery }: { course: CourseRow & { dura
               )}
             </div>
             
-            <div className="text-lg font-bold text-gray-900 dark:text-white">
-              {(course.price ?? 0) > 0 ? `₹${course.price}` : "Free"}
+            <div className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <span>{(course.price ?? 0) > 0 ? `₹${course.price}` : "Free"}</span>
+              {(course.price ?? 0) > 0 && (
+                <span className="text-sm text-gray-500 line-through font-normal">
+                  ₹{(course as any).original_price || ProductRegistry.getProduct((course.course_type as any) || "certificate")?.originalPrice || 499}
+                </span>
+              )}
             </div>
           </div>
         </div>

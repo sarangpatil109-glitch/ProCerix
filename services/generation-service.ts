@@ -1,6 +1,7 @@
 import { GenerationRepository } from "@/engines/generation/repository";
 import { createClient } from "@/lib/supabase/server";
 import { EnrollmentService } from "@/services/enrollment-service";
+import { getDefaultPricing } from "@/lib/pricing/defaults";
 
 export class GenerationService {
   static async getRepository() {
@@ -52,7 +53,7 @@ export class GenerationService {
             title: product.name,
             slug: product.slug,
             course_type: product.id,
-            price: product.defaultPrice,
+            ...getDefaultPricing(product.id),
             is_published: true,
             description: product.features.join(", "),
           } as any,

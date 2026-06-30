@@ -58,8 +58,8 @@ export class GenerationValidator {
 
     // Duplicate Lesson Detection
     const lessonTitles = new Set();
-    for (const module of data.modules) {
-      for (const lesson of module.lessons) {
+    for (const courseModule of data.modules) {
+      for (const lesson of courseModule.lessons) {
         if (lessonTitles.has(lesson.title)) {
            throw new Error(`Duplicate lesson title detected: ${lesson.title}`);
         }

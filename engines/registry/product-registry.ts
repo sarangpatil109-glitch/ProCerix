@@ -9,6 +9,7 @@ export interface ProductRegistryEntry {
   icon: any;
   iconName: string;
   defaultPrice: number;
+  originalPrice: number;
   useAI: boolean;
   routes: {
     dashboard: string;
@@ -27,6 +28,7 @@ export class ProductRegistry {
       icon: BookOpen,
       iconName: "BookOpen",
       defaultPrice: 99,
+      originalPrice: 999,
       useAI: true,
       routes: {
         dashboard: "/dashboard/certificates",
@@ -42,11 +44,12 @@ export class ProductRegistry {
       icon: Briefcase,
       iconName: "Briefcase",
       defaultPrice: 249,
+      originalPrice: 2499,
       useAI: true,
       routes: {
         dashboard: "/dashboard/internships",
         marketing: "/internships",
-        admin: "/admin/courses"
+        admin: "/admin/internships"
       },
       features: ["Practical Tasks", "Industry Scenarios", "Completion Certificate", "AI Generated Content"]
     },
@@ -57,6 +60,7 @@ export class ProductRegistry {
       icon: FileText,
       iconName: "FileText",
       defaultPrice: 49,
+      originalPrice: 199,
       useAI: true,
       routes: {
         dashboard: "/dashboard/product/resume",
@@ -72,6 +76,7 @@ export class ProductRegistry {
       icon: UserCircle,
       iconName: "UserCircle",
       defaultPrice: 49,
+      originalPrice: 199,
       useAI: true,
       routes: {
         dashboard: "/dashboard/product/linkedin",
@@ -87,6 +92,7 @@ export class ProductRegistry {
       icon: Users,
       iconName: "Users",
       defaultPrice: 999,
+      originalPrice: 2499,
       useAI: false, // Must NEVER use AI
       routes: {
         dashboard: "/dashboard/product/hr",

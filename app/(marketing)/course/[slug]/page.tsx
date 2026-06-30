@@ -11,12 +11,15 @@ import { CheckCircle2, Star, Award, Briefcase, Zap, Smartphone, Users, ChevronDo
 import Image from "next/image";
 import { CertificatePreview } from "@/components/course/CertificatePreview";
 import { CourseMobileCTA } from "@/components/course/course-mobile-cta";
+import { PixelFireViewContent } from "@/components/meta-pixel/PixelFireViewContent";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { courseSchema, breadcrumbSchema } from "@/lib/seo";
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const params = await props.params;
   const realCourse = await getCachedCourseBySlug(params.slug).catch(() => null);
   const course = realCourse || generateVirtualCourseFromSlug(params.slug);
-  return generateCourseMetadata(course as any);
+  return generateCourseMetadata(course as any, params.slug);
 }
 
 const WHY_CHOOSE = [
@@ -91,8 +94,21 @@ export default async function CourseDetailsPage(props: { params: Promise<{ slug:
   const generatedSkills = course.title.split(" ").filter((w: string) => w.length > 3).slice(0, 6);
   const skills = course.tags?.length > 0 ? course.tags : generatedSkills.length > 0 ? generatedSkills : ["Fundamentals", "Practical Application", "Problem Solving"];
 
+  const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://procerix.com";
+
   return (
     <>
+      <JsonLd data={courseSchema({ title: course.title, description: course.description, slug: params.slug, price: course.price, category: course.category })} />
+      <JsonLd data={breadcrumbSchema([
+        { name: "Home", url: "/" },
+        { name: "Courses", url: "/search" },
+        { name: course.title, url: `${BASE_URL}/course/${params.slug}` },
+      ])} />
+      <PixelFireViewContent
+        content_name={course.title}
+        content_category={course.category}
+        content_type="certificate"
+      />
       <CourseHero course={course} />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative pb-32">
@@ -190,7 +206,7 @@ export default async function CourseDetailsPage(props: { params: Promise<{ slug:
                     <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-green-400" /> Official ProCerix Credential</li>
                   </ul>
                 </div>
-                <CertificatePreview user={user} />
+                <CertificatePreview />
               </div>
             </section>
 

@@ -1,9 +1,14 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
+import { PixelFirePurchase } from "@/components/meta-pixel/PixelFirePurchase";
 
 export default function SuccessPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-black flex items-center justify-center p-4 selection:bg-blue-500/30">
+      <Suspense fallback={null}>
+        <PixelFirePurchase />
+      </Suspense>
       <div className="max-w-md w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-3xl p-10 text-center space-y-6 shadow-2xl shadow-gray-200/50 dark:shadow-none transition-all">
         <div className="w-24 h-24 bg-green-100 dark:bg-green-900/30 text-green-500 rounded-full flex items-center justify-center mx-auto ring-8 ring-green-50 dark:ring-green-900/10">
           <CheckCircle2 className="w-12 h-12" />

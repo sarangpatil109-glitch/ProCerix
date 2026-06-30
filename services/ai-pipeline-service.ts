@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { EnrollmentService } from "@/services/enrollment-service";
-import { ProductRegistry } from "@/engines/registry/product-registry";
+import { getDefaultPricing } from "@/lib/pricing/defaults";
 
 export class AIPipelineService {
   /**
@@ -43,7 +43,7 @@ export class AIPipelineService {
           slug: request.slug,
           description: `Comprehensive AI-generated course for ${request.skill_name}.`,
           course_type: "certificates",
-          price: ProductRegistry.getProduct("certificate")!.defaultPrice,
+          ...getDefaultPricing("certificates"),
           is_published: false // Needs admin review
         };
 

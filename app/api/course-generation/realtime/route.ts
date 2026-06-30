@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { ProductRegistry } from "@/engines/registry/product-registry";
+import { getDefaultPricing, PRICING } from "@/lib/pricing/defaults";
 
 const systemPrompt = `You are an expert AI curriculum designer. Generate a highly detailed, premium course in strictly valid JSON format.
 The user will provide a topic.
@@ -14,7 +14,6 @@ Your JSON output MUST match this exact structure:
     "category": "A relevant category (e.g., Programming, Design, Business)",
     "difficulty": "Beginner, Intermediate, or Advanced",
     "duration": "e.g., 4 Weeks",
-    "price": 499,
     "tags": ["tag1", "tag2", "tag3"]
   },
   "modules": [
@@ -33,114 +32,142 @@ Your JSON output MUST match this exact structure:
 }
 
 Ensure the course is comprehensive (at least 3 modules, 3 lessons each).
-DO NOT include markdown block markers (like \`\`\`json). Output raw JSON.`;
+DO NOT include markdown block markers (like json). Output raw JSON.`;
 
 export async function POST(req: Request) {
   try {
-    const { query } = await req.json();
+    const { query, type = "certificate" } = await req.json();
     if (!query) {
       return NextResponse.json({ success: false, error: "Missing query" }, { status: 400 });
     }
 
     const adminClient = createAdminClient();
+    const isInternship = type === "internship";
 
-    // 1. Check if course already exists to prevent duplicate generation
+    // 1. Check if content already exists to prevent duplicate generation
     const slugQuery = query.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-    const { data: existing } = await adminClient
-      .from("courses")
-      .select("slug")
-      .ilike("title", `%${query}%`)
-      .limit(1)
-      .maybeSingle();
 
-    if (existing) {
-      return NextResponse.json({ success: true, slug: existing.slug });
+    if (isInternship) {
+      const { data: existing } = await adminClient
+        .from("internships")
+        .select("slug")
+        .ilike("title", `%${query}%`)
+        .limit(1)
+        .maybeSingle();
+      if (existing?.slug) {
+        return NextResponse.json({ success: true, slug: existing.slug, type: "internship" });
+      }
+    } else {
+      const { data: existing } = await adminClient
+        .from("courses")
+        .select("slug")
+        .ilike("title", `%${query}%`)
+        .limit(1)
+        .maybeSingle();
+      if (existing?.slug) {
+        return NextResponse.json({ success: true, slug: existing.slug, type: "certificate" });
+      }
     }
 
-    // 2. Generate Course JSON via Gemini REST API
+    // 2. Generate Content JSON via Gemini REST API
     const geminiKey = process.env.GEMINI_API_KEY;
-    if (!geminiKey) {
-      throw new Error("GEMINI_API_KEY is missing");
-    }
+    if (!geminiKey) throw new Error("GEMINI_API_KEY is missing");
 
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [
-          { role: "user", parts: [{ text: `${systemPrompt}\n\nTopic: ${query}` }] }
+          { role: "user", parts: [{ text: `${systemPrompt}\n\nTopic: ${query}\nTarget Type: ${isInternship ? "Virtual Internship with practical tasks" : "Online Course"}` }] }
         ],
-        generationConfig: {
-          temperature: 0.7,
-          responseMimeType: "application/json"
-        }
+        generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
       })
     });
 
     if (!response.ok) {
+      const errText = await response.text();
+      console.error("Gemini API Error:", errText);
       throw new Error("Gemini API failed");
     }
 
     const data = await response.json();
     const rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    
     if (!rawContent) {
+      console.error("Gemini API returned invalid data structure:", JSON.stringify(data));
       throw new Error("Invalid AI response");
     }
 
-    const generated = JSON.parse(rawContent);
+    const cleanedContent = rawContent.replace(/^\s*```(?:json)?/, "").replace(/```\s*$/, "").trim();
+    let generated;
+    try {
+      generated = JSON.parse(cleanedContent);
+    } catch (parseError: any) {
+      console.error("Failed to parse JSON:", parseError.message);
+      throw new Error("Failed to parse AI output as JSON");
+    }
 
-    // 3. Save to Supabase
-    // A. Course
     const uniqueSlug = `${generated.course.slug}-${Date.now().toString().slice(-4)}`;
-    
-    // Auto-generate placeholder banner
-    const placeholderThumbnail = `https://placehold.co/1200x600/1E3A8A/FFFFFF?text=${encodeURIComponent(generated.course.title)}`;
-    
+
+    // 3A. Internship → save to internships table only
+    if (isInternship) {
+      const { data: newInternship, error: internshipError } = await adminClient
+        .from("internships")
+        .insert({
+          title: generated.course.title,
+          slug: uniqueSlug,
+          description: generated.course.description,
+          company_name: "ProCerix",
+          category: generated.course.category,
+          ...PRICING.internship,
+          is_published: true,
+        })
+        .select()
+        .single();
+
+      if (internshipError) {
+        console.error("Supabase Internship Insert Error:", internshipError);
+        throw internshipError;
+      }
+
+      return NextResponse.json({ success: true, slug: newInternship.slug, type: "internship" });
+    }
+
+    // 3B. Certificate → save to courses table
     const { data: newCourse, error: courseError } = await adminClient
       .from("courses")
       .insert({
         title: generated.course.title,
         slug: uniqueSlug,
         description: generated.course.description,
-        category: generated.course.category,
-        difficulty: generated.course.difficulty,
-        duration: generated.course.duration,
-        price: generated.course.price || 499,
-        tags: generated.course.tags || [],
-        thumbnail: placeholderThumbnail,
         course_type: "certificates",
-        is_published: true // Immediately publish as per requirements
+        ...getDefaultPricing("certificates"),
+        is_published: true,
       })
       .select()
       .single();
 
-    if (courseError) throw courseError;
+    if (courseError) {
+      console.error("Supabase Course Insert Error:", courseError);
+      throw courseError;
+    }
 
-    // B. Modules and Lessons
+    // 4. Insert modules for certificate courses
     if (generated.modules && Array.isArray(generated.modules)) {
       for (const mod of generated.modules) {
-        const { data: newMod } = await adminClient
+        await adminClient
           .from("modules")
           .insert({
             course_id: newCourse.id,
             title: mod.title,
             description: mod.description,
             order_index: mod.order_index
-          })
-          .select()
-          .single();
-
-        // If your schema has lessons table, you'd insert them here, else ignore
-        // Assuming no complex lesson nesting for now if table doesn't exist
+          });
       }
     }
 
-    // C. You can store FAQs or metadata in a JSONB column or separate table if it exists.
-
-    return NextResponse.json({ success: true, slug: newCourse.slug });
+    return NextResponse.json({ success: true, slug: newCourse.slug, type: "certificate" });
   } catch (error: any) {
-    console.error("AI Generation Error:", error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("AI Generation API Error Stack:", error);
+    return NextResponse.json({ success: false, error: error.message || "Internal Server Error" }, { status: 500 });
   }
 }

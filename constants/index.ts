@@ -1,7 +1,7 @@
 export const APP_CONFIG = {
   name: "ProCerix",
-  description: "Production-ready foundation for ProCerix",
-  url: "https://procerix.example.com",
+  description: "ProCerix is an AI-powered certification and virtual internship platform. Search any skill, get certified instantly, and verify credentials for life.",
+  url: "https://procerix.com",
 } as const;
 
 export const ROUTES = {

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { PRICING } from "@/lib/pricing/defaults";
 
 export async function GET() {
   const supabase = createClient(
@@ -35,12 +36,10 @@ export async function GET() {
     "Design Thinking Fundamentals"
   ];
 
-  const allowedPrices = [49, 99, 149, 199];
-
   try {
     for (const title of courses) {
       const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-      
+
       const { data: existing } = await supabase
         .from("courses")
         .select("id")
@@ -52,8 +51,7 @@ export async function GET() {
       }
 
       const courseId = crypto.randomUUID();
-      const price = allowedPrices[Math.floor(Math.random() * allowedPrices.length)];
-      
+
       const { error: courseError } = await supabase.from("courses").insert({
         id: courseId,
         title,
@@ -61,7 +59,7 @@ export async function GET() {
         description: `Learn the essentials and advanced techniques of ${title}. This premium course provides hands-on practical experience for professionals looking to upskill rapidly in their career.`,
         course_type: "certificate",
         is_published: true,
-        price,
+        ...PRICING.certificate,
         difficulty: title.includes("Advanced") || title.includes("Masterclass") || title.includes("Complete Course") ? "advanced" : title.includes("Fundamentals") || title.includes("Basics") || title.includes("Beginners") ? "beginner" : "intermediate",
         category: title.includes("Financial") || title.includes("Accounting") || title.includes("Tax") || title.includes("Stock") || title.includes("Mutual Funds") || title.includes("Investment") || title.includes("Banking") || title.includes("Tally") ? "Finance & Accounting" : title.includes("HR") || title.includes("Payroll") || title.includes("Labour Law") || title.includes("Employee") || title.includes("Performance") ? "Human Resources" : title.includes("Recruitment") || title.includes("Interview") || title.includes("Resume") || title.includes("Communication") || title.includes("Email") ? "Career & Communication" : title.includes("Design") || title.includes("Canva") || title.includes("Figma") || title.includes("Photoshop") || title.includes("UI/UX") ? "Design & Creativity" : "Professional Skills"
       });

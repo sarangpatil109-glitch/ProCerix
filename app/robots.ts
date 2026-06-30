@@ -1,14 +1,24 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
+
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://procerix.com";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://procerix.com';
-
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: ['/dashboard/', '/admin/', '/api/', '/checkout/'],
-    },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: [
+          "/dashboard/",
+          "/admin/",
+          "/api/",
+          "/auth/",
+          "/checkout/",
+          "/partner/dashboard/",
+        ],
+      },
+    ],
+    sitemap: `${BASE_URL}/sitemap.xml`,
+    host: BASE_URL,
   };
 }

@@ -3,7 +3,13 @@ import { GenericCRUDEngine, CRUDConfig } from "@/components/admin/crud-engine";
 
 export default async function AdminCourses() {
   const supabase = createAdminClient();
-  const { data: courses } = await supabase.from("courses").select("*").order("created_at", { ascending: false });
+  // Only certificates — internships live in their own table
+  const { data: courses } = await supabase
+    .from("courses")
+    .select("*")
+    .neq("course_type", "internship")
+    .is("deleted_at", null)
+    .order("created_at", { ascending: false });
 
   const config: CRUDConfig = {
     entityName: "Course",
@@ -14,13 +20,14 @@ export default async function AdminCourses() {
       { key: "description", title: "Description", type: "richtext" },
       { key: "category", title: "Category", type: "text" },
       { key: "difficulty", title: "Difficulty", type: "enum", options: ["beginner", "intermediate", "advanced"] },
-      { key: "course_type", title: "Type", type: "enum", options: ["certificate", "internship"] },
+      { key: "course_type", title: "Type", type: "enum", options: ["certificates"] },
       { key: "duration_minutes", title: "Duration (Mins)", type: "number" },
-      { key: "price", title: "Price", type: "number" },
+      { key: "price", title: "Selling Price", type: "number" },
+      { key: "original_price", title: "Original Price", type: "number" },
       { key: "is_published", title: "Published", type: "boolean" }
     ],
     actions: { create: true, edit: true, delete: true, duplicate: true, publish: true },
-    bulkActions: { publish: true, delete: true }
+    bulkActions: { publish: true, delete: true, bulkPrice: true }
   };
 
   return (
