@@ -1,6 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { CashfreeService } from "./cashfree-service";
 import { GenerationService } from "./generation-service";
+import { calcCommission, calcDiscount, sendPartnerEmail, PARTNER_EMAIL_TEMPLATES } from "@/lib/partner";
 
 export class PaymentService {
   static async createCheckoutOrder(
@@ -11,18 +12,19 @@ export class PaymentService {
       courseSlug: string;
       skillName: string;
       amount: number;
+      originalAmount?: number;
+      discountAmount?: number;
       email: string;
       phone: string;
       name?: string;
+      referralCode?: string;
+      partnerId?: string;
+      couponCode?: string;
     }
   ) {
-    // Supabase client is injected
-
-    // Step 1: Ensure profile row exists.
-    // payments.user_id has a FK to profiles.id (not auth.users directly).
-    // OAuth logins create an auth.users row but NOT a profiles row automatically.
     console.log("[create-order] authenticated user", { userId: data.userId, email: data.email });
     console.log("[create-order] profile ensuring...", { userId: data.userId });
+
     const { error: profileError } = await supabase
       .from("profiles")
       .upsert(
@@ -40,7 +42,6 @@ export class PaymentService {
     }
     console.log("[create-order] profile", { id: data.userId, status: "OK" });
 
-    // Step 2: Insert payment record.
     const orderId = `order_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
     console.log("[create-order] course", { courseId: data.courseId, courseSlug: data.courseSlug });
     console.log(`[payment] Inserting payment record orderId=${orderId} amount=${data.amount}`);
@@ -56,6 +57,10 @@ export class PaymentService {
         currency: "INR",
         status: "pending",
         cashfree_order_id: orderId,
+        referral_code: data.couponCode || data.referralCode || null,
+        partner_id: data.partnerId || null,
+        discount_amount: data.discountAmount || 0,
+        final_amount: data.amount,
       } as any)
       .select()
       .single();
@@ -66,7 +71,6 @@ export class PaymentService {
     }
     console.log("[create-order] payment created", { paymentId: payment.id, orderId });
 
-    // Step 3: Log payment_created event (best-effort).
     try {
       const { error: eventError } = await (supabase as any)
         .from("payment_events")
@@ -76,13 +80,11 @@ export class PaymentService {
           cashfree_order_id: orderId,
           status: "pending",
         });
-      
       if (eventError) throw eventError;
     } catch (e: any) {
       console.error("[payment] payment_events insert failed:", e);
     }
 
-    // Step 4: Create Cashfree order.
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     console.log(`[payment] Creating Cashfree order appUrl=${appUrl} env=${process.env.CASHFREE_ENV}`);
 
@@ -122,7 +124,6 @@ export class PaymentService {
   }
 
   static async handlePaymentSuccess(supabase: any, orderId: string) {
-
     const { data: payment, error } = await supabase
       .from("payments")
       .select("*")
@@ -130,8 +131,6 @@ export class PaymentService {
       .single();
 
     if (error || !payment) throw new Error(`Payment not found for orderId: ${orderId}`);
-
-    // Idempotency guard — already processed
     if (payment.status === "success") return payment;
 
     await supabase
@@ -152,13 +151,11 @@ export class PaymentService {
           cashfree_order_id: orderId,
           status: "success",
         });
-
       if (eventError) throw eventError;
     } catch (e: any) {
       console.error("[payment] payment_events insert failed:", e);
     }
 
-    // Create enrollment using admin client so RLS is bypassed in webhook context.
     const courseSlug: string = payment.course_slug || payment.skill_name || orderId;
     const skillName: string = payment.skill_name || courseSlug;
     await GenerationService.handleCoursePurchase(
@@ -169,11 +166,63 @@ export class PaymentService {
       supabase,
     );
 
+    // Record partner commission if coupon was used
+    if (payment.referral_code && payment.partner_id) {
+      try {
+        const { data: partnerRow } = await (supabase as any)
+          .from("partners")
+          .select("commission_percentage, commission_rate, email, full_name, discount_type, discount_value")
+          .eq("id", payment.partner_id)
+          .single();
+
+        // Commission is calculated on the ORIGINAL amount (pre-discount), partners earn on gross
+        const originalAmount = Number(payment.discount_amount ?? 0) + Number(payment.amount);
+        const commRate = Number(partnerRow?.commission_percentage ?? partnerRow?.commission_rate ?? 50);
+        const commission = calcCommission(originalAmount, commRate);
+        const discountAmount = Number(payment.discount_amount ?? 0);
+
+        // Record in partner_sales (coupon-based)
+        await (supabase as any).from("partner_sales").insert({
+          partner_id: payment.partner_id,
+          payment_id: payment.id,
+          order_id: orderId,
+          student_id: payment.user_id,
+          product_type: "certificate",
+          coupon_code: payment.referral_code,
+          purchase_amount: originalAmount,
+          discount_amount: discountAmount,
+          commission_amount: commission,
+          payment_status: "completed",
+        });
+
+        // Also record in referral_commissions for backward compat
+        await (supabase as any).from("referral_commissions").insert({
+          partner_id: payment.partner_id,
+          payment_id: payment.id,
+          referral_code: payment.referral_code,
+          purchase_amount: originalAmount,
+          commission_rate: commRate,
+          commission_amount: commission,
+          status: "pending",
+          student_id: payment.user_id,
+          course_slug: courseSlug,
+          skill_name: skillName,
+        }).catch(() => {});
+
+        // Email notification
+        if (partnerRow?.email) {
+          const tpl = PARTNER_EMAIL_TEMPLATES.purchase(partnerRow.full_name, originalAmount, commission);
+          await sendPartnerEmail(partnerRow.email, tpl.subject, tpl.html);
+        }
+      } catch (commErr) {
+        console.error("[payment] Partner commission recording failed:", commErr);
+      }
+    }
+
     return payment;
   }
 
   static async handlePaymentFailure(supabase: any, orderId: string, reason?: string) {
-
     const { data: payment } = await supabase
       .from("payments")
       .select("id, status")
@@ -187,6 +236,11 @@ export class PaymentService {
       .update({ status: "failed", updated_at: new Date().toISOString() } as any)
       .eq("id", payment.id);
 
+    // Mark partner_sales as failed if exists
+    if (payment.id) {
+      await (supabase as any).from("partner_sales").update({ payment_status: "failed" }).eq("payment_id", payment.id).catch(() => {});
+    }
+
     try {
       const { error: eventError } = await (supabase as any)
         .from("payment_events")
@@ -196,7 +250,6 @@ export class PaymentService {
           cashfree_order_id: orderId,
           status: reason || "failed",
         });
-
       if (eventError) throw eventError;
     } catch (e: any) {
       console.error("[payment] payment_events insert failed:", e);
