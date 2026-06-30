@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { TrendingUp, MousePointer, ShoppingBag, Wallet, DollarSign, Clock, CheckCircle, Banknote, QrCode, Copy } from "lucide-react";
 import Link from "next/link";
+import { CouponCard } from "@/components/partner/coupon-card";
 
 function StatCard({ label, value, icon: Icon, color, sub }: { label: string; value: string; icon: any; color: string; sub?: string }) {
   return (
@@ -102,6 +103,13 @@ export default async function PartnerDashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* Promotion Center */}
+      <CouponCard
+        partner={partner}
+        totalSales={lifetimeSales.length}
+        totalEarned={totalEarned}
+      />
 
       {/* Period stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

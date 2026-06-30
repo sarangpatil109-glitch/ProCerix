@@ -7,7 +7,8 @@ export function ReferralTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const ref = searchParams.get("ref");
+    // Handle both ?ref= and ?coupon= as referral codes
+    const ref = searchParams.get("ref") || searchParams.get("coupon");
     if (!ref) return;
 
     const code = ref.toUpperCase().replace(/[^A-Z0-9]/g, "");
@@ -16,12 +17,15 @@ export function ReferralTracker() {
     localStorage.setItem("procerix_ref", code);
     localStorage.setItem("procerix_ref_ts", Date.now().toString());
 
-    // Fire-and-forget click tracking
-    fetch("/api/partner/track-click", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ referral_code: code, landing_page: pathname }),
-    }).catch(() => {});
+    // Only fire click tracking for ?ref= (direct URL referral links)
+    // ?coupon= tracking is handled by CouponBanner
+    if (searchParams.get("ref")) {
+      fetch("/api/partner/track-click", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ referral_code: code, landing_page: pathname }),
+      }).catch(() => {});
+    }
   }, [searchParams, pathname]);
 
   // Clean up expired refs (30 days)

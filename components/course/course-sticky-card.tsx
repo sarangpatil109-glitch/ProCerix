@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircle2, Shield, Infinity, Tag, X, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Script from "next/script";
 import { useCourseEnrollment } from "@/hooks/use-course-enrollment";
 import { ProductRegistry } from "@/engines/registry/product-registry";
@@ -24,6 +24,7 @@ export function CourseStickyCard({ course, userId }: { course: any; userId?: str
   const [appliedCoupon, setAppliedCoupon] = useState("");
   const [couponResult, setCouponResult] = useState<CouponResult | null>(null);
   const [validating, setValidating] = useState(false);
+  const autoValidatedRef = useRef(false);
 
   const finalPrice = couponResult?.valid && couponResult.final_amount != null
     ? couponResult.final_amount
@@ -35,6 +36,23 @@ export function CourseStickyCard({ course, userId }: { course: any; userId?: str
     couponCode: appliedCoupon || undefined,
     finalPrice,
   });
+
+  // Auto-validate stored coupon on mount
+  useEffect(() => {
+    if (autoValidatedRef.current || !couponInput) return;
+    autoValidatedRef.current = true;
+    const code = couponInput.trim().toUpperCase();
+    if (!code) return;
+    setValidating(true);
+    fetch(`/api/partner/validate-coupon?code=${encodeURIComponent(code)}&amount=${course.price}`)
+      .then(r => r.json())
+      .then((data: CouponResult) => {
+        setCouponResult(data);
+        if (data.valid) setAppliedCoupon(code);
+      })
+      .catch(() => {})
+      .finally(() => setValidating(false));
+  }, [couponInput, course.price]);
 
   const validateCoupon = async () => {
     const code = couponInput.trim().toUpperCase();
