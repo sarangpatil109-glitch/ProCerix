@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   try {
     // 1. Verify Environment Variables
     const missingVars = [];
-    if (!process.env.SUPABASE_URL) missingVars.push("SUPABASE_URL");
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) missingVars.push("NEXT_PUBLIC_SUPABASE_URL");
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) missingVars.push("SUPABASE_SERVICE_ROLE_KEY");
     
     if (missingVars.length > 0) {

@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   // until all prefetches for the 10+ sidebar links settle, so the badge never
   // clears. This flag is dev-only — no production effect.
   devIndicators: false,
+  experimental: {
+    typedRoutes: false,
+  },
 };
 
 export default nextConfig;
