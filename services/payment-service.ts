@@ -2,6 +2,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { CashfreeService } from "./cashfree-service";
 import { GenerationService } from "./generation-service";
 import { calcCommission, calcDiscount, sendPartnerEmail, PARTNER_EMAIL_TEMPLATES } from "@/lib/partner";
+import { calcAffiliateDiscount, sendAffiliateEmail, AFFILIATE_EMAIL_TEMPLATES } from "@/lib/affiliate";
 
 export class PaymentService {
   static async createCheckoutOrder(
@@ -216,6 +217,50 @@ export class PaymentService {
         }
       } catch (commErr) {
         console.error("[payment] Partner commission recording failed:", commErr);
+      }
+    }
+
+    // Record affiliate commission if an affiliate coupon was used (and not already a partner coupon)
+    if (payment.referral_code && !payment.partner_id) {
+      try {
+        const adminDb = createAdminClient();
+        const { data: affiliateProfile } = await (adminDb as any)
+          .from("affiliate_profiles")
+          .select("id, commission_percentage, discount_type, discount_value, email, name")
+          .eq("coupon_code", payment.referral_code.toUpperCase())
+          .eq("status", "active")
+          .maybeSingle();
+
+        if (affiliateProfile) {
+          const originalAmount = Number(payment.discount_amount ?? 0) + Number(payment.amount);
+          const commRate = Number(affiliateProfile.commission_percentage ?? 50);
+          const commission = calcCommission(originalAmount, commRate);
+          const discountAmount = Number(payment.discount_amount ?? 0);
+
+          await (adminDb as any).from("affiliate_sales").insert({
+            affiliate_id: affiliateProfile.id,
+            payment_id: payment.id,
+            order_id: orderId,
+            student_id: payment.user_id,
+            product_type: "certificate",
+            coupon_code: payment.referral_code,
+            purchase_amount: originalAmount,
+            discount_amount: discountAmount,
+            final_amount: Number(payment.amount),
+            commission_amount: commission,
+            payment_status: "completed",
+          });
+
+          if (affiliateProfile.email) {
+            sendAffiliateEmail(
+              affiliateProfile.email,
+              "💰 Commission Earned!",
+              AFFILIATE_EMAIL_TEMPLATES.commissionEarned(affiliateProfile.name, commission.toFixed(2), payment.referral_code)
+            ).catch(() => {});
+          }
+        }
+      } catch (affErr) {
+        console.error("[payment] Affiliate commission recording failed:", affErr);
       }
     }
 

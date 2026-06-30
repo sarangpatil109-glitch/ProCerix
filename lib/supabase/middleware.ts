@@ -31,7 +31,7 @@ export const updateSession = async (request: NextRequest) => {
     }
   );
 
-  // Refresh session if expired
+  // Refresh session
   const { data: { user } } = await supabase.auth.getUser();
 
   const url = request.nextUrl.clone();
@@ -45,33 +45,35 @@ export const updateSession = async (request: NextRequest) => {
     return NextResponse.redirect(url);
   }
 
-  // ── Admin route protection ────────────────────────────────────────────────
+  // ── Admin route protection ─────────────────────────────────────────────────
   if (url.pathname.startsWith("/admin")) {
     const adminEmail = process.env.ADMIN_EMAIL;
-
     if (!user) {
-      console.log(`[proxy] /admin → /login | reason: unauthenticated`);
       url.pathname = "/login";
       return NextResponse.redirect(url);
     }
-
-    console.log(`[proxy] /admin check | loggedInEmail=${user.email} | adminEmail=${adminEmail ?? "(not set)"}`);
-
     if (!adminEmail || user.email !== adminEmail) {
-      console.warn(`[proxy] /admin → /dashboard | reason: ${user.email} is not the admin email`);
       url.pathname = "/dashboard";
       return NextResponse.redirect(url);
     }
-
-    console.log(`[proxy] /admin → ALLOWED | email=${user.email}`);
   }
-  // ─────────────────────────────────────────────────────────────────────────
+
+  // ── Affiliate dashboard protection ────────────────────────────────────────
+  if (url.pathname.startsWith("/affiliate/dashboard") || url.pathname.startsWith("/api/affiliate/")) {
+    if (!user) {
+      url.pathname = "/login";
+      url.searchParams.set("next", request.nextUrl.pathname);
+      return NextResponse.redirect(url);
+    }
+    // Full affiliate status check happens in the page/API itself for flexibility
+    // Middleware just ensures user is logged in
+  }
+  // ──────────────────────────────────────────────────────────────────────────
 
   const authRoutes = ["/login", "/signup", "/forgot-password", "/reset-password"];
   const isAuthRoute = authRoutes.some((route) => url.pathname.startsWith(route));
 
   if (isAuthRoute && user) {
-    console.log(`[proxy] ${url.pathname} → /dashboard | reason: already authenticated`);
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
   }

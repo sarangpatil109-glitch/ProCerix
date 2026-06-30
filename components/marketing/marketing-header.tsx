@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search, ChevronRight } from "lucide-react";
+import { Search, ChevronRight, Star } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
 export async function MarketingHeader() {
@@ -21,6 +21,9 @@ export async function MarketingHeader() {
           <Link prefetch={false} href="/pricing" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">Pricing</Link>
           <Link prefetch={false} href="/search" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors flex items-center gap-1">
             <Search className="w-4 h-4" /> Search
+          </Link>
+          <Link prefetch={false} href="/affiliate" className="flex items-center gap-1 text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 font-bold transition-colors">
+            <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" /> Affiliate
           </Link>
         </nav>
 

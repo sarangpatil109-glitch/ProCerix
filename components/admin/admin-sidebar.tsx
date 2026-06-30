@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, BookOpen, Layers, FileText, HelpCircle, Briefcase, Tag, 
-  Settings, Home, Image as ImageIcon, Ticket, Award, Users, BarChart, LogOut
+import {
+  LayoutDashboard, BookOpen, Layers, FileText, HelpCircle, Briefcase, Tag,
+  Settings, Home, Image as ImageIcon, Ticket, Award, Users, BarChart, LogOut, Handshake, Star
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -23,6 +23,15 @@ const contentMenuItems = [
 const commerceMenuItems = [
   { title: "Users", href: "/admin/users", icon: Users },
   { title: "Coupons", href: "/admin/coupons", icon: Ticket },
+  { title: "Partners", href: "/admin/partners", icon: Handshake },
+];
+
+const affiliateMenuItems = [
+  { title: "Applications", href: "/admin/affiliates", icon: Users },
+  { title: "Affiliates", href: "/admin/affiliates/profiles", icon: Star },
+  { title: "Affiliate Sales", href: "/admin/affiliates/sales", icon: BarChart },
+  { title: "Withdrawals", href: "/admin/affiliates/withdrawals", icon: Ticket },
+  { title: "Settings", href: "/admin/affiliates/settings", icon: Settings },
 ];
 
 const siteMenuItems = [
@@ -88,6 +97,13 @@ export function AdminSidebar() {
           <h4 className="px-3 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Commerce</h4>
           <div className="space-y-1">
             {commerceMenuItems.map(item => <NavItem key={item.href} item={item} />)}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="px-3 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Affiliate Management</h4>
+          <div className="space-y-1">
+            {affiliateMenuItems.map(item => <NavItem key={item.href} item={item} />)}
           </div>
         </div>
 
