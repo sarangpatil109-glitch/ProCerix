@@ -18,8 +18,10 @@ function isAdmin(email?: string | null) {
  */
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id: payoutId } = await context.params;
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user || !isAdmin(user.email)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -32,7 +34,6 @@ export async function PATCH(
   }
 
   const adminDb = createAdminClient();
-  const payoutId = params.id;
 
   // Fetch payout with affiliate details
   const { data: payout, error: fetchErr } = await (adminDb as any)
