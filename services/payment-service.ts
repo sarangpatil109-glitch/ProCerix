@@ -2,7 +2,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { CashfreeService } from "./cashfree-service";
 import { GenerationService } from "./generation-service";
 import { calcCommission, calcDiscount, sendPartnerEmail, PARTNER_EMAIL_TEMPLATES } from "@/lib/partner";
-import { calcAffiliateDiscount, sendAffiliateEmail, AFFILIATE_EMAIL_TEMPLATES } from "@/lib/affiliate";
+import { calcAffiliateDiscount, sendAffiliateEmail, AFFILIATE_EMAIL_TEMPLATES, syncAffiliateWallet } from "@/lib/affiliate";
 
 export class PaymentService {
   static async createCheckoutOrder(
@@ -244,43 +244,66 @@ export class PaymentService {
     }
 
     // Record affiliate commission if an affiliate coupon was used (and not already a partner coupon)
-    console.log("[payment] Step E: affiliate commission check");
+    console.log("[payment] Step E: affiliate commission check", { referral_code: payment.referral_code, partner_id: payment.partner_id });
     if (payment.referral_code && !payment.partner_id) {
       try {
         const adminDb = createAdminClient();
-        const { data: affiliateProfile } = await (adminDb as any)
-          .from("affiliate_profiles")
-          .select("id, commission_percentage, discount_type, discount_value, email, name")
-          .eq("coupon_code", payment.referral_code.toUpperCase())
-          .eq("status", "active")
+
+        // Idempotency: skip if this payment was already credited to an affiliate
+        const { data: existingSale } = await (adminDb as any)
+          .from("affiliate_sales")
+          .select("id")
+          .eq("payment_id", payment.id)
           .maybeSingle();
 
-        if (affiliateProfile) {
-          const originalAmount = Number(payment.discount_amount ?? 0) + Number(payment.amount);
-          const commRate = Number(affiliateProfile.commission_percentage ?? 50);
-          const commission = calcCommission(originalAmount, commRate);
-          const discountAmount = Number(payment.discount_amount ?? 0);
+        if (existingSale) {
+          console.log("[payment] Step E: affiliate_sales already exists for payment", payment.id, "— skipping duplicate");
+        } else {
+          const { data: affiliateProfile } = await (adminDb as any)
+            .from("affiliate_profiles")
+            .select("id, commission_percentage, discount_type, discount_value, email, name")
+            .eq("coupon_code", payment.referral_code.toUpperCase())
+            .eq("status", "active")
+            .maybeSingle();
 
-          await (adminDb as any).from("affiliate_sales").insert({
-            affiliate_id: affiliateProfile.id,
-            payment_id: payment.id,
-            order_id: orderId,
-            student_id: payment.user_id,
-            product_type: "certificate",
-            coupon_code: payment.referral_code,
-            purchase_amount: originalAmount,
-            discount_amount: discountAmount,
-            final_amount: Number(payment.amount),
-            commission_amount: commission,
-            payment_status: "completed",
-          });
+          if (affiliateProfile) {
+            const originalAmount = Number(payment.discount_amount ?? 0) + Number(payment.amount);
+            const commRate = Number(affiliateProfile.commission_percentage ?? 50);
+            const commission = calcCommission(originalAmount, commRate);
+            const discountAmount = Number(payment.discount_amount ?? 0);
 
-          if (affiliateProfile.email) {
-            sendAffiliateEmail(
-              affiliateProfile.email,
-              "💰 Commission Earned!",
-              AFFILIATE_EMAIL_TEMPLATES.commissionEarned(affiliateProfile.name, commission.toFixed(2), payment.referral_code)
-            ).catch(() => {});
+            await (adminDb as any).from("affiliate_sales").insert({
+              affiliate_id: affiliateProfile.id,
+              payment_id: payment.id,
+              order_id: orderId,
+              student_id: payment.user_id,
+              product_type: "certificate",
+              coupon_code: payment.referral_code,
+              purchase_amount: originalAmount,
+              discount_amount: discountAmount,
+              final_amount: Number(payment.amount),
+              commission_amount: commission,
+              payment_status: "completed",
+            });
+            console.log("[payment] Step E: ✓ affiliate_sales created commission=₹", commission);
+
+            // Keep affiliate_wallets in sync (used by weekly payout cron)
+            try {
+              await syncAffiliateWallet(adminDb, affiliateProfile.id);
+              console.log("[payment] Step E: ✓ affiliate wallet synced");
+            } catch (walletErr: any) {
+              console.error("[payment] Step E: wallet sync failed (non-fatal):", walletErr?.message);
+            }
+
+            if (affiliateProfile.email) {
+              sendAffiliateEmail(
+                affiliateProfile.email,
+                "💰 Commission Earned!",
+                AFFILIATE_EMAIL_TEMPLATES.commissionEarned(affiliateProfile.name, commission.toFixed(2), payment.referral_code)
+              ).catch(() => {});
+            }
+          } else {
+            console.log("[payment] Step E: no active affiliate found for coupon_code", payment.referral_code);
           }
         }
       } catch (affErr) {

@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { PaymentService } from "@/services/payment-service";
 import { ProductRegistry, ProductType } from "@/engines/registry/product-registry";
 import { calcDiscount } from "@/lib/partner";
+import { calcAffiliateDiscount } from "@/lib/affiliate";
 
 /**
  * Derives the true public origin of this server from the live request.
@@ -123,6 +124,26 @@ export async function POST(req: NextRequest) {
       discountAmount = disc.discountAmount;
       finalAmount = disc.finalAmount;
       console.log(`[create-order] Coupon ${validatedCouponCode} applied — discount=₹${discountAmount} final=₹${finalAmount}`);
+    } else {
+      // Not a partner coupon — check affiliate_profiles
+      const { data: affiliateRow } = await (adminDb2 as any)
+        .from("affiliate_profiles")
+        .select("id, status, discount_type, discount_value")
+        .eq("coupon_code", String(incomingCode).toUpperCase())
+        .maybeSingle();
+
+      if (affiliateRow?.status === "active") {
+        validatedCouponCode = String(incomingCode).toUpperCase();
+        // validatedPartnerId stays undefined — affiliate coupon, not partner coupon
+        const disc = calcAffiliateDiscount(
+          canonicalAmount,
+          affiliateRow.discount_type || "percentage",
+          Number(affiliateRow.discount_value ?? 10),
+        );
+        discountAmount = disc.discountAmount;
+        finalAmount = disc.finalAmount;
+        console.log(`[create-order] Affiliate coupon ${validatedCouponCode} applied — discount=₹${discountAmount} final=₹${finalAmount}`);
+      }
     }
   }
 
