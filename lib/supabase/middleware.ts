@@ -15,9 +15,7 @@ export const updateSession = async (request: NextRequest) => {
   }
 
   let supabaseResponse = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
+    request: { headers: request.headers },
   });
 
   const supabase = createServerClient<Database>(url, key, {
@@ -27,9 +25,7 @@ export const updateSession = async (request: NextRequest) => {
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-        supabaseResponse = NextResponse.next({
-          request,
-        });
+        supabaseResponse = NextResponse.next({ request });
         cookiesToSet.forEach(({ name, value, options }) =>
           supabaseResponse.cookies.set(name, value, options)
         );
@@ -37,51 +33,60 @@ export const updateSession = async (request: NextRequest) => {
     },
   });
 
-  // Refresh session
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const reqUrl = request.nextUrl.clone();
 
-  const protectedRoutes = ["/dashboard", "/account", "/settings"];
-  const isProtectedRoute = protectedRoutes.some((route) => reqUrl.pathname.startsWith(route));
-
-  if (isProtectedRoute && !user) {
-    console.log(`[proxy] ${reqUrl.pathname} → /login | reason: no session`);
-    reqUrl.pathname = "/login";
-    return NextResponse.redirect(reqUrl);
-  }
-
-  // ── Admin route protection ─────────────────────────────────────────────────
-  if (reqUrl.pathname.startsWith("/admin")) {
-    const adminEmail = process.env.ADMIN_EMAIL;
-    if (!user) {
-      reqUrl.pathname = "/login";
-      return NextResponse.redirect(reqUrl);
-    }
-    if (!adminEmail || user.email !== adminEmail) {
-      reqUrl.pathname = "/dashboard";
-      return NextResponse.redirect(reqUrl);
-    }
-  }
-
-  // ── Affiliate dashboard protection ────────────────────────────────────────
-  if (reqUrl.pathname.startsWith("/affiliate/dashboard") || reqUrl.pathname.startsWith("/api/affiliate/")) {
-    if (!user) {
-      reqUrl.pathname = "/login";
-      reqUrl.searchParams.set("next", request.nextUrl.pathname);
-      return NextResponse.redirect(reqUrl);
-    }
-    // Full affiliate status check happens in the page/API itself for flexibility
-    // Middleware just ensures user is logged in
-  }
-  // ──────────────────────────────────────────────────────────────────────────
-
-  const authRoutes = ["/login", "/signup", "/forgot-password", "/reset-password"];
-  const isAuthRoute = authRoutes.some((route) => reqUrl.pathname.startsWith(route));
+  // ── Auth-route guard: redirect already-logged-in users away from /login, /signup ──
+  const authRoutes = ["/login", "/signup", "/forgot-password"];
+  const isAuthRoute = authRoutes.some((r) => reqUrl.pathname.startsWith(r));
 
   if (isAuthRoute && user) {
-    reqUrl.pathname = "/dashboard";
-    return NextResponse.redirect(reqUrl);
+    const returnTo = reqUrl.searchParams.get("returnTo");
+    if (returnTo && returnTo.startsWith("/")) {
+      return NextResponse.redirect(new URL(returnTo, request.url));
+    }
+    const dest = new URL("/dashboard", request.url);
+    return NextResponse.redirect(dest);
+  }
+
+  // ── Protected routes (dashboard / learn) ─────────────────────────────────────
+  const protectedPrefixes = ["/dashboard", "/account", "/settings", "/learn"];
+  const isProtected = protectedPrefixes.some((p) => reqUrl.pathname.startsWith(p));
+
+  if (isProtected && !user) {
+    const destination = request.nextUrl.pathname + request.nextUrl.search;
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("returnTo", destination);
+    console.log(`[proxy] ${reqUrl.pathname} → /login?returnTo=${destination}`);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // ── Admin route protection ────────────────────────────────────────────────────
+  if (reqUrl.pathname.startsWith("/admin")) {
+    if (!user) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("returnTo", reqUrl.pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    const adminEmail = process.env.ADMIN_EMAIL;
+    if (!adminEmail || user.email !== adminEmail) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
+
+  // ── Affiliate dashboard protection ───────────────────────────────────────────
+  if (
+    reqUrl.pathname.startsWith("/affiliate/dashboard") ||
+    reqUrl.pathname.startsWith("/api/affiliate/")
+  ) {
+    if (!user) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("returnTo", request.nextUrl.pathname);
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
   return supabaseResponse;

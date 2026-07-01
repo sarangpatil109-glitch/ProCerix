@@ -22,7 +22,7 @@ export function useCourseEnrollment({
 
   const handleEnroll = async () => {
     if (!userId) {
-      window.location.href = `/login?redirect=/course/${course.slug}`;
+      window.location.href = `/login?returnTo=/course/${course.slug}`;
       return;
     }
 

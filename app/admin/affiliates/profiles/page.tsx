@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Users } from "lucide-react";
 
 export default function AdminAffiliateProfilesPage() {
+  const router = useRouter();
   const [affiliates, setAffiliates] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -59,7 +61,11 @@ export default function AdminAffiliateProfilesPage() {
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                 {affiliates.map((a: any) => (
-                  <tr key={a.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                  <tr
+                    key={a.id}
+                    onClick={() => router.push(`/admin/affiliates/${a.id}`)}
+                    className="hover:bg-blue-50/50 dark:hover:bg-blue-900/10 cursor-pointer transition-colors"
+                  >
                     <td className="px-5 py-3">
                       <p className="font-semibold text-gray-900 dark:text-white">{a.name}</p>
                       <p className="text-xs text-gray-400">{a.email || "—"}</p>
@@ -77,7 +83,7 @@ export default function AdminAffiliateProfilesPage() {
                     <td className="px-5 py-3 text-gray-500">{new Date(a.created_at).toLocaleDateString("en-IN")}</td>
                     <td className="px-5 py-3">
                       <button
-                        onClick={() => toggleStatus(a.id, a.status)}
+                        onClick={(e) => { e.stopPropagation(); toggleStatus(a.id, a.status); }}
                         className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                           a.status === "active"
                             ? "bg-red-50 hover:bg-red-100 text-red-600"
