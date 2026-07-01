@@ -7,3 +7,8 @@ export const APP_CONFIG = {
 export const ROUTES = {
   HOME: "/",
 } as const;
+
+// WhatsApp support number — override with NEXT_PUBLIC_WHATSAPP_NUMBER env var
+// Format: country code + number, no +, no spaces  e.g. "919876543210"
+export const WHATSAPP_NUMBER =
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "919999999999";

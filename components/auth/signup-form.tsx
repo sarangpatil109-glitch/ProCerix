@@ -5,86 +5,77 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema, type SignupInput } from "@/validators/auth";
 import { signupAction } from "@/actions/auth";
-import { useSearchParams } from "next/navigation";
-import { Eye, EyeOff, Loader2, AlertCircle, Mail } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
+import { toast } from "sonner";
 import { completeRegistration } from "@/lib/meta-pixel";
 import { analyticsSignUp } from "@/lib/analytics";
 import { trackEvent } from "@/lib/clarity";
 
-function getStrength(password: string): { score: number; label: string; colorClass: string; barClass: string } {
-  if (!password) return { score: 0, label: "", colorClass: "", barClass: "" };
-  let score = 0;
-  if (password.length >= 8) score++;
-  if (password.length >= 12) score++;
-  if (/[A-Z]/.test(password)) score++;
-  if (/[0-9]/.test(password)) score++;
-  if (/[^A-Za-z0-9]/.test(password)) score++;
+// ─── Password strength ────────────────────────────────────────────────────────
 
-  if (score <= 1) return { score, label: "Weak", colorClass: "text-red-500", barClass: "bg-red-500" };
-  if (score <= 2) return { score, label: "Fair", colorClass: "text-yellow-500", barClass: "bg-yellow-500" };
-  if (score <= 3) return { score, label: "Good", colorClass: "text-blue-500", barClass: "bg-blue-500" };
-  return { score, label: "Strong", colorClass: "text-green-500", barClass: "bg-green-500" };
+function getStrength(p: string) {
+  if (!p) return { score: 0, label: "", colorClass: "", barClass: "" };
+  let score = 0;
+  if (p.length >= 8)          score++;
+  if (p.length >= 12)         score++;
+  if (/[A-Z]/.test(p))        score++;
+  if (/[0-9]/.test(p))        score++;
+  if (/[^A-Za-z0-9]/.test(p)) score++;
+
+  if (score <= 1) return { score, label: "Weak",   colorClass: "text-red-500",    barClass: "bg-red-500"    };
+  if (score <= 2) return { score, label: "Fair",   colorClass: "text-yellow-500", barClass: "bg-yellow-500" };
+  if (score <= 3) return { score, label: "Good",   colorClass: "text-blue-500",   barClass: "bg-blue-500"   };
+  return           { score, label: "Strong", colorClass: "text-green-500",  barClass: "bg-green-500"  };
 }
 
+// ─── Component ────────────────────────────────────────────────────────────────
+
 export function SignupForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const returnTo = searchParams.get("returnTo") || searchParams.get("next") || "/dashboard";
 
-  const [error, setError] = React.useState<string | null>(null);
-  const [success, setSuccess] = React.useState(false);
+  const [error, setError]             = React.useState<string | null>(null);
   const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirm, setShowConfirm] = React.useState(false);
 
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<SignupInput>({
-    resolver: zodResolver(signupSchema),
-  });
+  } = useForm<SignupInput>({ resolver: zodResolver(signupSchema) });
 
   const watchedPassword = watch("password", "");
-  const strength = getStrength(watchedPassword);
+  const strength        = getStrength(watchedPassword);
 
   const onSubmit = async (data: SignupInput) => {
     setError(null);
-    const siteUrl = window.location.origin;
-    const destination = returnTo !== "/dashboard" ? returnTo : undefined;
-    const result = await signupAction(data, siteUrl, destination);
+    const result = await signupAction(data);
 
     if (result.error) {
       setError(result.error);
-    } else if (result.success) {
-      completeRegistration({ em: data.email });
-      analyticsSignUp();
-      trackEvent("signup");
-      setSuccess(true);
+      return;
     }
-  };
 
-  if (success) {
-    return (
-      <div className="text-center py-6 space-y-4">
-        <div className="w-16 h-16 rounded-2xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mx-auto">
-          <Mail className="w-8 h-8 text-green-600 dark:text-green-400" />
-        </div>
-        <div className="space-y-2">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">Check your inbox</h3>
-          <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed max-w-xs mx-auto">
-            We've sent a confirmation link to your email. Click it to activate your account
-            {returnTo !== "/dashboard" ? " and return to your destination" : ""}.
-          </p>
-          <p className="text-xs text-gray-400 dark:text-gray-500 pt-1">
-            Didn't receive it? Check your spam folder.
-          </p>
-        </div>
-      </div>
-    );
-  }
+    // Success — analytics, toast, then redirect to login
+    completeRegistration({ em: data.email });
+    analyticsSignUp();
+    trackEvent("signup");
+
+    toast.success("Account created successfully. Please log in.");
+
+    const loginUrl =
+      returnTo !== "/dashboard"
+        ? `/login?returnTo=${encodeURIComponent(returnTo)}`
+        : "/login";
+    router.push(loginUrl);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+
+      {/* Error banner */}
       {error && (
         <div className="flex items-start gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm">
           <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
@@ -103,9 +94,11 @@ export function SignupForm() {
           type="text"
           autoComplete="name"
           placeholder="Your full name"
-          className="w-full h-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 px-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+          className="w-full h-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 px-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
         />
-        {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
+        {errors.name && (
+          <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>
+        )}
       </div>
 
       {/* Email */}
@@ -119,12 +112,14 @@ export function SignupForm() {
           type="email"
           autoComplete="email"
           placeholder="you@example.com"
-          className="w-full h-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 px-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+          className="w-full h-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 px-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
         />
-        {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
+        {errors.email && (
+          <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
+        )}
       </div>
 
-      {/* Password + strength */}
+      {/* Password + strength indicator */}
       <div className="space-y-1.5">
         <label htmlFor="signup-password" className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
           Password
@@ -136,21 +131,23 @@ export function SignupForm() {
             type={showPassword ? "text" : "password"}
             autoComplete="new-password"
             placeholder="Min. 8 characters"
-            className="w-full h-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 px-4 pr-12 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full h-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 px-4 pr-12 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
           />
           <button
             type="button"
-            onClick={() => setShowPassword((s) => !s)}
+            onClick={() => setShowPassword(s => !s)}
             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
           </button>
         </div>
+
+        {/* Strength bars */}
         {watchedPassword.length > 0 && (
           <div className="space-y-1 pt-0.5">
             <div className="flex gap-1">
-              {[1, 2, 3, 4].map((i) => (
+              {[1, 2, 3, 4].map(i => (
                 <div
                   key={i}
                   className={`h-1 flex-1 rounded-full transition-all duration-300 ${
@@ -159,36 +156,15 @@ export function SignupForm() {
                 />
               ))}
             </div>
-            <p className={`text-xs font-semibold ${strength.colorClass}`}>{strength.label} password</p>
+            <p className={`text-xs font-semibold ${strength.colorClass}`}>
+              {strength.label} password
+            </p>
           </div>
         )}
-        {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}
-      </div>
 
-      {/* Confirm Password */}
-      <div className="space-y-1.5">
-        <label htmlFor="signup-confirm" className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
-          Confirm Password
-        </label>
-        <div className="relative">
-          <input
-            {...register("confirmPassword")}
-            id="signup-confirm"
-            type={showConfirm ? "text" : "password"}
-            autoComplete="new-password"
-            placeholder="Re-enter your password"
-            className="w-full h-12 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 px-4 pr-12 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-          />
-          <button
-            type="button"
-            onClick={() => setShowConfirm((s) => !s)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-            aria-label={showConfirm ? "Hide password" : "Show password"}
-          >
-            {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          </button>
-        </div>
-        {errors.confirmPassword && <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>}
+        {errors.password && (
+          <p className="text-xs text-red-500">{errors.password.message}</p>
+        )}
       </div>
 
       {/* Terms */}
@@ -211,6 +187,7 @@ export function SignupForm() {
         </label>
       </div>
 
+      {/* Submit */}
       <button
         type="submit"
         disabled={isSubmitting}
@@ -222,7 +199,7 @@ export function SignupForm() {
             Creating account…
           </>
         ) : (
-          "Create Account"
+          "Create New Account"
         )}
       </button>
     </form>

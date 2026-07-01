@@ -32,6 +32,7 @@ export function LoginForm() {
     const result = await loginAction(data);
 
     if (result.error) {
+      // loginAction already maps raw Supabase errors to friendly messages
       setError(result.error);
     } else {
       completeRegistration({ em: data.email });
@@ -116,10 +117,10 @@ export function LoginForm() {
         {isSubmitting ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
-            Signing in…
+            Logging in…
           </>
         ) : (
-          "Sign In"
+          "Log In"
         )}
       </button>
     </form>

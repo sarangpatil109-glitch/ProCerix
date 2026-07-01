@@ -126,12 +126,12 @@ export function BankDetailsForm({ initial }: { initial: BankInitial }) {
         }),
       });
       const data = await res.json();
-      if (res.ok) {
-        toast.success(data.message ?? "Bank details saved");
+      if (data.success) {
+        toast.success(data.message ?? "Bank details saved successfully.");
         setEditing(false);
         window.location.reload();
       } else {
-        toast.error(data.error ?? "Failed to save");
+        toast.error(data.message ?? "Failed to save bank details.");
       }
     } catch {
       toast.error("Network error — please try again");

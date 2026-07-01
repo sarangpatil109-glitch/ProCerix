@@ -11,7 +11,7 @@ export const lessonSchema = z.object({
   module_id: z.string().uuid(),
   title: z.string().min(2, "Title is required"),
   content: z.string().optional(),
-  video_url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  estimated_reading_time: z.number().int().min(1).max(120).optional(),
   sequence_order: z.number().min(1),
 });
 
