@@ -100,14 +100,17 @@ export function BankDetailsForm({ initial }: { initial: BankInitial }) {
   };
 
   const validate = (): string | null => {
-    if (!form.account_holder.trim())         return "Account holder name is required";
-    if (!form.account_number.trim())         return "Account number is required";
-    if (!form.confirm_account_number.trim()) return "Please confirm your account number";
+    if (!form.account_holder.trim())         return "Account holder name is required.";
+    if (!form.bank_name.trim())              return "Bank name is required.";
+    if (!form.account_number.trim())         return "Account number is required.";
+    if (!form.confirm_account_number.trim()) return "Please confirm your account number.";
     if (form.account_number !== form.confirm_account_number)
-                                             return "Account numbers do not match";
-    if (!form.ifsc_code.trim())              return "IFSC code is required";
+                                             return "Account numbers do not match.";
+    if (!form.ifsc_code.trim())              return "IFSC code is required.";
     if (!/^[A-Z]{4}0[A-Z0-9]{6}$/i.test(form.ifsc_code.trim()))
-                                             return "Invalid IFSC code — expected format like SBIN0001234";
+                                             return "IFSC code is invalid. Expected format: SBIN0001234";
+    if (form.phone.trim() && !/^\d{10}$/.test(form.phone.trim()))
+                                             return "Mobile number must be exactly 10 digits.";
     return null;
   };
 
@@ -116,16 +119,30 @@ export function BankDetailsForm({ initial }: { initial: BankInitial }) {
     if (err) { toast.error(err); return; }
 
     setSaving(true);
+    const payload = {
+      ...form,
+      account_holder:         form.account_holder.trim(),
+      bank_name:              form.bank_name.trim(),
+      account_number:         form.account_number.trim(),
+      confirm_account_number: form.confirm_account_number.trim(),
+      ifsc_code:              form.ifsc_code.toUpperCase().trim(),
+      branch_name:            form.branch_name.trim(),
+      upi_id:                 form.upi_id.trim(),
+      phone:                  form.phone.trim(),
+    };
+    console.log("[BankDetailsForm] Submitting payload:", {
+      ...payload,
+      account_number:         "***",
+      confirm_account_number: "***",
+    });
     try {
       const res = await fetch("/api/affiliate/profile/bank", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          ifsc_code: form.ifsc_code.toUpperCase().trim(),
-        }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
+      console.log("[BankDetailsForm] Server response:", { status: res.status, body: data });
       if (data.success) {
         toast.success(data.message ?? "Bank details saved successfully.");
         setEditing(false);
@@ -213,6 +230,7 @@ export function BankDetailsForm({ initial }: { initial: BankInitial }) {
               value={form.bank_name}
               onChange={set("bank_name")}
               placeholder="e.g. State Bank of India"
+              required
             />
             <InputField
               label="Account Number"

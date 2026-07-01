@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { AffiliateSidebar } from "@/components/affiliate/affiliate-sidebar";
+import { AffiliateDashboardShell } from "@/components/affiliate/affiliate-dashboard-shell";
 import { Toaster } from "sonner";
 import type { ReactNode } from "react";
 
@@ -22,12 +22,11 @@ export default async function AffiliateDashboardLayout({ children }: { children:
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-950">
-      <AffiliateSidebar name={profile.name} coupon={profile.coupon_code} />
-      <main className="flex-1 overflow-y-auto p-6 md:p-8">
+    <>
+      <AffiliateDashboardShell name={profile.name} coupon={profile.coupon_code}>
         {children}
-      </main>
+      </AffiliateDashboardShell>
       <Toaster position="top-center" richColors />
-    </div>
+    </>
   );
 }
