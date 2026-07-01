@@ -3,7 +3,7 @@ import { z } from "zod";
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   NEXT_PUBLIC_APP_URL: z.string().url("Must be a valid URL").optional().default("http://localhost:3000"),
-  
+
   // Supabase
   NEXT_PUBLIC_SUPABASE_URL: z.string().url("Must be a valid URL"),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1, "Anon key is required"),
@@ -19,8 +19,7 @@ const envSchema = z.object({
   CRON_SECRET: z.string().optional(),
 });
 
-// We disable this during build as next build doesn't inject all runtime envs in all passes sometimes
-export const env = process.env.NODE_ENV === "production" ? process.env as any : envSchema.parse({
+const _parsed = envSchema.safeParse({
   NODE_ENV: process.env.NODE_ENV,
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -32,3 +31,14 @@ export const env = process.env.NODE_ENV === "production" ? process.env as any : 
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   CRON_SECRET: process.env.CRON_SECRET,
 });
+
+if (!_parsed.success) {
+  console.error(
+    "[env] Missing or invalid environment variables:\n" +
+    _parsed.error.issues
+      .map((i) => `  - ${i.path.join(".")}: ${i.message}`)
+      .join("\n")
+  );
+}
+
+export const env = _parsed.success ? _parsed.data : (process.env as any);
