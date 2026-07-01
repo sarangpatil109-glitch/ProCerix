@@ -43,7 +43,7 @@ export default async function LearnLayout({
       <MarketingHeader />
 
       {/* Content area pushed below the fixed header */}
-      <div className="flex flex-1 pt-20">
+      <div className="flex flex-1 pt-16 lg:pt-20">
         {/* Sidebar: sticky so it stays in view while the main content scrolls */}
         <div className="hidden lg:block shrink-0 shadow-2xl z-10">
           <div className="sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto">

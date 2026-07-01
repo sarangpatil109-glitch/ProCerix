@@ -30,7 +30,7 @@ export function FloatingWhatsApp() {
         rel="noopener noreferrer"
         aria-label="Chat with ProCerix on WhatsApp"
         onClick={() => { lead({ content_name: "WhatsApp Support" }); analyticsGenerateLead("WhatsApp"); trackEvent("whatsapp_click"); }}
-        className="group fixed z-50 right-4 bottom-4 md:right-6 md:bottom-6 w-[58px] h-[58px] md:w-16 md:h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-[0_4px_14px_0_rgba(37,211,102,0.39)] hover:scale-[1.08] transition-transform duration-300 whatsapp-pulse focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-[#25D366]"
+        className="group fixed z-[9999] right-4 bottom-4 md:right-6 md:bottom-6 w-[58px] h-[58px] md:w-16 md:h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-[0_4px_14px_0_rgba(37,211,102,0.39)] hover:scale-[1.08] transition-transform duration-300 whatsapp-pulse focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-[#25D366]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
