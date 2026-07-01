@@ -125,6 +125,9 @@ export class PaymentService {
   }
 
   static async handlePaymentSuccess(supabase: any, orderId: string) {
+    console.log("[payment] handlePaymentSuccess →", orderId);
+
+    console.log("[payment] Step A: Fetching payment record");
     const { data: payment, error } = await supabase
       .from("payments")
       .select("*")
@@ -132,8 +135,14 @@ export class PaymentService {
       .single();
 
     if (error || !payment) throw new Error(`Payment not found for orderId: ${orderId}`);
-    if (payment.status === "success") return payment;
+    console.log("[payment] Step A: ✓ payment found", { id: payment.id, status: payment.status });
 
+    if (payment.status === "success") {
+      console.log("[payment] Step A: already success, skipping duplicate processing");
+      return payment;
+    }
+
+    console.log("[payment] Step B: Updating payment status → success");
     await supabase
       .from("payments")
       .update({
@@ -142,6 +151,7 @@ export class PaymentService {
         updated_at: new Date().toISOString(),
       } as any)
       .eq("id", payment.id);
+    console.log("[payment] Step B: ✓ payment status updated");
 
     try {
       const { error: eventError } = await (supabase as any)
@@ -153,21 +163,32 @@ export class PaymentService {
           status: "success",
         });
       if (eventError) throw eventError;
+      console.log("[payment] Step B2: ✓ payment_events recorded");
     } catch (e: any) {
-      console.error("[payment] payment_events insert failed:", e);
+      console.error("[payment] Step B2: payment_events insert failed (non-fatal):", e);
     }
 
     const courseSlug: string = payment.course_slug || payment.skill_name || orderId;
     const skillName: string = payment.skill_name || courseSlug;
-    await GenerationService.handleCoursePurchase(
-      payment.user_id,
-      courseSlug,
-      skillName,
-      "success",
-      supabase,
-    );
+    console.log("[payment] Step C: handleCoursePurchase", { courseSlug, skillName, userId: payment.user_id });
+    try {
+      await GenerationService.handleCoursePurchase(
+        payment.user_id,
+        courseSlug,
+        skillName,
+        "success",
+        supabase,
+      );
+      console.log("[payment] Step C: ✓ handleCoursePurchase done");
+    } catch (genErr: any) {
+      console.error("[payment] Step C: handleCoursePurchase failed (non-fatal — payment already recorded):", {
+        message: genErr?.message ?? String(genErr),
+        stack: genErr?.stack,
+      });
+    }
 
     // Record partner commission if coupon was used
+    console.log("[payment] Step D: referral_code=", payment.referral_code, "partner_id=", payment.partner_id);
     if (payment.referral_code && payment.partner_id) {
       try {
         const { data: partnerRow } = await (supabase as any)
@@ -221,6 +242,7 @@ export class PaymentService {
     }
 
     // Record affiliate commission if an affiliate coupon was used (and not already a partner coupon)
+    console.log("[payment] Step E: affiliate commission check");
     if (payment.referral_code && !payment.partner_id) {
       try {
         const adminDb = createAdminClient();
@@ -264,6 +286,7 @@ export class PaymentService {
       }
     }
 
+    console.log("[payment] ✓ handlePaymentSuccess complete for orderId", orderId);
     return payment;
   }
 

@@ -30,6 +30,7 @@ const affiliateMenuItems = [
   { title: "Applications", href: "/admin/affiliates", icon: Users },
   { title: "Affiliates", href: "/admin/affiliates/profiles", icon: Star },
   { title: "Affiliate Sales", href: "/admin/affiliates/sales", icon: BarChart },
+  { title: "Weekly Payouts", href: "/admin/affiliates/weekly-payouts", icon: Handshake },
   { title: "Withdrawals", href: "/admin/affiliates/withdrawals", icon: Ticket },
   { title: "Settings", href: "/admin/affiliates/settings", icon: Settings },
 ];

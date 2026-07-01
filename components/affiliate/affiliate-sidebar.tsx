@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Tag, ShoppingBag, TrendingUp, Wallet, Megaphone, BookOpen, User, LogOut, Star } from "lucide-react";
+import { LayoutDashboard, Tag, ShoppingBag, TrendingUp, Wallet, Megaphone, BookOpen, User, LogOut, Star, Banknote } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 const NAV = [
@@ -11,6 +11,7 @@ const NAV = [
   { title: "Promotion", href: "/affiliate/dashboard/promotion", icon: Megaphone },
   { title: "Sales", href: "/affiliate/dashboard/sales", icon: ShoppingBag },
   { title: "Commission", href: "/affiliate/dashboard/commission", icon: TrendingUp },
+  { title: "Payouts", href: "/affiliate/dashboard/payouts", icon: Banknote },
   { title: "Withdraw", href: "/affiliate/dashboard/withdraw", icon: Wallet },
   { title: "Marketing Kit", href: "/affiliate/dashboard/marketing-kit", icon: BookOpen },
   { title: "Profile", href: "/affiliate/dashboard/profile", icon: User },
