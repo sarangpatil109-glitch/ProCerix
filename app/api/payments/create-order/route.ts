@@ -5,6 +5,36 @@ import { PaymentService } from "@/services/payment-service";
 import { ProductRegistry, ProductType } from "@/engines/registry/product-registry";
 import { calcDiscount } from "@/lib/partner";
 
+/**
+ * Derives the true public origin of this server from the live request.
+ *
+ * Priority order:
+ *  1. NEXT_PUBLIC_APP_URL — but ONLY when it is a real domain (not localhost/127.x).
+ *     This covers production deployments where the env var is authoritative.
+ *  2. x-forwarded-proto + x-forwarded-host headers set by Vercel / Nginx / CDN.
+ *  3. The `host` header from the direct request (always correct in local dev,
+ *     even when Next.js auto-selected a port like 3001 instead of 3000).
+ *  4. Parse from req.url as a last resort.
+ *
+ * This ensures `return_url` sent to Cashfree always resolves back to this server.
+ */
+function deriveOrigin(req: NextRequest): string {
+  const envUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "").replace(/\/$/, "");
+  if (envUrl && !/localhost|127\.0\.0\.1/.test(envUrl)) {
+    return envUrl;
+  }
+  const proto = req.headers.get("x-forwarded-proto") ?? "http";
+  const fwdHost = req.headers.get("x-forwarded-host");
+  if (fwdHost) return `${proto}://${fwdHost}`;
+  const host = req.headers.get("host");
+  if (host) {
+    const scheme = req.url.startsWith("https") ? "https" : "http";
+    return `${scheme}://${host}`;
+  }
+  try { return new URL(req.url).origin; } catch { /* */ }
+  return envUrl || "http://localhost:3000";
+}
+
 export async function POST(req: NextRequest) {
   // Step 1: Authenticate user.
   const supabase = await createClient();
@@ -97,6 +127,9 @@ export async function POST(req: NextRequest) {
   }
 
   // Step 3: Create payment record + Cashfree order.
+  const appUrl = deriveOrigin(req);
+  console.log(`[create-order] derived appUrl=${appUrl}`);
+
   try {
     const adminDb = createAdminClient();
     const order = await PaymentService.createCheckoutOrder(adminDb, {
@@ -116,6 +149,7 @@ export async function POST(req: NextRequest) {
       referralCode: validatedCouponCode,
       partnerId: validatedPartnerId,
       couponCode: validatedCouponCode,
+      appUrl,
     });
 
     console.log(`[create-order] Success — session=${order.payment_session_id} amount=₹${finalAmount}`);

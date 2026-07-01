@@ -21,6 +21,8 @@ export class PaymentService {
       referralCode?: string;
       partnerId?: string;
       couponCode?: string;
+      /** Origin derived from the live request — never hardcode localhost here */
+      appUrl: string;
     }
   ) {
     console.log("[create-order] authenticated user", { userId: data.userId, email: data.email });
@@ -86,7 +88,7 @@ export class PaymentService {
       console.error("[payment] payment_events insert failed:", e);
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const appUrl = data.appUrl;
     console.log(`[payment] Creating Cashfree order appUrl=${appUrl} env=${process.env.CASHFREE_ENV}`);
 
     const cashfreeOrder = await CashfreeService.createOrder({
