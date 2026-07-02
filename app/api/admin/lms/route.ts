@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
   const { action } = body;
-  const db = createAdminClient();
+  const db = createAdminClient() as any;
 
   try {
     // ─── Course / Product ────────────────────────────────────────────────────

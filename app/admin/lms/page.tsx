@@ -2,7 +2,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { LmsDashboard } from "@/components/admin/lms/lms-dashboard";
 
 export default async function AdminLmsPage() {
-  const db = createAdminClient();
+  const sdb = createAdminClient();
+  const db = sdb as any;
 
   const [
     { data: allCourses },

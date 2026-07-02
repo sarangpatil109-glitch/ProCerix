@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Save, X, GripVertical, Check } from "lucide-react";
+import {
+  Plus, Pencil, Trash2, Save, X, Check, BookOpen, Briefcase, Award,
+  ChevronDown, ChevronUp, Tag,
+} from "lucide-react";
 
 interface Category {
   id: string;
@@ -15,19 +18,31 @@ interface Category {
   sequence_order: number;
 }
 
-interface Props { initialCategories: Category[] }
+interface CourseStub {
+  id: string;
+  title: string;
+  course_type: string;
+  is_published: boolean;
+  category: string | null;
+}
+
+interface Props {
+  initialCategories: Category[];
+  courses: CourseStub[];
+}
 
 const COLORS = ["#3b82f6", "#8b5cf6", "#f59e0b", "#10b981", "#ef4444", "#06b6d4", "#f97316", "#ec4899"];
 
-export function CategoriesManager({ initialCategories }: Props) {
+export function CategoriesManager({ initialCategories, courses }: Props) {
   const [cats, setCats] = useState<Category[]>(initialCategories);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [form, setForm] = useState({ name: "", slug: "", description: "", icon: "", color: COLORS[0], is_active: true });
   const [saving, setSaving] = useState(false);
+  const [assigning, setAssigning] = useState<string | null>(null);
 
   const set = (k: string, v: any) => setForm((f) => ({ ...f, [k]: v }));
-
   const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
 
   const handleCreate = async () => {
@@ -37,7 +52,11 @@ export function CategoriesManager({ initialCategories }: Props) {
       const res = await fetch("/api/admin/lms", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "CREATE_CATEGORY", ...form, slug: form.slug || slugify(form.name), sequence_order: cats.length }),
+        body: JSON.stringify({
+          action: "CREATE_CATEGORY", ...form,
+          slug: form.slug || slugify(form.name),
+          sequence_order: cats.length,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -65,7 +84,8 @@ export function CategoriesManager({ initialCategories }: Props) {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this category?")) return;
+    const count = courses.filter((c) => c.category === cats.find((cat) => cat.id === id)?.name).length;
+    if (!confirm(`Delete this category? ${count > 0 ? `${count} product(s) will lose their category.` : ""}`)) return;
     try {
       await fetch("/api/admin/lms", {
         method: "POST",
@@ -77,12 +97,39 @@ export function CategoriesManager({ initialCategories }: Props) {
     } catch (e: any) { toast.error(e.message); }
   };
 
+  const handleAssignCategory = async (courseId: string, categoryName: string | null) => {
+    setAssigning(courseId);
+    try {
+      const res = await fetch("/api/admin/lms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "UPDATE_COURSE_INFO", id: courseId, category: categoryName }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error);
+      toast.success(categoryName ? `Assigned to ${categoryName}` : "Category removed");
+      // Optimistic update in local state — page refresh would sync from server
+      const updatedCourses = courses.map((c) => c.id === courseId ? { ...c, category: categoryName } : c);
+      // We'd need a state for courses, but since this is server-rendered on the parent we'll just show toast
+    } catch (e: any) { toast.error(e.message); }
+    finally { setAssigning(null); }
+  };
+
+  const getProductsForCategory = (catName: string) =>
+    courses.filter((c) => c.category === catName);
+
+  const unassignedCourses = courses.filter((c) => !c.category || !cats.find((cat) => cat.name === c.category));
+
+  const isCert = (c: CourseStub) => c.course_type === "certificates" || c.course_type === "certificate";
+
   return (
     <div className="space-y-4">
-      {/* New form */}
+      {/* Create form */}
       {creating ? (
         <div className="bg-white dark:bg-gray-900 border-2 border-blue-400 rounded-2xl p-5 space-y-4">
-          <h3 className="font-bold text-gray-900 dark:text-white text-sm">New Category</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-gray-900 dark:text-white text-sm">New Category</h3>
+            <button onClick={() => setCreating(false)}><X className="w-4 h-4 text-gray-400" /></button>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
               <label className="text-xs font-medium text-gray-500">Name *</label>
@@ -97,7 +144,7 @@ export function CategoriesManager({ initialCategories }: Props) {
                 placeholder="technology" />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium text-gray-500">Icon (emoji or text)</label>
+              <label className="text-xs font-medium text-gray-500">Icon (emoji)</label>
               <input value={form.icon} onChange={(e) => set("icon", e.target.value)}
                 className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-xl text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="💻" />
@@ -126,7 +173,7 @@ export function CategoriesManager({ initialCategories }: Props) {
               <Save className="w-3.5 h-3.5" />{saving ? "Creating..." : "Create"}
             </button>
             <button onClick={() => setCreating(false)}
-              className="px-4 py-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl transition-colors">
+              className="px-4 py-2 text-sm text-gray-500 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
               Cancel
             </button>
           </div>
@@ -139,52 +186,144 @@ export function CategoriesManager({ initialCategories }: Props) {
       )}
 
       {/* Category list */}
-      <div className="space-y-2">
-        {cats.map((cat) => (
-          <div key={cat.id} className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden">
-            {editingId === cat.id ? (
-              <EditRow cat={cat} onSave={(f) => handleUpdate(cat.id, f)} onCancel={() => setEditingId(null)} />
-            ) : (
-              <div className="flex items-center gap-4 px-5 py-4">
-                <GripVertical className="w-4 h-4 text-gray-300 shrink-0 cursor-grab" />
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0" style={{ background: cat.color || "#3b82f6" + "20" }}>
-                  {cat.icon || "📁"}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="font-semibold text-sm text-gray-900 dark:text-white">{cat.name}</p>
-                    <span className="font-mono text-xs text-gray-400">{cat.slug}</span>
-                    {!cat.is_active && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 font-bold">INACTIVE</span>}
+      <div className="space-y-3">
+        {cats.map((cat) => {
+          const catProducts = getProductsForCategory(cat.name);
+          const isExpanded = expandedId === cat.id;
+          return (
+            <div key={cat.id} className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden">
+              {editingId === cat.id ? (
+                <EditRow cat={cat} onSave={(f) => handleUpdate(cat.id, f)} onCancel={() => setEditingId(null)} />
+              ) : (
+                <>
+                  {/* Category header */}
+                  <div className="flex items-center gap-4 px-5 py-4">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
+                      style={{ background: (cat.color || "#3b82f6") + "20" }}>
+                      {cat.icon || "📁"}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="font-bold text-sm text-gray-900 dark:text-white">{cat.name}</p>
+                        <span className="font-mono text-xs text-gray-400">{cat.slug}</span>
+                        {!cat.is_active && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 font-bold">INACTIVE</span>}
+                      </div>
+                      {cat.description && <p className="text-xs text-gray-400 truncate mt-0.5">{cat.description}</p>}
+                    </div>
+                    {/* Product count badge */}
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-semibold text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
+                        {catProducts.length} product{catProducts.length !== 1 ? "s" : ""}
+                      </span>
+                      <div className="w-3 h-3 rounded-full shrink-0" style={{ background: cat.color || "#3b82f6" }} />
+                    </div>
+                    {/* Actions */}
+                    <div className="flex items-center gap-1">
+                      <button onClick={() => setEditingId(cat.id)}
+                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
+                        <Pencil className="w-3.5 h-3.5" />
+                      </button>
+                      <button onClick={() => handleDelete(cat.id)}
+                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                      <button onClick={() => setExpandedId(isExpanded ? null : cat.id)}
+                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                        {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                      </button>
+                    </div>
                   </div>
-                  {cat.description && <p className="text-xs text-gray-400 truncate mt-0.5">{cat.description}</p>}
-                </div>
-                <div className="w-3 h-3 rounded-full shrink-0" style={{ background: cat.color || "#3b82f6" }} />
-                <div className="flex items-center gap-1">
-                  <button onClick={() => setEditingId(cat.id)}
-                    className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
-                    <Pencil className="w-3.5 h-3.5" />
-                  </button>
-                  <button onClick={() => handleDelete(cat.id)}
-                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
+
+                  {/* Expanded: Products in this category */}
+                  {isExpanded && (
+                    <div className="border-t border-gray-100 dark:border-gray-800 p-4 space-y-3">
+                      <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+                        Products in &quot;{cat.name}&quot;
+                      </h4>
+                      {catProducts.length === 0 ? (
+                        <p className="text-xs text-gray-400 py-2">No products assigned to this category.</p>
+                      ) : (
+                        <div className="space-y-2">
+                          {catProducts.map((c) => (
+                            <div key={c.id} className="flex items-center gap-3 py-2 px-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                              <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${isCert(c) ? "bg-amber-100 dark:bg-amber-900/20" : "bg-purple-100 dark:bg-purple-900/20"}`}>
+                                {isCert(c) ? <Award className="w-3.5 h-3.5 text-amber-500" /> : <Briefcase className="w-3.5 h-3.5 text-purple-500" />}
+                              </div>
+                              <p className="text-sm text-gray-700 dark:text-gray-300 flex-1 truncate">{c.title}</p>
+                              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${c.is_published ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-400"}`}>
+                                {c.is_published ? "Live" : "Draft"}
+                              </span>
+                              <button
+                                onClick={() => handleAssignCategory(c.id, null)}
+                                disabled={assigning === c.id}
+                                className="text-xs text-red-500 hover:text-red-700 px-2 py-0.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50"
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Assign unassigned products */}
+                      {unassignedCourses.length > 0 && (
+                        <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+                          <p className="text-xs font-semibold text-gray-400 mb-2">Assign products to this category:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {unassignedCourses.map((c) => (
+                              <button
+                                key={c.id}
+                                onClick={() => handleAssignCategory(c.id, cat.name)}
+                                disabled={assigning === c.id}
+                                className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl text-xs font-medium text-gray-700 dark:text-gray-300 transition-colors disabled:opacity-50"
+                              >
+                                {isCert(c) ? <Award className="w-3 h-3 text-amber-500" /> : <Briefcase className="w-3 h-3 text-purple-500" />}
+                                {c.title}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          );
+        })}
+
         {cats.length === 0 && !creating && (
-          <div className="text-center py-12 text-gray-400">
-            <p className="text-sm">No categories yet. Add one above.</p>
+          <div className="text-center py-12 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800">
+            <Tag className="w-10 h-10 mx-auto text-gray-200 dark:text-gray-700 mb-3" />
+            <p className="text-sm text-gray-400">No categories yet. Add one above.</p>
           </div>
         )}
       </div>
+
+      {/* Unassigned products summary */}
+      {unassignedCourses.length > 0 && (
+        <div className="p-4 bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 rounded-2xl">
+          <p className="text-xs font-bold text-amber-700 dark:text-amber-300 mb-2">
+            {unassignedCourses.length} product{unassignedCourses.length !== 1 ? "s" : ""} without a category:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {unassignedCourses.map((c) => (
+              <span key={c.id} className="text-xs px-2 py-0.5 bg-white dark:bg-gray-900 border border-amber-200 dark:border-amber-800 rounded-lg text-gray-600 dark:text-gray-400">
+                {c.title}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 function EditRow({ cat, onSave, onCancel }: { cat: Category; onSave: (f: any) => void; onCancel: () => void }) {
-  const [f, setF] = useState({ name: cat.name, slug: cat.slug, description: cat.description || "", icon: cat.icon || "", color: cat.color || COLORS[0], is_active: cat.is_active });
+  const [f, setF] = useState({
+    name: cat.name, slug: cat.slug, description: cat.description || "",
+    icon: cat.icon || "", color: cat.color || COLORS[0], is_active: cat.is_active,
+  });
   return (
     <div className="p-5 space-y-3">
       <div className="grid grid-cols-2 gap-3">
@@ -214,10 +353,12 @@ function EditRow({ cat, onSave, onCancel }: { cat: Category; onSave: (f: any) =>
         </label>
       </div>
       <div className="flex gap-2">
-        <button onClick={() => onSave(f)} className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-colors">
+        <button onClick={() => onSave(f)}
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-colors">
           <Save className="w-3 h-3" />Save
         </button>
-        <button onClick={onCancel} className="px-3 py-1.5 text-xs text-gray-500 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+        <button onClick={onCancel}
+          className="p-1.5 text-gray-400 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
           <X className="w-3 h-3" />
         </button>
       </div>

@@ -42,7 +42,7 @@ export function ArticleEditor({ lesson, onSave }: Props) {
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [wordCount, setWordCount] = useState(0);
   const [readTime, setReadTime] = useState(lesson.estimated_reading_time || 5);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Set initial content once on mount
   useEffect(() => {

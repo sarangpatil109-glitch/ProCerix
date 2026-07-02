@@ -9,10 +9,11 @@ const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1, "Anon key is required"),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, "Service role key is required").optional(),
 
-  // Cashfree
+  // Cashfree — either CASHFREE_ENV or NEXT_PUBLIC_CASHFREE_ENV can be set to "PRODUCTION"
   CASHFREE_APP_ID: z.string().optional(),
   CASHFREE_SECRET_KEY: z.string().optional(),
   CASHFREE_ENV: z.enum(["SANDBOX", "PRODUCTION"]).default("SANDBOX"),
+  NEXT_PUBLIC_CASHFREE_ENV: z.enum(["SANDBOX", "PRODUCTION"]).optional(),
 
   // AI & Processing
   GEMINI_API_KEY: z.string().optional(),
@@ -28,6 +29,7 @@ const _parsed = envSchema.safeParse({
   CASHFREE_APP_ID: process.env.CASHFREE_APP_ID,
   CASHFREE_SECRET_KEY: process.env.CASHFREE_SECRET_KEY,
   CASHFREE_ENV: process.env.CASHFREE_ENV,
+  NEXT_PUBLIC_CASHFREE_ENV: process.env.NEXT_PUBLIC_CASHFREE_ENV,
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   CRON_SECRET: process.env.CRON_SECRET,
 });

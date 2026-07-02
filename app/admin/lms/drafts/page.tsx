@@ -3,35 +3,36 @@ import { LmsProductList } from "@/components/admin/lms/lms-product-list";
 import Link from "next/link";
 
 export default async function LmsDraftsPage() {
-  const db = createAdminClient();
+  const sdb = createAdminClient();
+  const db = sdb as any;
 
-  const [{ data: allCourses }, { data: moduleRows }, { data: lessonRows }, { data: quizRows }] = await Promise.all([
-    db.from("courses").select("id, title, slug, course_type, is_published, lms_status, price, original_price, category, difficulty, created_at, updated_at, thumbnail_url, is_featured").is("deleted_at", null).eq("is_published", false).order("updated_at", { ascending: false }),
-    db.from("learning_modules").select("course_id").is("deleted_at", null),
+  const [{ data: allCourses }, { data: lessonRows }, { data: quizRows }] = await Promise.all([
+    db.from("courses")
+      .select("id, title, slug, course_type, is_published, lms_status, price, original_price, category, difficulty, created_at, updated_at, thumbnail_url, is_featured")
+      .is("deleted_at", null)
+      .eq("is_published", false)
+      .order("updated_at", { ascending: false }),
     db.from("lessons").select("module_id, learning_modules!inner(course_id)").is("deleted_at", null),
     db.from("quizzes").select("module_id, questions(id, deleted_at), learning_modules!inner(course_id)").is("deleted_at", null),
   ]);
 
-  const moduleCount: Record<string, number> = {};
-  for (const m of moduleRows || []) moduleCount[m.course_id] = (moduleCount[m.course_id] || 0) + 1;
-
   const lessonCount: Record<string, number> = {};
   for (const l of lessonRows || []) {
-    const cid = (l.learning_modules as any)?.course_id;
+    const cid = l?.learning_modules?.course_id;
     if (cid) lessonCount[cid] = (lessonCount[cid] || 0) + 1;
   }
 
   const mcqCount: Record<string, number> = {};
   for (const q of quizRows || []) {
-    const cid = (q.learning_modules as any)?.course_id;
+    const cid = q?.learning_modules?.course_id;
     if (!cid) continue;
-    const active = ((q.questions as any[]) || []).filter((qn: any) => !qn.deleted_at);
+    const active = (q.questions || []).filter((qn: any) => !qn.deleted_at);
     mcqCount[cid] = (mcqCount[cid] || 0) + active.length;
   }
 
   const products = (allCourses || []).map((c: any) => ({
     ...c,
-    modules: moduleCount[c.id] || 0,
+    modules: 0,
     lessons: lessonCount[c.id] || 0,
     mcqs: mcqCount[c.id] || 0,
   }));

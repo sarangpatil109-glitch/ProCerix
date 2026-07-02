@@ -37,16 +37,16 @@ const affiliateMenuItems = [
 ];
 
 const lmsMenuItems = [
-  { title: "Dashboard", href: "/admin/lms", icon: GraduationCap },
-  { title: "Products", href: "/admin/lms/products", icon: BookOpen },
-  { title: "Categories", href: "/admin/lms/categories", icon: Tags },
-  { title: "Certificates", href: "/admin/lms/published?type=certificate", icon: Award },
-  { title: "Virtual Internships", href: "/admin/lms/published?type=internship", icon: Briefcase },
-  { title: "Drafts", href: "/admin/lms/drafts", icon: PenSquare },
-  { title: "Published", href: "/admin/lms/published", icon: Globe },
-  { title: "Content Audit", href: "/admin/lms/audit", icon: ClipboardCheck },
-  { title: "Media Library", href: "/admin/lms/media", icon: Library },
-  { title: "Templates", href: "/admin/lms/templates", icon: Layout },
+  { title: "Dashboard",          href: "/admin/lms",               icon: GraduationCap },
+  { title: "Products",           href: "/admin/lms/products",       icon: BookOpen },
+  { title: "Categories",         href: "/admin/lms/categories",     icon: Tags },
+  { title: "Certificates",       href: "/admin/lms/certificates",   icon: Award },
+  { title: "Virtual Internships",href: "/admin/lms/internships",    icon: Briefcase },
+  { title: "Drafts",             href: "/admin/lms/drafts",         icon: PenSquare },
+  { title: "Published",          href: "/admin/lms/published",      icon: Globe },
+  { title: "Content Audit",      href: "/admin/lms/content-audit",  icon: ClipboardCheck },
+  { title: "Media Library",      href: "/admin/lms/media",          icon: Library },
+  { title: "Templates",          href: "/admin/lms/templates",      icon: Layout },
 ];
 
 const siteMenuItems = [
@@ -66,9 +66,10 @@ export function AdminSidebar() {
   };
 
   const NavItem = ({ item }: { item: { title: string, href: string, icon: any } }) => {
-    // Exact match for top-level dashboards, prefix match for section pages
+    // Top-level dashboards use exact match; everything else prefix-match (but strip query params from href first)
     const exactRoutes = ['/admin', '/admin/lms'];
-    const isActive = exactRoutes.includes(item.href) ? pathname === item.href : pathname.startsWith(item.href);
+    const hrefPath = item.href.split('?')[0];
+    const isActive = exactRoutes.includes(hrefPath) ? pathname === hrefPath : pathname === hrefPath || pathname.startsWith(hrefPath + '/');
     
     return (
       <Link

@@ -177,7 +177,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       payment_session_id: order.payment_session_id,
-      mode: process.env.CASHFREE_ENV === "PRODUCTION" ? "production" : "sandbox",
+      mode: (process.env.CASHFREE_ENV === "PRODUCTION" || process.env.NEXT_PUBLIC_CASHFREE_ENV === "PRODUCTION") ? "production" : "sandbox",
       final_amount: finalAmount,
       discount_amount: discountAmount,
     });

@@ -10,8 +10,16 @@ export class CashfreeService {
     };
   }
 
+  /** Returns true when either server-side or public env var is set to PRODUCTION */
+  static isProduction() {
+    return (
+      process.env.CASHFREE_ENV === "PRODUCTION" ||
+      process.env.NEXT_PUBLIC_CASHFREE_ENV === "PRODUCTION"
+    );
+  }
+
   private static getBaseUrl() {
-    return process.env.CASHFREE_ENV === "PRODUCTION"
+    return this.isProduction()
       ? "https://api.cashfree.com/pg"
       : "https://sandbox.cashfree.com/pg";
   }
@@ -32,7 +40,14 @@ export class CashfreeService {
     };
     order_tags?: Record<string, string>;
   }) {
-    const response = await fetch(`${this.getBaseUrl()}/orders`, {
+    const endpoint = `${this.getBaseUrl()}/orders`;
+    console.log({
+      env: process.env.NEXT_PUBLIC_CASHFREE_ENV,
+      endpoint,
+      hasAppId: !!process.env.CASHFREE_APP_ID,
+      hasSecret: !!process.env.CASHFREE_SECRET_KEY,
+    });
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: this.getHeaders(),
       body: JSON.stringify(data),

@@ -4,7 +4,8 @@ import { BuilderClient } from "@/components/admin/lms/builder-client";
 
 export default async function LmsBuilderPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const db = createAdminClient();
+  const sdb = createAdminClient();
+  const db = sdb as any;
 
   const { data: course } = await db.from("courses").select("*").eq("id", params.id).is("deleted_at", null).single();
   if (!course) notFound();

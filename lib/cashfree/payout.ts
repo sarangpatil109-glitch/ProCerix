@@ -6,7 +6,10 @@ const SANDBOX_BASE = "https://payout-gamma.cashfree.com";
 const PROD_BASE    = "https://payout-api.cashfree.com";
 
 function baseUrl() {
-  return process.env.CASHFREE_ENV === "PRODUCTION" ? PROD_BASE : SANDBOX_BASE;
+  const isProd =
+    process.env.CASHFREE_ENV === "PRODUCTION" ||
+    process.env.NEXT_PUBLIC_CASHFREE_ENV === "PRODUCTION";
+  return isProd ? PROD_BASE : SANDBOX_BASE;
 }
 
 async function getToken(): Promise<string> {
