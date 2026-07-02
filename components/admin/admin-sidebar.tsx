@@ -3,7 +3,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, BookOpen, Layers, FileText, HelpCircle, Briefcase, Tag,
-  Settings, Home, Image as ImageIcon, Ticket, Award, Users, BarChart, LogOut, Handshake, Star
+  Settings, Home, Image as ImageIcon, Ticket, Award, Users, BarChart, LogOut, Handshake, Star,
+  GraduationCap, Tags, Globe, PenSquare, ClipboardCheck, Library, Layout
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -35,6 +36,19 @@ const affiliateMenuItems = [
   { title: "Settings", href: "/admin/affiliates/settings", icon: Settings },
 ];
 
+const lmsMenuItems = [
+  { title: "Dashboard", href: "/admin/lms", icon: GraduationCap },
+  { title: "Products", href: "/admin/lms/products", icon: BookOpen },
+  { title: "Categories", href: "/admin/lms/categories", icon: Tags },
+  { title: "Certificates", href: "/admin/lms/published?type=certificate", icon: Award },
+  { title: "Virtual Internships", href: "/admin/lms/published?type=internship", icon: Briefcase },
+  { title: "Drafts", href: "/admin/lms/drafts", icon: PenSquare },
+  { title: "Published", href: "/admin/lms/published", icon: Globe },
+  { title: "Content Audit", href: "/admin/lms/audit", icon: ClipboardCheck },
+  { title: "Media Library", href: "/admin/lms/media", icon: Library },
+  { title: "Templates", href: "/admin/lms/templates", icon: Layout },
+];
+
 const siteMenuItems = [
   { title: "Site Settings", href: "/admin/settings", icon: Settings },
   { title: "Homepage CMS", href: "/admin/homepage", icon: Home },
@@ -52,8 +66,9 @@ export function AdminSidebar() {
   };
 
   const NavItem = ({ item }: { item: { title: string, href: string, icon: any } }) => {
-    // Exact match for dashboard, prefix match for others to keep active state when editing
-    const isActive = item.href === '/admin' ? pathname === item.href : pathname.startsWith(item.href);
+    // Exact match for top-level dashboards, prefix match for section pages
+    const exactRoutes = ['/admin', '/admin/lms'];
+    const isActive = exactRoutes.includes(item.href) ? pathname === item.href : pathname.startsWith(item.href);
     
     return (
       <Link
@@ -105,6 +120,13 @@ export function AdminSidebar() {
           <h4 className="px-3 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Affiliate Management</h4>
           <div className="space-y-1">
             {affiliateMenuItems.map(item => <NavItem key={item.href} item={item} />)}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="px-3 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Learning Management</h4>
+          <div className="space-y-1">
+            {lmsMenuItems.map(item => <NavItem key={item.href} item={item} />)}
           </div>
         </div>
 
