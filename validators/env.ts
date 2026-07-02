@@ -14,6 +14,8 @@ const envSchema = z.object({
   CASHFREE_SECRET_KEY: z.string().optional(),
   CASHFREE_ENV: z.enum(["SANDBOX", "PRODUCTION"]).default("SANDBOX"),
   NEXT_PUBLIC_CASHFREE_ENV: z.enum(["SANDBOX", "PRODUCTION"]).optional(),
+  // Override return_url base for local dev with production Cashfree credentials
+  CASHFREE_RETURN_URL_BASE: z.string().url().optional(),
 
   // AI & Processing
   GEMINI_API_KEY: z.string().optional(),
@@ -30,6 +32,7 @@ const _parsed = envSchema.safeParse({
   CASHFREE_SECRET_KEY: process.env.CASHFREE_SECRET_KEY,
   CASHFREE_ENV: process.env.CASHFREE_ENV,
   NEXT_PUBLIC_CASHFREE_ENV: process.env.NEXT_PUBLIC_CASHFREE_ENV,
+  CASHFREE_RETURN_URL_BASE: process.env.CASHFREE_RETURN_URL_BASE,
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   CRON_SECRET: process.env.CRON_SECRET,
 });

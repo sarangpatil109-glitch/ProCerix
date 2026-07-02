@@ -37,6 +37,23 @@ function deriveOrigin(req: NextRequest): string {
 }
 
 export async function POST(req: NextRequest) {
+  // Log environment configuration on every request so it appears in Vercel logs
+  const cfEnv = process.env.CASHFREE_ENV;
+  const cfEnvPublic = process.env.NEXT_PUBLIC_CASHFREE_ENV;
+  const isProduction = cfEnv === "PRODUCTION" || cfEnvPublic === "PRODUCTION";
+  const endpoint = isProduction
+    ? "https://api.cashfree.com/pg/orders"
+    : "https://sandbox.cashfree.com/pg/orders";
+
+  console.log("[create-order] env check →", {
+    CASHFREE_ENV: cfEnv,
+    NEXT_PUBLIC_CASHFREE_ENV: cfEnvPublic,
+    isProduction,
+    endpoint,
+    hasAppId: !!process.env.CASHFREE_APP_ID,
+    hasSecret: !!process.env.CASHFREE_SECRET_KEY,
+  });
+
   // Step 1: Authenticate user.
   const supabase = await createClient();
   const {
@@ -57,6 +74,17 @@ export async function POST(req: NextRequest) {
   }
 
   const { courseId, courseSlug, skillName, phone, referralCode, couponCode } = body;
+
+  console.log("[create-order] request payload →", {
+    courseId,
+    courseSlug,
+    skillName,
+    phone,
+    hasReferralCode: !!referralCode,
+    hasCouponCode: !!couponCode,
+    userId: user.id,
+    email: user.email,
+  });
 
   if (!courseSlug) {
     return NextResponse.json({ error: "courseSlug is required." }, { status: 400 });
@@ -94,6 +122,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       { error: "Could not determine course price. Please try again." },
       { status: 500 },
+    );
+  }
+
+  // Guard: price must be a positive finite number
+  if (!canonicalAmount || !isFinite(canonicalAmount) || canonicalAmount <= 0) {
+    console.error("[create-order] Invalid canonical amount:", canonicalAmount, "for slug:", courseSlug);
+    return NextResponse.json(
+      { error: `Could not determine a valid price for "${courseSlug}". amount=${canonicalAmount}` },
+      { status: 400 },
     );
   }
 
@@ -177,35 +214,26 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       payment_session_id: order.payment_session_id,
-      mode: (process.env.CASHFREE_ENV === "PRODUCTION" || process.env.NEXT_PUBLIC_CASHFREE_ENV === "PRODUCTION") ? "production" : "sandbox",
+      order_id: order.order_id ?? order.cf_order_id,
+      mode: isProduction ? "production" : "sandbox",
       final_amount: finalAmount,
       discount_amount: discountAmount,
     });
   } catch (error: any) {
-    console.error("[create-order] Payment creation failed:", error);
+    console.error("[create-order] FAILED →", {
+      message: error?.message,
+      stack: error?.stack,
+      CASHFREE_ENV: process.env.CASHFREE_ENV,
+      NEXT_PUBLIC_CASHFREE_ENV: process.env.NEXT_PUBLIC_CASHFREE_ENV,
+      hasAppId: !!process.env.CASHFREE_APP_ID,
+      hasSecret: !!process.env.CASHFREE_SECRET_KEY,
+    });
 
-    const msg: string = error.message ?? "";
-    if (msg.includes("Profile sync")) {
-      return NextResponse.json(
-        { error: "Account setup incomplete. Please refresh and try again." },
-        { status: 500 },
-      );
-    }
-    if (msg.includes("Cashfree")) {
-      return NextResponse.json(
-        { error: "Payment gateway error. Please try again in a moment." },
-        { status: 502 },
-      );
-    }
-    if (msg.includes("CASHFREE_APP_ID") || msg.includes("CASHFREE_SECRET")) {
-      return NextResponse.json(
-        { error: "Payment gateway not configured. Contact support." },
-        { status: 503 },
-      );
-    }
+    // Return the real error — never mask backend failures in debug mode
+    const status = error?.message?.includes("[HTTP 4") ? 502 : 500;
     return NextResponse.json(
-      { error: "Payment initialization failed. Please try again." },
-      { status: 500 },
+      { error: error?.message ?? "Payment initialization failed" },
+      { status },
     );
   }
 }

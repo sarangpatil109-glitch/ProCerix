@@ -88,8 +88,26 @@ export class PaymentService {
       console.error("[payment] payment_events insert failed:", e);
     }
 
-    const appUrl = data.appUrl;
-    console.log(`[payment] Creating Cashfree order appUrl=${appUrl} env=${process.env.CASHFREE_ENV}`);
+    const rawAppUrl = data.appUrl;
+
+    // Cashfree Production requires HTTPS on return_url and notify_url.
+    // CASHFREE_RETURN_URL_BASE lets you override the base (useful in local dev
+    // with prod credentials — set it to https://your-production-domain.com).
+    // Otherwise, upgrade http:// → https:// automatically when in production mode.
+    let cfAppUrl =
+      (process.env.CASHFREE_RETURN_URL_BASE ?? "").replace(/\/$/, "") ||
+      (CashfreeService.isProduction()
+        ? rawAppUrl.replace(/^http:\/\//, "https://")
+        : rawAppUrl);
+
+    if (CashfreeService.isProduction() && /localhost|127\.0\.0\.1/.test(cfAppUrl)) {
+      console.warn(
+        "[payment] WARNING: Production Cashfree with localhost return_url — Cashfree will reject this. " +
+        "Set CASHFREE_RETURN_URL_BASE=https://your-domain.com in .env.local to test locally.",
+      );
+    }
+
+    console.log(`[payment] Creating Cashfree order rawAppUrl=${rawAppUrl} cfAppUrl=${cfAppUrl} env=${process.env.CASHFREE_ENV}`);
 
     const cashfreeOrder = await CashfreeService.createOrder({
       order_id: orderId,
@@ -102,8 +120,8 @@ export class PaymentService {
         customer_name: data.name,
       },
       order_meta: {
-        return_url: `${appUrl}/api/payments/verify?order_id=${orderId}`,
-        notify_url: `${appUrl}/api/webhooks/cashfree`,
+        return_url: `${cfAppUrl}/api/payments/verify?order_id=${orderId}`,
+        notify_url: `${cfAppUrl}/api/webhooks/cashfree`,
       },
     });
 
